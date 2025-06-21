@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import "./global.css";
+import "./globals.css";
 import { Toaster } from "sonner";
 import { ApolloWrapper } from "./components/providers";
 
