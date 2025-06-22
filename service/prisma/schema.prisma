@@ -22,12 +22,11 @@ model User {
   messages  Message[] 
   role      UserRoleEnum
 }
-//ksdhgfagjd
 
 model Message {
   id        Int      @id @default(autoincrement())
   content   String
-  recieved  Boolean
+  received  Boolean
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
