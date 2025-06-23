@@ -19,18 +19,57 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type CreateMessageInput = {
+  content: Scalars['String']['input'];
+  received: Scalars['Boolean']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+export type CreateUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type File = {
+  __typename?: 'File';
+  createdAt: Scalars['Date']['output'];
+  fileId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Message = {
   __typename?: 'Message';
   content: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
-  id: Scalars['Int']['output'];
-  recieved: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  received: Scalars['Boolean']['output'];
   user: User;
+  userId: Scalars['Int']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createMessage: Response;
+  createUser: Response;
   sampleMutation: Scalars['String']['output'];
+  uploadFile: Response;
+};
+
+
+export type MutationCreateMessageArgs = {
+  input: CreateMessageInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationUploadFileArgs = {
+  input: UploadFileInput;
 };
 
 export type Query = {
@@ -42,11 +81,17 @@ export enum Response {
   Success = 'Success'
 }
 
+export type UploadFileInput = {
+  fileId: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   messages: Array<Message>;
   password: Scalars['String']['output'];
   role: UserRoleEnum;
@@ -61,6 +106,13 @@ export type QueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type QueryQuery = { __typename?: 'Query', sampleQuery: string };
+
+export type Upload_FileMutationVariables = Exact<{
+  input: UploadFileInput;
+}>;
+
+
+export type Upload_FileMutation = { __typename?: 'Mutation', uploadFile: Response };
 
 
 export const QueryDocument = gql`
@@ -100,3 +152,34 @@ export type QueryQueryHookResult = ReturnType<typeof useQueryQuery>;
 export type QueryLazyQueryHookResult = ReturnType<typeof useQueryLazyQuery>;
 export type QuerySuspenseQueryHookResult = ReturnType<typeof useQuerySuspenseQuery>;
 export type QueryQueryResult = Apollo.QueryResult<QueryQuery, QueryQueryVariables>;
+export const Upload_FileDocument = gql`
+    mutation UPLOAD_FILE($input: UploadFileInput!) {
+  uploadFile(input: $input)
+}
+    `;
+export type Upload_FileMutationFn = Apollo.MutationFunction<Upload_FileMutation, Upload_FileMutationVariables>;
+
+/**
+ * __useUpload_FileMutation__
+ *
+ * To run a mutation, you first call `useUpload_FileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpload_FileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadFileMutation, { data, loading, error }] = useUpload_FileMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpload_FileMutation(baseOptions?: Apollo.MutationHookOptions<Upload_FileMutation, Upload_FileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Upload_FileMutation, Upload_FileMutationVariables>(Upload_FileDocument, options);
+      }
+export type Upload_FileMutationHookResult = ReturnType<typeof useUpload_FileMutation>;
+export type Upload_FileMutationResult = Apollo.MutationResult<Upload_FileMutation>;
+export type Upload_FileMutationOptions = Apollo.BaseMutationOptions<Upload_FileMutation, Upload_FileMutationVariables>;

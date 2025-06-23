@@ -1,3 +1,4 @@
+// Express Backend: Upload File to Pinecone
 import express from "express";
 import { typeDefs } from "./schemas";
 import { ApolloServer } from "@apollo/server";
@@ -10,51 +11,23 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import prisma from "./prismaClient";
 import { pinecone } from "./connectPinecone";
-import { OpenAIEmbeddings } from "@langchain/openai";
 dotenv.config();
 
 const index = pinecone.index("ai-assistant");
+const assistant = pinecone.Assistant("ai-assistant");
 
-const uploadFile = async () => {
-  const embeddings = new OpenAIEmbeddings({
-    openAIApiKey:
-      "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",
+const uploadFile = async (path: string) => {
+  await assistant.uploadFile({
+    path,
+    metadata: { uploadedBy: "test-user" },
   });
-
-  const record = {
-    id: "rec1",
-    text: "Apples are a great source of dietary fiber, which supports digestion and helps maintain a healthy gut.",
-    metadata: { category: "digestive system" },
-  };
-
-  const vector = await embeddings.embedQuery(record.text);
-
-  const upsertData = [
-    {
-      id: record.id,
-      values: vector,
-      metadata: record.metadata,
-    },
-  ];
-
-  await index.upsert(upsertData);
-  console.log("✅ Vector successfully uploaded to Pinecone.");
+  console.log("✅ File uploaded to Pinecone Assistant");
 };
-
-uploadFile();
-console.log(index);
-
-dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(express.json());
 
 const apolloServer = new ApolloServer({
@@ -63,16 +36,24 @@ const apolloServer = new ApolloServer({
   introspection: true,
 });
 
+app.post(
+  "/api/upload",
+  express.raw({ type: "multipart/form-data" }),
+  async (req, res) => {
+    // Add multer logic or use another upload method here to get `filepath`
+    const filepath = req.body.path; // Replace this with actual parsed file path
+    if (!filepath) return res.status(400).json({ error: "Missing file path" });
+    await uploadFile(filepath);
+    res.status(200).json({ success: true });
+  }
+);
+
 async function startServer() {
   await apolloServer.start();
-
   app.use("/graphql", bodyParser.json(), expressMiddleware(apolloServer));
 
   const io = new Server(httpServer, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
-    },
+    cors: { origin: "*", methods: ["GET", "POST"] },
   });
 
   io.on("connection", (socket) => {
@@ -84,8 +65,6 @@ async function startServer() {
     });
 
     socket.on("chatMessage", async (msg) => {
-      console.log("💬 Message received:", msg);
-
       socket.to(msg.room).emit("chatMessage", {
         content: msg.content,
         received: msg.received,
