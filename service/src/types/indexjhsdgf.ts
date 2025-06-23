@@ -17,7 +17,7 @@ const index = pinecone.index("ai-assistant");
 
 const uploadFile = async () => {
   const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.NEXT_PUBLIC_BASE_URL,
+    openAIApiKey: process.env.NEXT_PUBLIC_BASE_URL ?? "",
   });
 
   const record = {
