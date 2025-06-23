@@ -16,9 +16,6 @@ dotenv.config();
 const index = pinecone.index("ai-assistant");
 
 const uploadFile = async () => {
-  // const embeddings = new OpenAIEmbeddings({
-  // });
-
   const record = {
     id: "rec1",
     text: "Apples are a great source of dietary fiber, which supports digestion and helps maintain a healthy gut.",
