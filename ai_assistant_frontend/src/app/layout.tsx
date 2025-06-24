@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ApolloWrapper } from "./components/providers";
+import { UserProvider } from "@/lib/userProvider";
 
 export const metadata = {
   title: "Welcome to example-frontend",
@@ -9,11 +10,12 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
+   const userId = 1
   return (
     <html lang="en">
       <body>
         <ApolloWrapper>
-          {children}
+          <UserProvider userId={userId}>{children}</UserProvider>
           <Toaster />
         </ApolloWrapper>
       </body>
