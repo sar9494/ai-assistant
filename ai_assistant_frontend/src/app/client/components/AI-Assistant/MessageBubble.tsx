@@ -1,4 +1,3 @@
-
 import { Message } from "./types";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +8,7 @@ export default function MessageBubble({ message }: { message: Message }) {
       <div
         className={cn(
           "max-w-xs rounded-lg px-4 py-2 text-sm",
-          isUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800"
+          isUser ? "bg-blue-400 text-white" : "bg-gray-100 text-black"
         )}
       >
         {message.content}
