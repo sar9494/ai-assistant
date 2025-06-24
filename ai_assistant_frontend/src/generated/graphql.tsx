@@ -41,6 +41,7 @@ export type File = {
 
 export type Message = {
   __typename?: 'Message';
+  answered: Scalars['Boolean']['output'];
   content: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
@@ -74,12 +75,30 @@ export type MutationUploadFileArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  files: Array<File>;
   sampleQuery: Scalars['String']['output'];
+  searchByName: Array<File>;
+  unansweredMessages: Array<Message>;
+  userInformation: User;
+};
+
+
+export type QuerySearchByNameArgs = {
+  input: SearchByNameInput;
+};
+
+
+export type QueryUserInformationArgs = {
+  userId: Scalars['Int']['input'];
 };
 
 export enum Response {
   Success = 'Success'
 }
+
+export type SearchByNameInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type UploadFileInput = {
   fileId: Scalars['String']['input'];

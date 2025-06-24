@@ -41,27 +41,19 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const filePath = req.file.path;
 
     const result = await mammoth.extractRawText({ path: filePath });
-    console.log("Result from mammoth:", result);
 
     const text = result.value;
 
     const txtPath = `uploads/${Date.now()}-extracted.txt`;
-    console.log("filepath", txtPath);
     await fs.writeFile(txtPath, text, "utf-8");
-
-    const raw = await fs.readFile(filePath);
-    console.log("Raw Buffer Preview:", raw.toString("hex").slice(0, 100));
 
     await assistant.uploadFile({
       path: txtPath,
-      metadata: { uploadedBy: "test-user" },
+      metadata: { uploadedBy: "admin" },
     });
-    const lists = await assistant.listFiles();
-    console.log(lists);
 
     res.status(200).json({ success: true, text });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Upload failed" });
   }
 });
@@ -92,7 +84,6 @@ async function startServer() {
         messages: [{ role: "user", content: msg.content }],
         model: "gpt-4o",
       });
-      console.log(chatResp);
       socket.emit("chatMessage", {
         content: chatResp.message?.content,
         room: 1,
