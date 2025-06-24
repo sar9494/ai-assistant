@@ -5,3 +5,15 @@ query Query {
 mutation UPLOAD_FILE($input: UploadFileInput!) {
   uploadFile(input: $input)
 }
+
+  query UserInformation($userId: Int!) {
+    userInformation(userId: $userId) {
+      id
+      email
+      messages {
+        id
+        content
+        createdAt
+      }
+    }
+  }

@@ -82,7 +82,6 @@ export type Query = {
   userInformation: User;
 };
 
-
 export type QuerySearchByNameArgs = {
   input: SearchByNameInput;
 };
@@ -132,6 +131,13 @@ export type Upload_FileMutationVariables = Exact<{
 
 
 export type Upload_FileMutation = { __typename?: 'Mutation', uploadFile: Response };
+
+export type UserInformationQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: any }> } };
 
 
 export const QueryDocument = gql`
@@ -202,3 +208,49 @@ export function useUpload_FileMutation(baseOptions?: Apollo.MutationHookOptions<
 export type Upload_FileMutationHookResult = ReturnType<typeof useUpload_FileMutation>;
 export type Upload_FileMutationResult = Apollo.MutationResult<Upload_FileMutation>;
 export type Upload_FileMutationOptions = Apollo.BaseMutationOptions<Upload_FileMutation, Upload_FileMutationVariables>;
+export const UserInformationDocument = gql`
+    query UserInformation($userId: Int!) {
+  userInformation(userId: $userId) {
+    id
+    email
+    messages {
+      id
+      content
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserInformationQuery__
+ *
+ * To run a query within a React component, call `useUserInformationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserInformationQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserInformationQuery(baseOptions: Apollo.QueryHookOptions<UserInformationQuery, UserInformationQueryVariables> & ({ variables: UserInformationQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserInformationQuery, UserInformationQueryVariables>(UserInformationDocument, options);
+      }
+export function useUserInformationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserInformationQuery, UserInformationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserInformationQuery, UserInformationQueryVariables>(UserInformationDocument, options);
+        }
+export function useUserInformationSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserInformationQuery, UserInformationQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserInformationQuery, UserInformationQueryVariables>(UserInformationDocument, options);
+        }
+export type UserInformationQueryHookResult = ReturnType<typeof useUserInformationQuery>;
+export type UserInformationLazyQueryHookResult = ReturnType<typeof useUserInformationLazyQuery>;
+export type UserInformationSuspenseQueryHookResult = ReturnType<typeof useUserInformationSuspenseQuery>;
+export type UserInformationQueryResult = Apollo.QueryResult<UserInformationQuery, UserInformationQueryVariables>;
