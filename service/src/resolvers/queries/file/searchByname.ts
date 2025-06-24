@@ -1,4 +1,4 @@
-import { File, QueryResolvers, SearchByNameInput } from "../../../generated";
+import { File, QueryResolvers } from "../../../generated";
 import prisma from "../../../prismaClient";
 
 export const searchByName: QueryResolvers["searchByName"] = async (
@@ -23,7 +23,6 @@ export const searchByName: QueryResolvers["searchByName"] = async (
 
     return searchedFiles as unknown as File[];
   } catch (error) {
-    console.error(error);
     throw new Error("Серверийн алдаа.");
   }
 };

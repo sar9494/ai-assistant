@@ -23,4 +23,8 @@ export const userDefs = gql`
   type Mutation {
     createUser(input: CreateUserInput!): Response!
   }
+
+  type Query {
+  userInformation(userId: Int!): User!
+}
 `;

@@ -15,11 +15,11 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
   password  String
-  createdAt DateTime  @default(now())
-  messages  Message[] 
+  createdAt DateTime     @default(now())
+  messages  Message[]
   role      UserRoleEnum
 }
 
@@ -27,17 +27,18 @@ model Message {
   id        Int      @id @default(autoincrement())
   content   String
   received  Boolean
-  answered  Boolean   @default(false)
+  answered  Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
 }
+
 model File {
-  id       Int       @id @default(autoincrement())
-  name     String
-  fileId   String
-  url      String
-  createdAt DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String
+  fileId    String
+  url       String
+  createdAt DateTime @default(now())
 }
 
 enum UserRoleEnum {

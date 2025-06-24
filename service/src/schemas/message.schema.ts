@@ -6,6 +6,7 @@ export const messageDefs = gql`
     userId: Int!
     user:User!
     content: String!
+    answered:Boolean!
     received:Boolean!
     createdAt: Date!
   }
@@ -16,5 +17,9 @@ export const messageDefs = gql`
   }
   type Mutation {
     createMessage(input: CreateMessageInput!): Response!
+  }
+
+  type Query {
+    unansweredMessages: [Message!]!
   }
 `;
