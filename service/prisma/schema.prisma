@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://neondb_owner:npg_3SaoAQeKu4ym@ep-patient-unit-a9p7tqjm-pooler.gwc.azure.neon.tech/neondb?sslmode=require"
 }
 
 model User {
@@ -27,9 +27,17 @@ model Message {
   id        Int      @id @default(autoincrement())
   content   String
   received  Boolean
+  answered  Boolean   @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+}
+model File {
+  id       Int       @id @default(autoincrement())
+  name     String
+  fileId   String
+  url      String
+  createdAt DateTime  @default(now())
 }
 
 enum UserRoleEnum {

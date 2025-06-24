@@ -1,58 +1,65 @@
 "use client";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Send } from "lucide-react";
+import { useUpload_FileMutation } from "@/generated/graphql";
+import { toast } from "sonner";
+
+// Name without .docx
 
 let socket: Socket;
-export default function PetCardId() {
-  const { id, userId } = useParams();
+export default function Home() {
   const [message, setMessage] = useState("");
-  const [clicked, setClicked] = useState(false);
   const [messages, setMessages] = useState<
     { received: boolean; content: string }[]
   >([]);
   const router = useRouter();
+  const [file, setFile] = useState<File | undefined>();
+  const [] = useUpload_FileMutation({
+    onCompleted: () => {
+      toast("Successfully uploaded");
+    },
+    onError: () => {
+      toast("Error: upload file");
+    },
+  });
 
   const sendMessage = () => {
     if (message !== "") {
-      const data = {
+      socket.emit("chatMessage", {
         content: message,
-        received: true,
-        room: id,
-      };
-      socket.emit("chatMessage", data);
+        room: 1,
+        received: false,
+        userId: 1,
+      });
+      setMessages((prev) => [...prev, { received: false, content: message }]);
+      setMessage("");
     }
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { received: true, content: message },
-    ]);
-    setMessage("");
   };
+  useEffect(() => {
+    console.log(file);
+  }, [file]);
 
   useEffect(() => {
-
     setMessages([]);
 
-    socket = io(`${process.env.NEXT_PUBLIC_BASE_URL}`); 
-
-    socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
-      console.log(msg);
-
-      if (msg.received) {
-
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            received: false,
-            content: msg.content,
-          },
-        ]);
-      }
+    socket = io("http://localhost:4000");
+    socket.on("connect", () => {
+      console.log("✅ Connected to socket:", socket.id);
     });
-    socket.emit("join_room", id);
+    socket.on("connect_error", (err) => {
+      console.error("❌ Socket connection error:", err.message);
+    });
+    socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
+      console.log("Received message:", msg);
+      setMessages((prev) => [
+        ...prev,
+        { received: true, content: msg.content },
+      ]);
+    });
+    socket.emit("join_room", 1);
 
     return () => {
       socket.disconnect();
@@ -67,17 +74,25 @@ export default function PetCardId() {
         <ChevronLeft />
       </Button>
       <div className="p-10 ">
-        {
-            messages.map((message,index)=>{
-                return <p key={index} className="p-2 bg-yellow-200">{message.content}</p>
-            })
-        }
+        {messages.map((message, index) => {
+          return (
+            <p key={index} className="p-2 bg-yellow-200">
+              {message.content}
+            </p>
+          );
+        })}
       </div>
-     
-      <div
-        className="fixed bottom-0 flex w-full p-5 gap-2 items-center"
-        onClick={() => setClicked(true)}
-      >
+      <input
+        type="file"
+        onChange={(e) => {
+          setFile(e.target.files?.[0]);
+        }}
+      />
+      <button onClick={sendMessage} className="bg-[#03346E] rounded-full p-2">
+        <Send color="white" />
+      </button>
+
+      <div className="fixed bottom-0 flex w-full p-5 gap-2 items-center">
         <input
           value={message}
           type="text"
