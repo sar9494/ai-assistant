@@ -11,6 +11,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import prisma from "./prismaClient";
 import { pinecone } from "./connectPinecone";
+
 dotenv.config();
 
 const index = pinecone.index("ai-assistant");
