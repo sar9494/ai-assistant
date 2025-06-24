@@ -40,7 +40,7 @@ app.post(
   "/api/upload",
   express.raw({ type: "multipart/form-data" }),
   async (req, res) => {
-    const filepath = req.body.path; // Replace this with actual parsed file path
+    const filepath = req.body.path;
     if (!filepath) return res.status(400).json({ error: "Missing file path" });
     await uploadFile(filepath);
     res.status(200).json({ success: true });
@@ -68,13 +68,45 @@ async function startServer() {
         content: msg.content,
         received: msg.received,
       });
-      await prisma.message.create({
-        data: {
-          userId: msg.userId,
-          content: msg.content,
-          received: msg.received,
+      const chatResp = await assistant.chat({
+        messages: [{ role: "user", content: msg.content }],
+        model: "gpt-4o",
+      });
+      console.log(chatResp);
+      socket.emit("chatMessage", {
+        content: chatResp.message?.content,
+        room: 1,
+        received: true,
+        userId: 1,
+      });
+      const user = await prisma.user.findUnique({
+        where: {
+          id: msg.userId,
         },
       });
+      if (user?.role === "EMPLOYEE") {
+        await prisma.message.create({
+          data: {
+            userId: msg.userId,
+            content: msg.content,
+            received: msg.received,
+          },
+        });
+        await prisma.message.create({
+          data: {
+            userId: msg.userId,
+            content: chatResp.message?.content || "",
+            received: true,
+            answered:
+              chatResp.message?.content?.includes("clarify") ||
+              chatResp.message?.content?.includes("олдсонгүй") ||
+              chatResp.message?.content?.includes("Уучлаарай") ||
+              chatResp.message?.content?.includes("уучлаарай")
+                ? false
+                : true,
+          },
+        });
+      }
     });
 
     socket.on("disconnect", () => {
