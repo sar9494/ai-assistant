@@ -1,4 +1,3 @@
-// Express Backend: Upload File to Pinecone
 import express from "express";
 import { typeDefs } from "./schemas";
 import { ApolloServer } from "@apollo/server";
@@ -11,18 +10,15 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import prisma from "./prismaClient";
 import { pinecone } from "./connectPinecone";
+import mammoth from "mammoth";
+import fs from "fs/promises";
+import multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 dotenv.config();
 
 const assistant = pinecone.Assistant("ai-assistant");
-
-const uploadFile = async (path: string) => {
-  await assistant.uploadFile({
-    path,
-    metadata: { uploadedBy: "test-user" },
-  });
-  console.log("✅ File uploaded to Pinecone Assistant");
-};
 
 const app = express();
 const httpServer = createServer(app);
@@ -36,19 +32,43 @@ const apolloServer = new ApolloServer({
   introspection: true,
 });
 
-app.post(
-  "/api/upload",
-  express.raw({ type: "multipart/form-data" }),
-  async (req, res) => {
-    const filepath = req.body.path;
-    if (!filepath) return res.status(400).json({ error: "Missing file path" });
-    await uploadFile(filepath);
-    res.status(200).json({ success: true });
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: "Missing file path" });
+    }
+
+    const filePath = req.file.path;
+
+    const result = await mammoth.extractRawText({ path: filePath });
+    console.log("Result from mammoth:", result);
+
+    const text = result.value;
+
+    const txtPath = `uploads/${Date.now()}-extracted.txt`;
+    console.log("filepath", txtPath);
+    await fs.writeFile(txtPath, text, "utf-8");
+
+    const raw = await fs.readFile(filePath);
+    console.log("Raw Buffer Preview:", raw.toString("hex").slice(0, 100));
+
+    await assistant.uploadFile({
+      path: txtPath,
+      metadata: { uploadedBy: "test-user" },
+    });
+    const lists = await assistant.listFiles();
+    console.log(lists);
+
+    res.status(200).json({ success: true, text });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Upload failed" });
   }
-);
+});
 
 async function startServer() {
   await apolloServer.start();
+
   app.use("/graphql", bodyParser.json(), expressMiddleware(apolloServer));
 
   const io = new Server(httpServer, {

@@ -1,13 +1,11 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Send } from "lucide-react";
 import { useUpload_FileMutation } from "@/generated/graphql";
 import { toast } from "sonner";
-
-// Name without .docx
 
 let socket: Socket;
 export default function Home() {
@@ -17,7 +15,7 @@ export default function Home() {
   >([]);
   const router = useRouter();
   const [file, setFile] = useState<File | undefined>();
-  const [] = useUpload_FileMutation({
+  const {} = useUpload_FileMutation({
     onCompleted: () => {
       toast("Successfully uploaded");
     },
@@ -38,29 +36,20 @@ export default function Home() {
       setMessage("");
     }
   };
-  const [response, setResponse] = useState<string>("");
-  console.log(response);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!file) return alert("Please select a file");
+  const handleSubmit = async () => {
+    if (!file) return;
 
     const formData = new FormData();
     formData.append("file", file);
 
-    try {
-      const res = await fetch("http://localhost:4000/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      console.log(data, "jhghfg");
+    const res = await fetch("http://localhost:4000/api/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-      if (!res.ok) throw new Error(data.error || "Upload failed");
-      toast("📁 File uploaded and processed!");
-    } catch (err) {
-      setResponse("❌ " + err);
-    }
+    const data = await res.json();
+    console.log(data);
   };
 
   useEffect(() => {
@@ -109,8 +98,9 @@ export default function Home() {
       </div>
       <input
         type="file"
-        name="file" // ❗ name="file" чухал! — multer энэ нэрээр авна
-        onChange={(e) => setFile(e.target.files?.[0])}
+        name="file"
+        accept=".docx"
+        onChange={(e) => setFile(e.target.files?.[0] || undefined)}
       />
       <button onClick={handleSubmit} className="bg-[#03346E] rounded-full p-2">
         <Send color="white" />
