@@ -1,4 +1,3 @@
-// Express Backend: Upload File to Pinecone
 import express from "express";
 import { typeDefs } from "./schemas";
 import { ApolloServer } from "@apollo/server";
@@ -14,7 +13,6 @@ import { pinecone } from "./connectPinecone";
 
 dotenv.config();
 
-const index = pinecone.index("ai-assistant");
 const assistant = pinecone.Assistant("ai-assistant");
 
 const uploadFile = async (path: string) => {
@@ -69,13 +67,45 @@ async function startServer() {
         content: msg.content,
         received: msg.received,
       });
-      await prisma.message.create({
-        data: {
-          userId: msg.userId,
-          content: msg.content,
-          received: msg.received,
+      const chatResp = await assistant.chat({
+        messages: [{ role: "user", content: msg.content }],
+        model: "gpt-4o",
+      });
+      console.log(chatResp);
+      socket.emit("chatMessage", {
+        content: chatResp.message?.content,
+        room: 1,
+        received: true,
+        userId: 1,
+      });
+      const user = await prisma.user.findUnique({
+        where: {
+          id: msg.userId,
         },
       });
+      if (user?.role === "EMPLOYEE") {
+        await prisma.message.create({
+          data: {
+            userId: msg.userId,
+            content: msg.content,
+            received: msg.received,
+          },
+        });
+        await prisma.message.create({
+          data: {
+            userId: msg.userId,
+            content: chatResp.message?.content || "",
+            received: true,
+            answered:
+              chatResp.message?.content?.includes("clarify") ||
+              chatResp.message?.content?.includes("олдсонгүй") ||
+              chatResp.message?.content?.includes("Уучлаарай") ||
+              chatResp.message?.content?.includes("уучлаарай")
+                ? false
+                : true,
+          },
+        });
+      }
     });
 
     socket.on("disconnect", () => {

@@ -1,4 +1,3 @@
-// Express Backend: Upload File to Pinecone
 import express from "express";
 import { typeDefs } from "./schemas";
 import { ApolloServer } from "@apollo/server";
@@ -11,18 +10,15 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import prisma from "./prismaClient";
 import { pinecone } from "./connectPinecone";
+import mammoth from "mammoth";
+import fs from "fs/promises";
+import multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 dotenv.config();
 
 const assistant = pinecone.Assistant("ai-assistant");
-
-const uploadFile = async (path: string) => {
-  await assistant.uploadFile({
-    path,
-    metadata: { uploadedBy: "test-user" },
-  });
-  console.log("✅ File uploaded to Pinecone Assistant");
-};
 
 const app = express();
 const httpServer = createServer(app);
@@ -36,19 +32,35 @@ const apolloServer = new ApolloServer({
   introspection: true,
 });
 
-app.post(
-  "/api/upload",
-  express.raw({ type: "multipart/form-data" }),
-  async (req, res) => {
-    const filepath = req.body.path;
-    if (!filepath) return res.status(400).json({ error: "Missing file path" });
-    await uploadFile(filepath);
-    res.status(200).json({ success: true });
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: "Missing file path" });
+    }
+
+    const filePath = req.file.path;
+
+    const result = await mammoth.extractRawText({ path: filePath });
+
+    const text = result.value;
+
+    const txtPath = `uploads/${Date.now()}-extracted.txt`;
+    await fs.writeFile(txtPath, text, "utf-8");
+
+    await assistant.uploadFile({
+      path: txtPath,
+      metadata: { uploadedBy: "admin" },
+    });
+
+    res.status(200).json({ success: true, text });
+  } catch (err) {
+    res.status(500).json({ error: "Upload failed" });
   }
-);
+});
 
 async function startServer() {
   await apolloServer.start();
+
   app.use("/graphql", bodyParser.json(), expressMiddleware(apolloServer));
 
   const io = new Server(httpServer, {
@@ -72,7 +84,6 @@ async function startServer() {
         messages: [{ role: "user", content: msg.content }],
         model: "gpt-4o",
       });
-      console.log(chatResp);
       socket.emit("chatMessage", {
         content: chatResp.message?.content,
         room: 1,

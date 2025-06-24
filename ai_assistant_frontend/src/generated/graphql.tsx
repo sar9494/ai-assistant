@@ -73,6 +73,14 @@ export type MutationUploadFileArgs = {
   input: UploadFileInput;
 };
 
+export type Query = {
+  __typename?: 'Query';
+  files: Array<File>;
+  sampleQuery: Scalars['String']['output'];
+  searchByName: Array<File>;
+  unansweredMessages: Array<Message>;
+  userInformation: User;
+};
 
 export type QuerySearchByNameArgs = {
   input: SearchByNameInput;
