@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -38,6 +38,31 @@ export default function Home() {
       setMessage("");
     }
   };
+  const [response, setResponse] = useState<string>("");
+  console.log(response);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return alert("Please select a file");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("http://localhost:4000/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      console.log(data, "jhghfg");
+
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      toast("📁 File uploaded and processed!");
+    } catch (err) {
+      setResponse("❌ " + err);
+    }
+  };
+
   useEffect(() => {
     console.log(file);
   }, [file]);
@@ -84,11 +109,10 @@ export default function Home() {
       </div>
       <input
         type="file"
-        onChange={(e) => {
-          setFile(e.target.files?.[0]);
-        }}
+        name="file" // ❗ name="file" чухал! — multer энэ нэрээр авна
+        onChange={(e) => setFile(e.target.files?.[0])}
       />
-      <button onClick={sendMessage} className="bg-[#03346E] rounded-full p-2">
+      <button onClick={handleSubmit} className="bg-[#03346E] rounded-full p-2">
         <Send color="white" />
       </button>
 
