@@ -52,15 +52,14 @@ const Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-800 flex flex-col">
-      <main className="flex-1 p-10">
+    <div className="min-h-screen bg-white  text-black flex flex-col">
+      <main className="flex-1 p-3">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
-          <h4 className="text-2xl text-gray-800 font-bold">Файлууд</h4>
+          <h4 className="text-2xl text-black">Файлууд</h4>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center px-6 py-3 bg-blue-500 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105"
-          >
-            <Plus className="w-3 h-3 mr-2" />
+            className="flex items-center pr-4 p-2 mr-20 bg-blue-600 text-white rounded-lg shadow-md ">
+            <Plus className="w-5 h-5 mr-1" />
             <span>Файл нэмэх</span>
           </button>
         </div>

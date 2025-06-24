@@ -1,6 +1,6 @@
 import React from "react";
 import "@/app/globals.css";
-import { Sparkles, LayoutDashboard } from "lucide-react";
+import { Files, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,14 +15,14 @@ export default function AdminLayout({
       <aside className="w-[260px] bg-white border-r p-4 space-y-6">
         <div className="flex items-center space-x-3">
           <Image
-            src="/avatar.jpg"
-            alt="Admin Avatar"
+            src="/E"
+            alt="E"
             width={40}
             height={40}
             className="rounded-full"
           />
           <div>
-            <p className="font-semibold text-sm">U. Nandin-Erdene</p>
+            <p className="font-semibold text-sm">A. Enkh-Erdene</p>
             <p className="text-xs text-gray-500">Admin</p>
           </div>
         </div>
@@ -34,10 +34,10 @@ export default function AdminLayout({
               Dashboard
             </Button>
           </Link>
-          <Link href="/admin/ai-assistant">
+          <Link href="/admin/files">
             <Button variant="ghost" className="w-full justify-start">
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI Assistant
+              <Files className="w-4 h-4 mr-2" />
+              Files
             </Button>
           </Link>
         </div>
