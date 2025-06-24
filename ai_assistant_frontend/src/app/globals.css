@@ -43,6 +43,23 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* Нарийхан scrollbar + жижиг thumb */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.4);
+  border-radius: 20px;
+  min-height: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
