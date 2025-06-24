@@ -122,9 +122,6 @@ export default function Home() {
           type="text"
           onChange={(e) => setMessage(e.target.value)}
           className="border w-[82%] rounded-md bg-white p-1"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") sendMessage();
-          }}
         />
         <button onClick={sendMessage} className="bg-[#03346E] rounded-full p-2">
           <Send color="white" />

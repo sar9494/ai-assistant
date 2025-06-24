@@ -41,8 +41,7 @@ app.post(
   "/api/upload",
   express.raw({ type: "multipart/form-data" }),
   async (req, res) => {
-    // Add multer logic or use another upload method here to get `filepath`
-    const filepath = req.body.path; // Replace this with actual parsed file path
+    const filepath = req.body.path;
     if (!filepath) return res.status(400).json({ error: "Missing file path" });
     await uploadFile(filepath);
     res.status(200).json({ success: true });

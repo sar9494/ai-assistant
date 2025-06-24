@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@apollo/experimental-nextjs-app-support": "^0.12.2",
+    "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/supabase-js": "^2.50.0",
     "axios": "^1.10.0",
