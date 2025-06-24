@@ -17,4 +17,13 @@ export const fileDefs = gql`
   type Mutation {
     uploadFile(input: UploadFileInput!): Response!
   }
+  input SearchByNameInput{
+    name:String
+  }
+
+  type Query {
+    files: [File!]!
+    searchByName(input:SearchByNameInput!): [File!]!
+  }
+
 `;
