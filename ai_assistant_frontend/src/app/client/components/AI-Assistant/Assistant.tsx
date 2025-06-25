@@ -1,17 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useUser } from "@/lib/userProvider";
-
-type Message = {
-  id: string;
-  received: boolean;
-  content: string;
-  timestamp: string;
-};
+import SendMessages from "./SendMessages";
+import { Message } from "./types";
 
 // Цаг буцаах тусгай функц
 function getTimeString(): string {
@@ -37,27 +29,6 @@ export default function Chat() {
   ]);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-
-    const newMessage: Message = {
-      id: crypto.randomUUID(),
-      received: false,
-      content: input,
-      timestamp: getTimeString(),
-    };
-
-    const assistantReply: Message = {
-      id: crypto.randomUUID(),
-      received: true,
-      content: "🤖 Энэ асуултад одоогоор хариулт бэлэн биш байна.",
-      timestamp: getTimeString(),
-    };
-
-    setMessages((prev) => [...prev, newMessage, assistantReply]);
-    setInput("");
-  };
 
   useEffect(() => {
     if (user?.messages?.length) {
@@ -126,19 +97,7 @@ export default function Chat() {
 
         {/* Scroll target */}
         <div ref={bottomRef} />
-      </div>
-
-      {/* Input */}
-      <div className="w-1/2 max-w-full flex gap-2">
-        <Input
-          placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        />
-        <Button onClick={handleSend}>
-          <Send className="w-4 h-4" />
-        </Button>
+        <SendMessages message={input} setMessage={setInput} setMessages={setMessages}/>
       </div>
     </div>
   );

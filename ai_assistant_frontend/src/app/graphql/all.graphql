@@ -29,6 +29,11 @@ query unAnsweredQuestions {
 mutation DELETE_FILE($input: DeleteFileInput!) {
   deleteFile(input: $input)
 }
+
+mutation DELETE_MESSAGE($input: DeleteMessageInput!) {
+  deleteMessage(input: $input)
+}
+
 query getAllFiles {
   files {
     id
