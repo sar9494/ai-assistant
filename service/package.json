@@ -48,6 +48,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon dist/index.js",
+    "generate": "prisma generate",
     "print-schema": "ts-node scripts/printSchema.ts",
     "codegen": "npm run print-schema && graphql-codegen --config codegen.ts",
     "build": "npm run codegen && tsc",
