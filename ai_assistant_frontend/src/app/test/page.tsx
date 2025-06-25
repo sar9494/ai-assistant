@@ -15,6 +15,8 @@ export default function Home() {
   >([]);
   const router = useRouter();
   const [file, setFile] = useState<File | undefined>();
+  const [name, setName] = useState("");
+
   const {} = useUpload_FileMutation({
     onCompleted: () => {
       toast("Successfully uploaded");
@@ -42,6 +44,7 @@ export default function Home() {
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("name", name);
 
     const res = await fetch("http://localhost:4000/api/upload", {
       method: "POST",
@@ -96,6 +99,12 @@ export default function Home() {
           );
         })}
       </div>
+      <input
+        type="text"
+        name="name"
+        onChange={(e) => setName(e.target.value)}
+        className="border border-gray-400"
+      />
       <input
         type="file"
         name="file"
