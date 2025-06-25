@@ -1,17 +1,17 @@
 import express from "express";
-import { typeDefs } from "./src/schemas";
+import { typeDefs } from "./schemas";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { resolvers } from "./src/resolvers";
+import { resolvers } from "./resolvers";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import prisma from "./src/prismaClient";
-import { pinecone } from "./src/connectPinecone";
+import prisma from "./prismaClient";
+import { pinecone } from "./connectPinecone";
 import multer from "multer";
-import { uploadFile } from "./src/resolvers/mutations";
+import { uploadFile } from "./resolvers/mutations";
 
 const upload = multer({ dest: "uploads/" });
 
