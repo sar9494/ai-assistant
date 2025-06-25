@@ -1,31 +1,58 @@
 import React from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { Trash2 } from "lucide-react";
 
-const Delete = () => {
+const Delete = (props: {
+  handleDeleteFile: (id: string) => Promise<void>;
+  id: string;
+}) => {
+  const { handleDeleteFile, id } = props;
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-60 z-50">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-[420px] border-4 border-dotted flex flex-col items-center">
-        <div className="flex flex-col items-center mb-6">
-          <div className="bg-yellow-100 rounded-full p-3 mb-4">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => handleDeleteFile(id)}
+        >
+          <Trash2 className="w-4 h-4 text-muted-foreground" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[380px] p-4">
+        <DialogHeader className="items-center">
+          <div className="bg-yellow-100 rounded-full p-3 mb-2">
             <ExclamationTriangleIcon className="h-8 w-8 text-yellow-500" />
           </div>
-          <h2 className="text-xl font-semibold text-center mb-2">
+          <DialogTitle className="text-center text-xl font-medium w-[300px]">
             Асуултыг устгахад итгэлтэй байна уу?
-          </h2>
-          <div className="bg-gray-50 rounded-lg px-4 py-3 text-center text-gray-500 text-sm border border-gray-200">
-          Уг асуултыг устгавал дахин сэргээх боломжгүй болохыг анхаарна уу.
-          </div>
-        </div>
-        <div className="flex w-full gap-4 mt-4">
-          <button className="flex-1 border border-blue-400 text-blue-600 rounded-lg py-2 font-medium bg-white hover:bg-blue-50 transition">
+          </DialogTitle>
+          <DialogDescription className="p-3 text-gray-900 text-sm font-light bg-gray-100 rounded-md">
+            Уг асуултыг устгавал дахин сэргээх боломжгүй болохыг анхаарна уу.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex justify-around w-full gap-2 mt-2">
+          <Button
+            variant="outline"
+            className="w-[49%] border-blue-400 text-blue-600 hover:bg-blue-50"
+          >
             Болих
-          </button>
-          <button className="flex-1 bg-blue-500 text-white rounded-lg py-2 font-medium shadow hover:bg-blue-600 transition">
+          </Button>
+          <Button className="w-[49%] bg-blue-500 hover:bg-blue-600">
             Устгах
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 
