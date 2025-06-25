@@ -6,14 +6,32 @@ mutation UPLOAD_FILE($input: UploadFileInput!) {
   uploadFile(input: $input)
 }
 
-  query UserInformation($userId: Int!) {
-    userInformation(userId: $userId) {
+query UserInformation($userId: Int!) {
+  userInformation(userId: $userId) {
+    id
+    email
+    messages {
       id
-      email
-      messages {
-        id
-        content
-        createdAt
-      }
+      content
+      createdAt
     }
   }
+}
+query unAnsweredQuestions {
+  unansweredMessages {
+    id
+    content
+    createdAt
+  }
+}
+mutation DELETE_FILE($input: DeleteFileInput!) {
+  deleteFile(input: $input)
+}
+query getAllFiles {
+  files {
+    id
+    name
+    url
+    createdAt
+  }
+}

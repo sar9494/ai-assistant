@@ -30,6 +30,10 @@ export type CreateUserInput = {
   password: Scalars['String']['input'];
 };
 
+export type DeleteFileInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type File = {
   __typename?: 'File';
   createdAt: Scalars['Date']['output'];
@@ -54,6 +58,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createMessage: Response;
   createUser: Response;
+  deleteFile: Response;
   sampleMutation: Scalars['String']['output'];
   uploadFile: Response;
 };
@@ -69,6 +74,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteFileArgs = {
+  input: DeleteFileInput;
+};
+
+
 export type MutationUploadFileArgs = {
   input: UploadFileInput;
 };
@@ -81,6 +91,7 @@ export type Query = {
   unansweredMessages: Array<Message>;
   userInformation: User;
 };
+
 
 export type QuerySearchByNameArgs = {
   input: SearchByNameInput;
@@ -138,6 +149,23 @@ export type UserInformationQueryVariables = Exact<{
 
 
 export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: any }> } };
+
+export type UnAnsweredQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UnAnsweredQuestionsQuery = { __typename?: 'Query', unansweredMessages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: any }> };
+
+export type Delete_FileMutationVariables = Exact<{
+  input: DeleteFileInput;
+}>;
+
+
+export type Delete_FileMutation = { __typename?: 'Mutation', deleteFile: Response };
+
+export type GetAllFilesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllFilesQuery = { __typename?: 'Query', files: Array<{ __typename?: 'File', id: string, name: string, url: string, createdAt: any }> };
 
 
 export const QueryDocument = gql`
@@ -254,3 +282,117 @@ export type UserInformationQueryHookResult = ReturnType<typeof useUserInformatio
 export type UserInformationLazyQueryHookResult = ReturnType<typeof useUserInformationLazyQuery>;
 export type UserInformationSuspenseQueryHookResult = ReturnType<typeof useUserInformationSuspenseQuery>;
 export type UserInformationQueryResult = Apollo.QueryResult<UserInformationQuery, UserInformationQueryVariables>;
+export const UnAnsweredQuestionsDocument = gql`
+    query unAnsweredQuestions {
+  unansweredMessages {
+    id
+    content
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useUnAnsweredQuestionsQuery__
+ *
+ * To run a query within a React component, call `useUnAnsweredQuestionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUnAnsweredQuestionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUnAnsweredQuestionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUnAnsweredQuestionsQuery(baseOptions?: Apollo.QueryHookOptions<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>(UnAnsweredQuestionsDocument, options);
+      }
+export function useUnAnsweredQuestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>(UnAnsweredQuestionsDocument, options);
+        }
+export function useUnAnsweredQuestionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>(UnAnsweredQuestionsDocument, options);
+        }
+export type UnAnsweredQuestionsQueryHookResult = ReturnType<typeof useUnAnsweredQuestionsQuery>;
+export type UnAnsweredQuestionsLazyQueryHookResult = ReturnType<typeof useUnAnsweredQuestionsLazyQuery>;
+export type UnAnsweredQuestionsSuspenseQueryHookResult = ReturnType<typeof useUnAnsweredQuestionsSuspenseQuery>;
+export type UnAnsweredQuestionsQueryResult = Apollo.QueryResult<UnAnsweredQuestionsQuery, UnAnsweredQuestionsQueryVariables>;
+export const Delete_FileDocument = gql`
+    mutation DELETE_FILE($input: DeleteFileInput!) {
+  deleteFile(input: $input)
+}
+    `;
+export type Delete_FileMutationFn = Apollo.MutationFunction<Delete_FileMutation, Delete_FileMutationVariables>;
+
+/**
+ * __useDelete_FileMutation__
+ *
+ * To run a mutation, you first call `useDelete_FileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDelete_FileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteFileMutation, { data, loading, error }] = useDelete_FileMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDelete_FileMutation(baseOptions?: Apollo.MutationHookOptions<Delete_FileMutation, Delete_FileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Delete_FileMutation, Delete_FileMutationVariables>(Delete_FileDocument, options);
+      }
+export type Delete_FileMutationHookResult = ReturnType<typeof useDelete_FileMutation>;
+export type Delete_FileMutationResult = Apollo.MutationResult<Delete_FileMutation>;
+export type Delete_FileMutationOptions = Apollo.BaseMutationOptions<Delete_FileMutation, Delete_FileMutationVariables>;
+export const GetAllFilesDocument = gql`
+    query getAllFiles {
+  files {
+    id
+    name
+    url
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetAllFilesQuery__
+ *
+ * To run a query within a React component, call `useGetAllFilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllFilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllFilesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllFilesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllFilesQuery, GetAllFilesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllFilesQuery, GetAllFilesQueryVariables>(GetAllFilesDocument, options);
+      }
+export function useGetAllFilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllFilesQuery, GetAllFilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllFilesQuery, GetAllFilesQueryVariables>(GetAllFilesDocument, options);
+        }
+export function useGetAllFilesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllFilesQuery, GetAllFilesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllFilesQuery, GetAllFilesQueryVariables>(GetAllFilesDocument, options);
+        }
+export type GetAllFilesQueryHookResult = ReturnType<typeof useGetAllFilesQuery>;
+export type GetAllFilesLazyQueryHookResult = ReturnType<typeof useGetAllFilesLazyQuery>;
+export type GetAllFilesSuspenseQueryHookResult = ReturnType<typeof useGetAllFilesSuspenseQuery>;
+export type GetAllFilesQueryResult = Apollo.QueryResult<GetAllFilesQuery, GetAllFilesQueryVariables>;

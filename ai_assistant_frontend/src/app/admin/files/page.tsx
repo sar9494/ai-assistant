@@ -1,21 +1,25 @@
-"use client"; 
+"use client";
 
 import React, { useState } from "react";
 import { Plus, Trash2, File as FileIcon } from "lucide-react";
 import AddFileModal from "./AddFileModal";
-import { useUpload_FileMutation } from "@/generated/graphql";
-
-interface FileCard {
-  fileId: string;
-  name: string;
-  url: string;
-  size: number;
-}
+import {
+  useDelete_FileMutation,
+  useGetAllFilesQuery,
+} from "@/generated/graphql";
+import { toast } from "sonner";
 
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [files, setFiles] = useState<FileCard[]>([]);
-  const [uploadFile] = useUpload_FileMutation();
+  const { data, refetch } = useGetAllFilesQuery();
+  const [deleteFile] = useDelete_FileMutation({
+    onError: () => {
+      toast("Файл устгах үед алдаа гарлаа: ");
+    },
+    onCompleted: () => {
+      toast("Файл амжилттай устгагдлаа");
+    },
+  });
 
   const formatSize = (size: number) => {
     if (size > 1024 * 1024) return (size / (1024 * 1024)).toFixed(1) + "MB";
@@ -23,32 +27,15 @@ const Page = () => {
     return size + "B";
   };
 
-  const handleFileAdded = async (title: string, file: File | null) => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    const fileId = Math.random().toString(36).substring(2, 10);
-    await uploadFile({
+  const handleDeleteFile = async (id: string) => {
+    await deleteFile({
       variables: {
         input: {
-          fileId,
-          name: file.name,
-          url,
+          id,
         },
       },
     });
-    setFiles((prev) => [
-      ...prev,
-      {
-        fileId,
-        name: file.name,
-        url,
-        size: file.size,
-      },
-    ]);
-  };
-
-  const handleDelete = (fileId: string) => {
-    setFiles((prev) => prev.filter((f) => f.fileId !== fileId));
+    await refetch();
   };
 
   return (
@@ -58,7 +45,8 @@ const Page = () => {
           <h4 className="text-2xl text-black">Файлууд</h4>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center pr-4 p-2 mr-20 bg-blue-600 text-white rounded-lg shadow-md ">
+            className="flex items-center pr-4 p-2 mr-20 bg-blue-600 text-white rounded-lg shadow-md "
+          >
             <Plus className="w-5 h-5 mr-1" />
             <span>Файл нэмэх</span>
           </button>
@@ -68,7 +56,6 @@ const Page = () => {
             type="text"
             placeholder="Гарчгаар хайх"
             className="w-72 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-[#F7FAFC] focus:outline-none"
-            disabled
           />
           <button
             className="px-4 py-2 bg-blue-100 text-blue-400 text-sm rounded-lg font-semibold"
@@ -78,14 +65,14 @@ const Page = () => {
           </button>
         </div>
         <div className="flex flex-wrap gap-6">
-          {files.map((file) => (
+          {data?.files.map((file) => (
             <div
-              key={file.fileId}
+              key={file.id}
               className="relative w-56 h-40 bg-[#F7FAFC] rounded-xl shadow-sm flex flex-col items-center justify-center p-4"
             >
               <button
                 className="absolute top-3 right-3 text-red-400 hover:text-red-600"
-                onClick={() => handleDelete(file.fileId)}
+                onClick={() => handleDeleteFile(file.id)}
               >
                 <Trash2 className="w-5 h-5" />
               </button>
@@ -93,16 +80,14 @@ const Page = () => {
               <div className="text-base font-medium text-gray-800 text-center truncate w-full">
                 {file.name}
               </div>
-              <div className="text-xs text-gray-500 mt-1">
-                {formatSize(file.size)}
-              </div>
+              <div className="text-xs text-gray-500 mt-1">{formatSize(2)}</div>
             </div>
           ))}
         </div>
         <AddFileModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onFileAdded={handleFileAdded}
+          refetch={refetch}
         />
       </main>
     </div>
