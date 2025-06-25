@@ -7,6 +7,8 @@ import { useUserInformationQuery } from "@/generated/graphql";
 type Message = {
   id: string;
   content: string;
+  received:boolean;
+  answered:boolean;
   createdAt: string;
 };
 

@@ -13,6 +13,8 @@ mutation UPLOAD_FILE($input: UploadFileInput!) {
       messages {
         id
         content
+        received
+        answered
         createdAt
       }
     }

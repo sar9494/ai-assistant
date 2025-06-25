@@ -1,57 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Sidebar from "./components/SideBar";
 import Assistant from "./components/AI-Assistant/Assistant";
 
-type InfoItem={
-  id: string;
-  title: string;
-  content: string;
-}
-
-const mockData: InfoItem[] = [
-  {
-    id: "1",
-    title: "Ажлын цаг",
-    content: "Манай байгууллагын ажил эхлэх цаг 09:00, тарах цаг 18:00.",
-  },
-  {
-    id: "2",
-    title: "Амралтын журам",
-    content: "Жил бүрийн 7 сард нийт ажилтнууд амарч болно.",
-  },
-  {
-    id: "3",
-    title: "Ажлын хувцасны дүрэм",
-    content: "Ажлын өдрүүдэд ажилтнууд албан ёсны хувцастай байх ёстой.",
-  },
-  {
-    id: "4",
-    title: "Амралтын хувиар",
-    content: "Манай байгууллагын ажилчид 80/20 хэмээх дүрмийг ашиглах дуртай.",
-  },
-];
-
 export default function ClientPage() {
-  const [query, setQuery] = useState("");
-  const [response, setResponse] = useState("");
   const [tab, setTab] = useState("dashboard");
-
-  const handleAsk = async () => {
-    if (!query.trim()) return;
-
-    const defaultAnswer =
-      "Энэ асуултад одоогоор хариулт бэлэн биш байна. Backend дуусмагц AI хариу өгнө.";
-
-    setTimeout(() => {
-      setResponse(defaultAnswer);
-    }, 600);
-  };
 
   return (
     <div className="flex min-h-screen">

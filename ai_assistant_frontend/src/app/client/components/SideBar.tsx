@@ -8,8 +8,6 @@ import {
   CalendarDays,
   CheckSquare,
   Clock,
-  Bot,
-  Sparkle,
   SparklesIcon,
 } from "lucide-react";
 
