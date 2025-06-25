@@ -15,8 +15,13 @@ export const messageDefs = gql`
     content: String!
     received:Boolean!
   }
+  input DeleteMessageInput {
+    id:ID!
+      }
+
   type Mutation {
     createMessage(input: CreateMessageInput!): Response!
+    deleteMessage(input: DeleteMessageInput!): Response!
   }
 
   type Query {

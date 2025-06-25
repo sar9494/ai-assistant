@@ -10,10 +10,12 @@ query UserInformation($userId: Int!) {
   userInformation(userId: $userId) {
     id
     email
-    messages {
-      id
-      content
-      createdAt
+      messages {
+        id
+        content
+        received
+        answered
+        createdAt
     }
   }
 }

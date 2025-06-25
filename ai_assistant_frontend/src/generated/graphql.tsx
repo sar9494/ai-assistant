@@ -148,7 +148,7 @@ export type UserInformationQueryVariables = Exact<{
 }>;
 
 
-export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: any }> } };
+export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, received: boolean, answered: boolean, createdAt: any }> } };
 
 export type UnAnsweredQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -244,6 +244,8 @@ export const UserInformationDocument = gql`
     messages {
       id
       content
+      received
+      answered
       createdAt
     }
   }

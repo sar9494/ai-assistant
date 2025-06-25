@@ -9,20 +9,19 @@ export const searchByName: QueryResolvers["searchByName"] = async (
     const { name } = input;
 
     const searchedFiles = await prisma.file.findMany({
-      where: {
-        name: {
-          contains: name,
-          mode: "insensitive",
-        },
-      },
+      where: name
+        ? {
+            name: {
+              contains: name,
+              mode: "insensitive",
+            },
+          }
+        : {},
     });
-
-    if (!searchedFiles.length) {
-      throw new Error("Файл олдсонгүй.");
-    }
 
     return searchedFiles as unknown as File[];
   } catch (error) {
+    console.error("Search error:", error);
     throw new Error("Серверийн алдаа.");
   }
 };
