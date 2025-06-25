@@ -47,11 +47,11 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "nodemon dist/index.js",
     "print-schema": "ts-node scripts/printSchema.ts",
-    "codegen": "npm run print-schema && graphql-codegen",
+    "codegen": "npm run print-schema && graphql-codegen --config codegen.ts",
     "build": "npm run codegen && tsc",
-    "dev": "next dev"
+    "dev": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",

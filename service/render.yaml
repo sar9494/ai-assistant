@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ai-assistant-service
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    branch: main
+    plan: free
