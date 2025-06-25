@@ -36,7 +36,7 @@ model Message {
 model File {
   id        Int      @id @default(autoincrement())
   name      String
-  fileId    String
+  fileId    String   @unique
   url       String
   createdAt DateTime @default(now())
 }
