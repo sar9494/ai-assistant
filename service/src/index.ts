@@ -13,6 +13,7 @@ import { pinecone } from "./connectPinecone";
 import mammoth from "mammoth";
 import fs from "fs/promises";
 import multer from "multer";
+import { uploadFile } from "./resolvers/mutations";
 
 const upload = multer({ dest: "uploads/" });
 
@@ -32,31 +33,7 @@ const apolloServer = new ApolloServer({
   introspection: true,
 });
 
-app.post("/api/upload", upload.single("file"), async (req, res) => {
-  try {
-    if (!req.file || !req.file.path) {
-      return res.status(400).json({ error: "Missing file path" });
-    }
-
-    const filePath = req.file.path;
-
-    const result = await mammoth.extractRawText({ path: filePath });
-
-    const text = result.value;
-
-    const txtPath = `uploads/${Date.now()}-extracted.txt`;
-    await fs.writeFile(txtPath, text, "utf-8");
-
-    await assistant.uploadFile({
-      path: txtPath,
-      metadata: { uploadedBy: "admin" },
-    });
-
-    res.status(200).json({ success: true, text });
-  } catch (err) {
-    res.status(500).json({ error: "Upload failed" });
-  }
-});
+app.post("/api/upload", upload.single("file"), uploadFile);
 
 async function startServer() {
   await apolloServer.start();

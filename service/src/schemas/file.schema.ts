@@ -15,7 +15,7 @@ export const fileDefs = gql`
     fileId: String!
   }
   input DeleteFileInput {
-    fileId: String!
+    id: ID!
   }
   type Mutation {
     uploadFile(input: UploadFileInput!): Response!
