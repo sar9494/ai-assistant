@@ -26,7 +26,7 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-interface UserProviderProps {
+type UserProviderProps = {
   userId: number;
   children: React.ReactNode;
 }
