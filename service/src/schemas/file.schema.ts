@@ -14,16 +14,19 @@ export const fileDefs = gql`
     url: String!
     fileId: String!
   }
+  input DeleteFileInput {
+    fileId: String!
+  }
   type Mutation {
     uploadFile(input: UploadFileInput!): Response!
+    deleteFile(input: DeleteFileInput!): Response!
   }
-  input SearchByNameInput{
-    name:String
+  input SearchByNameInput {
+    name: String
   }
 
   type Query {
     files: [File!]!
-    searchByName(input:SearchByNameInput!): [File!]!
+    searchByName(input: SearchByNameInput!): [File!]!
   }
-
 `;
