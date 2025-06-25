@@ -2,23 +2,32 @@
 import { FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  useDelete_FileMutation,
+  useDeleteMessageMutation,
   useUnAnsweredQuestionsQuery,
 } from "@/generated/graphql";
 import Delete from "./Delete";
+import { toast } from "sonner";
 
 export default function AdminDashboardPage() {
-  const { data } = useUnAnsweredQuestionsQuery();
-  const [deleteFile] = useDelete_FileMutation();
+  const { data, refetch } = useUnAnsweredQuestionsQuery();
+  const [deleteMessage, { loading }] = useDeleteMessageMutation({
+    onError: () => {
+      toast("Message устгах үед алдаа гарлаа: ");
+    },
+    onCompleted: () => {
+      toast("Message амжилттай устгагдлаа");
+    },
+  });
 
   const handleDeleteFile = async (id: string) => {
-    await deleteFile({
+    await deleteMessage({
       variables: {
         input: {
           id,
         },
       },
     });
+    await refetch();
   };
   return (
     <div className="space-y-6">
@@ -37,7 +46,11 @@ export default function AdminDashboardPage() {
                 <FileUp className="w-4 h-4 text-muted-foreground" />
               </Button>
 
-              <Delete handleDeleteFile={handleDeleteFile} id={item.id} />
+              <Delete
+                handleDeleteFile={handleDeleteFile}
+                id={item.id}
+                loading={loading}
+              />
             </div>
           </div>
         ))}

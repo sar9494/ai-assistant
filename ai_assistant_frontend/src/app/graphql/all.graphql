@@ -10,12 +10,12 @@ query UserInformation($userId: Int!) {
   userInformation(userId: $userId) {
     id
     email
-      messages {
-        id
-        content
-        received
-        answered
-        createdAt
+    messages {
+      id
+      content
+      received
+      answered
+      createdAt
     }
   }
 }
@@ -29,6 +29,11 @@ query unAnsweredQuestions {
 mutation DELETE_FILE($input: DeleteFileInput!) {
   deleteFile(input: $input)
 }
+
+mutation deleteMessage($input: DeleteMessageInput!) {
+  deleteMessage(input: $input)
+}
+
 query getAllFiles {
   files {
     id
