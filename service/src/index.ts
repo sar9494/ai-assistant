@@ -44,7 +44,6 @@ const yoga = createYoga<{}, GraphQLContext>({
 
 app.use("/graphql", yoga);
 
-// Upload endpoint
 app.post("/api/upload", upload.single("file"), uploadFile);
 
 // Socket.IO server setup
