@@ -50,7 +50,8 @@
     "start": "nodemon src/index.ts",
     "print-schema": "ts-node scripts/printSchema.ts",
     "codegen": "npm run print-schema && graphql-codegen",
-    "dev": "next dev"
+    "dev": "next dev",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
