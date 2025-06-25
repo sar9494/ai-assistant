@@ -10,13 +10,12 @@ export default function ClientPage() {
 
   return (
     <div className="flex min-h-screen">
-       <div className="flex min-h-screen">
-    <Sidebar value={tab} onChange={setTab} />
- 
-  </div>
+      <div className="flex min-h-screen">
+        <Sidebar value={tab} onChange={setTab} />
+      </div>
 
       {/* Main content */}
-      <main className="flex-1 px-6 py-10">
+      <main className="flex-1 px-6">
         <Tabs value={tab} className="w-full">
           {/* Dashboard */}
           <TabsContent value="dashboard">
@@ -32,7 +31,9 @@ export default function ClientPage() {
           <TabsContent value="team">
             <section>
               <h2 className="text-xl font-semibold">Team members</h2>
-              <p className="text-muted-foreground mt-2">Энэ хэсэгт багийн гишүүдийн жагсаалт байрлана.</p>
+              <p className="text-muted-foreground mt-2">
+                Энэ хэсэгт багийн гишүүдийн жагсаалт байрлана.
+              </p>
             </section>
           </TabsContent>
 
@@ -40,7 +41,9 @@ export default function ClientPage() {
           <TabsContent value="calendar">
             <section>
               <h2 className="text-xl font-semibold">Calendar</h2>
-              <p className="text-muted-foreground mt-2">Хуваарь болон үйл явдлын товууд энд байрлана.</p>
+              <p className="text-muted-foreground mt-2">
+                Хуваарь болон үйл явдлын товууд энд байрлана.
+              </p>
             </section>
           </TabsContent>
 
@@ -48,7 +51,9 @@ export default function ClientPage() {
           <TabsContent value="todo">
             <section>
               <h2 className="text-xl font-semibold">To-Do</h2>
-              <p className="text-muted-foreground mt-2">Хийх ажлуудын жагсаалт.</p>
+              <p className="text-muted-foreground mt-2">
+                Хийх ажлуудын жагсаалт.
+              </p>
             </section>
           </TabsContent>
 
@@ -56,13 +61,15 @@ export default function ClientPage() {
           <TabsContent value="time">
             <section>
               <h2 className="text-xl font-semibold">Time Tracker</h2>
-              <p className="text-muted-foreground mt-2">Ажиллах цаг бүртгэгч систем.</p>
+              <p className="text-muted-foreground mt-2">
+                Ажиллах цаг бүртгэгч систем.
+              </p>
             </section>
           </TabsContent>
 
           {/* AI Assistant */}
           <TabsContent value="assistant">
-           <Assistant/>
+            <Assistant />
           </TabsContent>
         </Tabs>
       </main>

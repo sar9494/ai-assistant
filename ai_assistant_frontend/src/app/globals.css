@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "daisyui";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -58,7 +59,6 @@
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 
 :root {
   --radius: 0.625rem;

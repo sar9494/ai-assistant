@@ -10,8 +10,6 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import prisma from "./prismaClient";
 import { pinecone } from "./connectPinecone";
-import mammoth from "mammoth";
-import fs from "fs/promises";
 import multer from "multer";
 import { uploadFile } from "./resolvers/mutations";
 

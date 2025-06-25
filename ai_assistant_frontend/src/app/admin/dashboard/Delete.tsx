@@ -15,16 +15,13 @@ import { Trash2 } from "lucide-react";
 const Delete = (props: {
   handleDeleteFile: (id: string) => Promise<void>;
   id: string;
+  loading: boolean;
 }) => {
-  const { handleDeleteFile, id } = props;
+  const { handleDeleteFile, id, loading } = props;
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => handleDeleteFile(id)}
-        >
+        <Button variant="ghost" size="icon">
           <Trash2 className="w-4 h-4 text-muted-foreground" />
         </Button>
       </DialogTrigger>
@@ -47,8 +44,16 @@ const Delete = (props: {
           >
             Болих
           </Button>
-          <Button className="w-[49%] bg-blue-500 hover:bg-blue-600">
-            Устгах
+
+          <Button
+            className="w-[49%] bg-blue-500 hover:bg-blue-600"
+            onClick={() => handleDeleteFile(id)}
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-xs"></span>
+            ) : (
+              "Устгах"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
