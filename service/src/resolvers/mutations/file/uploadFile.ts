@@ -6,7 +6,7 @@ import fs from "fs/promises";
 
 const assistant = pinecone.Assistant("ai-assistant");
 
-export const deleteFile = async (req: Request, res: Response) => {
+export const uploadFile = async (req: Request, res: Response) => {
   try {
     if (!req.file || !req.file.path) {
       return res.status(400).json({ error: "Missing file path" });

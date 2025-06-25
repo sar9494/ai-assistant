@@ -10,7 +10,7 @@ export const deleteFile: MutationResolvers["deleteFile"] = async (
     if (!fileId) {
       throw new Error("File id required");
     }
-    await prisma.file.findUnique({
+    await prisma.file.delete({
       where: {
         fileId,
       },
