@@ -1,75 +1,88 @@
 import express from "express";
-import { typeDefs } from "./schemas";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { resolvers } from "./resolvers";
+import multer from "multer";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import prisma from "./prismaClient";
-import { pinecone } from "./connectPinecone";
-import multer from "multer";
-import { uploadFile } from "./resolvers/mutations";
+import { createYoga, createSchema, YogaInitialContext } from "graphql-yoga";
+import { PrismaClient } from "@prisma/client";
 
-const upload = multer({ dest: "uploads/" });
+import { typeDefs } from "./schemas";
+import { resolvers } from "./resolvers";
+import { uploadFile } from "./resolvers/mutations";
+import { pinecone } from "./connectPinecone";
 
 dotenv.config();
 
+const prisma = new PrismaClient();
 const assistant = pinecone.Assistant("ai-assistant");
 
+// Define your GraphQL context type
+type GraphQLContext = YogaInitialContext & {
+  prisma: PrismaClient;
+};
+
 const app = express();
+const upload = multer({ dest: "uploads/" });
 const httpServer = createServer(app);
 
 app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(express.json());
 
-const apolloServer = new ApolloServer({
-  resolvers,
-  typeDefs,
-  introspection: true,
+// GraphQL Yoga server with Prisma context
+const yoga = createYoga<{}, GraphQLContext>({
+  schema: createSchema<GraphQLContext>({
+    typeDefs,
+    resolvers,
+  }),
+  graphqlEndpoint: "/graphql",
+  context: async (initialContext): Promise<GraphQLContext> => ({
+    ...initialContext,
+    prisma,
+  }),
 });
 
+app.use("/graphql", yoga);
+
+// Upload endpoint
 app.post("/api/upload", upload.single("file"), uploadFile);
 
-async function startServer() {
-  await apolloServer.start();
+// Socket.IO server setup
+const io = new Server(httpServer, {
+  cors: { origin: "*", methods: ["GET", "POST"] },
+});
 
-  app.use("/graphql", bodyParser.json(), expressMiddleware(apolloServer));
+io.on("connection", (socket) => {
+  console.log("✅ User connected:", socket.id);
 
-  const io = new Server(httpServer, {
-    cors: { origin: "*", methods: ["GET", "POST"] },
+  socket.on("join_room", (roomId) => {
+    socket.join(roomId);
+    console.log(`🚪 User ${socket.id} joined room ${roomId}`);
   });
 
-  io.on("connection", (socket) => {
-    console.log("✅ User connected:", socket.id);
-
-    socket.on("join_room", (roomId) => {
-      socket.join(roomId);
-      console.log(`🚪 User ${socket.id} joined room ${roomId}`);
+  socket.on("chatMessage", async (msg) => {
+    socket.to(msg.room).emit("chatMessage", {
+      content: msg.content,
+      received: msg.received,
     });
 
-    socket.on("chatMessage", async (msg) => {
-      socket.to(msg.room).emit("chatMessage", {
-        content: msg.content,
-        received: msg.received,
-      });
+    try {
       const chatResp = await assistant.chat({
         messages: [{ role: "user", content: msg.content }],
         model: "gpt-4o",
       });
+
       socket.emit("chatMessage", {
-        content: chatResp.message?.content,
-        room: 1,
+        content: chatResp.message?.content || "",
+        room: msg.room,
         received: true,
-        userId: 1,
+        userId: msg.userId,
       });
+
       const user = await prisma.user.findUnique({
-        where: {
-          id: msg.userId,
-        },
+        where: { id: msg.userId },
       });
+
       if (user?.role === "EMPLOYEE") {
         await prisma.message.create({
           data: {
@@ -78,34 +91,40 @@ async function startServer() {
             received: msg.received,
           },
         });
+
         await prisma.message.create({
           data: {
             userId: msg.userId,
             content: chatResp.message?.content || "",
             received: true,
-            answered:
-              chatResp.message?.content?.includes("clarify") ||
-              chatResp.message?.content?.includes("олдсонгүй") ||
-              chatResp.message?.content?.includes("Уучлаарай") ||
-              chatResp.message?.content?.includes("уучлаарай")
-                ? false
-                : true,
+            answered: !["clarify", "олдсонгүй", "уучлаарай", "Уучлаарай"].some(
+              (phrase) =>
+                chatResp.message?.content
+                  ?.toLowerCase()
+                  .includes(phrase.toLowerCase())
+            ),
           },
         });
       }
-    });
-
-    socket.on("disconnect", () => {
-      console.log("❌ User disconnected:", socket.id);
-    });
+    } catch (error) {
+      console.error("Chat assistant error:", error);
+      socket.emit("chatMessage", {
+        content: "Sorry, an error occurred with the assistant.",
+        room: msg.room,
+        received: true,
+        userId: msg.userId,
+      });
+    }
   });
 
-  const PORT = process.env.PORT || 4000;
-  httpServer.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:${PORT}`);
-    console.log(`🧠 GraphQL endpoint: http://localhost:${PORT}/graphql`);
-    console.log(`💬 Socket.IO running at ws://localhost:${PORT}`);
+  socket.on("disconnect", () => {
+    console.log("❌ User disconnected:", socket.id);
   });
-}
+});
 
-startServer();
+const PORT = process.env.PORT || 4000;
+httpServer.listen(PORT, () => {
+  console.log(`🚀 Server ready at http://localhost:${PORT}`);
+  console.log(`🧠 GraphQL endpoint: http://localhost:${PORT}/graphql`);
+  console.log(`💬 Socket.IO running at ws://localhost:${PORT}`);
+});
