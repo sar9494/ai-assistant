@@ -2,8 +2,18 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@generated/*": ["generated/*"]
+    },
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
-    "skipLibCheck": true
-  }
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["node_modules", "tmp"]
 }
