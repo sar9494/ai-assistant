@@ -148,7 +148,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/24LP9506/Desktop/dada/awesome-links/src/generated/prisma",
+      "value": "/Users/24LP9506/Desktop/dada/teet/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -162,7 +162,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/24LP9506/Desktop/dada/awesome-links/prisma/schema.prisma",
+    "sourceFilePath": "/Users/24LP9506/Desktop/dada/teet/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
