@@ -1,4 +1,4 @@
-import prisma from "../../../context";
+import prisma from "context";
 
 export const unansweredMessages = async () => {
   try {
