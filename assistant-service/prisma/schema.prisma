@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+    url      = "postgresql://neondb_owner:npg_3SaoAQeKu4ym@ep-patient-unit-a9p7tqjm-pooler.gwc.azure.neon.tech/neondb?sslmode=require"
+
+}
+model User {
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
+  password  String
+  createdAt DateTime     @default(now())
+  messages  Message[]
+  role      UserRoleEnum
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  received  Boolean
+  answered  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  name      String
+  fileId    String   @unique
+  url       String
+  createdAt DateTime @default(now())
+}
+
+enum UserRoleEnum {
+  ADMIN
+  EMPLOYEE
+}

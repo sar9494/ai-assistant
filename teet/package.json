@@ -1,0 +1,35 @@
+{
+  "name": "teet",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "codegen": "graphql-codegen --config codegen.ts"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
+    "@pinecone-database/pinecone": "^6.1.1",
+    "@prisma/client": "^6.10.1",
+    "dotenv": "^16.6.0",
+    "graphql": "^16.11.0",
+    "graphql-yoga": "^5.13.5",
+    "next": "^13.1.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/node": "^18.19.112",
+    "@types/react": "^18.0.26",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "prisma": "^6.10.1",
+    "tailwindcss": "^3.2.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
