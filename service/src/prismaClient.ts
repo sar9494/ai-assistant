@@ -1,4 +1,5 @@
-import { PrismaClient } from '@/prisma/client'; // ✅ output замтай таарна
+import { PrismaClient } from "../prisma/src/generated/prisma"; // ✅ output замтай таарна
+
 
 const prisma = new PrismaClient();
 

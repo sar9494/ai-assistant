@@ -15,6 +15,13 @@ const config: CodegenConfig = {
       ],
       config: {
         withHooks: true,
+        avoidOptionals: true,
+        maybeValue: "T | null",
+        strictScalars: true,
+        scalars: {
+          JSON: "{ [key: string]: unknown }",
+          Date: "string",
+        },
       },
     },
   },

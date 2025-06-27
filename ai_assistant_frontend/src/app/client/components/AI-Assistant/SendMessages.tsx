@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -15,34 +15,33 @@ export default function SendMessages(props: SendMessageProps) {
   const { message, setMessage, setMessages } = props;
   const socketRef = useRef<Socket | null>(null);
 
-const sendMessage = () => {
-  if (message !== "" && socketRef.current) {
-    socketRef.current.emit("chatMessage", {
-      content: message,
-      room: 1,
-      received: false,
-      userId: 1,
-    });
+  const sendMessage = () => {
+    if (message !== "" && socketRef.current) {
+      socketRef.current.emit("chatMessage", {
+        content: message,
+        room: 1,
+        received: false,
+        userId: 1,
+      });
 
-    const newMessage: Message = {
-      id: crypto.randomUUID(),
-      received: false,
-      content: message,
-      timestamp: new Date().toLocaleTimeString("mn-MN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }),
-    };
+      const newMessage: Message = {
+        id: crypto.randomUUID(),
+        received: false,
+        content: message,
+        timestamp: new Date().toLocaleTimeString("mn-MN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      };
 
-    setMessages((prev) => [...prev, newMessage]);
-    setMessage("");
-  }
-};
-
+      setMessages((prev) => [...prev, newMessage]);
+      setMessage("");
+    }
+  };
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
+    const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
     socketRef.current = socket;
 
     socket.on("connect", () => {
@@ -53,21 +52,20 @@ const sendMessage = () => {
       console.error("❌ Socket connection error:", err.message);
     });
 
-socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
-  const receivedMessage: Message = {
-    id: crypto.randomUUID(),
-    received: msg.received,
-    content: msg.content,
-    timestamp: new Date().toLocaleTimeString("mn-MN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    }),
-  };
+    socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
+      const receivedMessage: Message = {
+        id: crypto.randomUUID(),
+        received: msg.received,
+        content: msg.content,
+        timestamp: new Date().toLocaleTimeString("mn-MN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      };
 
-  setMessages((prev) => [...prev, receivedMessage]);
-});
-
+      setMessages((prev) => [...prev, receivedMessage]);
+    });
 
     socket.emit("join_room", 1);
 

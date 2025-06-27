@@ -2,7 +2,7 @@ import { Message } from "./types";
 import { cn } from "@/lib/utils";
 
 export default function MessageBubble({ message }: { message: Message }) {
-  const isUser = message.sender === "user";
+  const isUser = message.received;
   return (
     <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
       <div
