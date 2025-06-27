@@ -48,7 +48,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon dist/index.js",
+    "start": "nodemon dist/index.ts",
     "generate": "prisma generate",
     "print-schema": "ts-node scripts/printSchema.ts",
     "codegen": "npm run print-schema && graphql-codegen --config codegen.ts",
