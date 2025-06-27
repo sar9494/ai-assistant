@@ -1,5 +1,5 @@
-import prisma from "@/context";
-import { MutationResolvers, Response } from "@/generated";
+import { MutationResolvers, Response } from "../../../generated";
+import prisma from "../../../prismaClient";
 
 export const createMessage: MutationResolvers["createMessage"] = async (
   _,

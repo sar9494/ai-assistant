@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import mammoth from "mammoth";
 import fs from "fs/promises";
 import multer from "multer";
-import prisma from "@/context";
-import { pinecone } from "@/connectPinecone";
+import { pinecone } from "../../../connectPinecone";
+import prisma from "../../../prismaClient";
 const upload = multer({ dest: "uploads/" });
 const assistant = pinecone.Assistant("ai-assistant");
 
