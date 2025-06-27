@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -15,8 +15,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
-  JSON: { input: any; output: any; }
+  Date: { input: string; output: string; }
+  JSON: { input: { [key: string]: unknown }; output: { [key: string]: unknown }; }
 };
 
 export type CreateMessageInput = {
@@ -117,7 +117,7 @@ export enum Response {
 }
 
 export type SearchByNameInput = {
-  name?: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UploadFileInput = {
@@ -158,12 +158,12 @@ export type UserInformationQueryVariables = Exact<{
 }>;
 
 
-export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, received: boolean, answered: boolean, createdAt: any }> } };
+export type UserInformationQuery = { __typename?: 'Query', userInformation: { __typename?: 'User', id: string, email: string, messages: Array<{ __typename?: 'Message', id: string, content: string, received: boolean, answered: boolean, createdAt: string }> } };
 
 export type UnAnsweredQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UnAnsweredQuestionsQuery = { __typename?: 'Query', unansweredMessages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: any }> };
+export type UnAnsweredQuestionsQuery = { __typename?: 'Query', unansweredMessages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: string }> };
 
 export type Delete_FileMutationVariables = Exact<{
   input: DeleteFileInput;
@@ -172,17 +172,17 @@ export type Delete_FileMutationVariables = Exact<{
 
 export type Delete_FileMutation = { __typename?: 'Mutation', deleteFile: Response };
 
-export type Delete_MessageMutationVariables = Exact<{
+export type DeleteMessageMutationVariables = Exact<{
   input: DeleteMessageInput;
 }>;
 
 
-export type Delete_MessageMutation = { __typename?: 'Mutation', deleteMessage: Response };
+export type DeleteMessageMutation = { __typename?: 'Mutation', deleteMessage: Response };
 
 export type GetAllFilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllFilesQuery = { __typename?: 'Query', files: Array<{ __typename?: 'File', id: string, name: string, url: string, createdAt: any }> };
+export type GetAllFilesQuery = { __typename?: 'Query', files: Array<{ __typename?: 'File', id: string, name: string, url: string, createdAt: string }> };
 
 
 export const QueryDocument = gql`
@@ -373,37 +373,37 @@ export function useDelete_FileMutation(baseOptions?: Apollo.MutationHookOptions<
 export type Delete_FileMutationHookResult = ReturnType<typeof useDelete_FileMutation>;
 export type Delete_FileMutationResult = Apollo.MutationResult<Delete_FileMutation>;
 export type Delete_FileMutationOptions = Apollo.BaseMutationOptions<Delete_FileMutation, Delete_FileMutationVariables>;
-export const Delete_MessageDocument = gql`
-    mutation DELETE_MESSAGE($input: DeleteMessageInput!) {
+export const DeleteMessageDocument = gql`
+    mutation deleteMessage($input: DeleteMessageInput!) {
   deleteMessage(input: $input)
 }
     `;
-export type Delete_MessageMutationFn = Apollo.MutationFunction<Delete_MessageMutation, Delete_MessageMutationVariables>;
+export type DeleteMessageMutationFn = Apollo.MutationFunction<DeleteMessageMutation, DeleteMessageMutationVariables>;
 
 /**
- * __useDelete_MessageMutation__
+ * __useDeleteMessageMutation__
  *
- * To run a mutation, you first call `useDelete_MessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDelete_MessageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMessageMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteMessageMutation, { data, loading, error }] = useDelete_MessageMutation({
+ * const [deleteMessageMutation, { data, loading, error }] = useDeleteMessageMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useDelete_MessageMutation(baseOptions?: Apollo.MutationHookOptions<Delete_MessageMutation, Delete_MessageMutationVariables>) {
+export function useDeleteMessageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMessageMutation, DeleteMessageMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Delete_MessageMutation, Delete_MessageMutationVariables>(Delete_MessageDocument, options);
+        return Apollo.useMutation<DeleteMessageMutation, DeleteMessageMutationVariables>(DeleteMessageDocument, options);
       }
-export type Delete_MessageMutationHookResult = ReturnType<typeof useDelete_MessageMutation>;
-export type Delete_MessageMutationResult = Apollo.MutationResult<Delete_MessageMutation>;
-export type Delete_MessageMutationOptions = Apollo.BaseMutationOptions<Delete_MessageMutation, Delete_MessageMutationVariables>;
+export type DeleteMessageMutationHookResult = ReturnType<typeof useDeleteMessageMutation>;
+export type DeleteMessageMutationResult = Apollo.MutationResult<DeleteMessageMutation>;
+export type DeleteMessageMutationOptions = Apollo.BaseMutationOptions<DeleteMessageMutation, DeleteMessageMutationVariables>;
 export const GetAllFilesDocument = gql`
     query getAllFiles {
   files {

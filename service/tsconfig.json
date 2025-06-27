@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES2017",
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": ".",
@@ -10,10 +10,10 @@
     },
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "include": ["src", "scripts", "codegen.ts"],
+  "exclude": ["node_modules", "tmp", "dist"]
 }

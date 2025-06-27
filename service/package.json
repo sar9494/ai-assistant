@@ -48,12 +48,12 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon dist/index.ts",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "build": "npm install && npx prisma generate && npm run codegen && tsc",
+    "start": "node dist/index.js",
     "generate": "prisma generate",
     "print-schema": "ts-node scripts/printSchema.ts",
-    "codegen": "npm run print-schema && graphql-codegen --config codegen.ts",
-    "build": "npm install && npx prisma generate  && npm run codegen && tsc",
-    "dev": "ts-node src/index.ts"
+    "codegen": "npm run print-schema && graphql-codegen --config codegen.ts"
   },
   "keywords": [],
   "author": "",

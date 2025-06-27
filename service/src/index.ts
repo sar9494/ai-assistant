@@ -36,7 +36,7 @@ app.post("/api/upload", upload.single("file"), uploadFile);
 async function startServer() {
   await apolloServer.start();
 
-  app.use("/graphql", bodyParser.json(), expressMiddleware(apolloServer));
+  app.use("/api/graphql", bodyParser.json(), expressMiddleware(apolloServer));
 
   const io = new Server(httpServer, {
     cors: { origin: "*", methods: ["GET", "POST"] },
