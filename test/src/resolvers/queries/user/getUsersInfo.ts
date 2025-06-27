@@ -1,5 +1,5 @@
-import { QueryResolvers, User } from "../../../generated";
-import prisma from "../../../context";
+import prisma from "context";
+import { QueryResolvers, User } from "generated";
 
 export const userInformation: QueryResolvers["userInformation"] = async (
   _,

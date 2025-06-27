@@ -1,6 +1,7 @@
-import { pinecone } from "../../../connectPinecone";
-import { MutationResolvers, Response } from "../../../generated";
-import prisma from "../../../context";
+import prisma from "context";
+
+import { pinecone } from "connectPinecone";
+import { MutationResolvers, Response } from "generated";
 
 const assistant = pinecone.Assistant("ai-assistant");
 

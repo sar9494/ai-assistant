@@ -1,5 +1,5 @@
-import { File, QueryResolvers } from "../../../generated";
-import prisma from "../../../context";
+import prisma from "context";
+import { QueryResolvers } from "generated";
 
 export const searchByName: QueryResolvers["searchByName"] = async (
   _,
@@ -19,7 +19,13 @@ export const searchByName: QueryResolvers["searchByName"] = async (
         : {},
     });
 
-    return searchedFiles as unknown as File[];
+    return searchedFiles.map((file) => ({
+      id: file.id.toString(), // Prisma's ID is number, GraphQL ID is string
+      name: file.name,
+      url: file.url,
+      fileId: file.fileId,
+      createdAt: file.createdAt.toISOString(), // Prisma's Date → GraphQL Date
+    }));
   } catch (error) {
     console.error("Search error:", error);
     throw new Error("Серверийн алдаа.");

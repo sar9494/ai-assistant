@@ -11,6 +11,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src", "codegen.ts", "api"],
+  "include": ["src", "codegen.ts", "api", "../backend/src/app/resolvers"],
   "exclude": ["node_modules", "dist"]
 }
