@@ -34,6 +34,8 @@ export default function Home() {
         received: false,
         userId: 1,
       });
+      console.log("sending",message);
+      
       setMessages((prev) => [...prev, { received: false, content: message }]);
       setMessage("");
     }
@@ -62,7 +64,9 @@ export default function Home() {
   useEffect(() => {
     setMessages([]);
 
-    socket = io("http://localhost:4000");
+    socket = io('ws://localhost:4001',{
+      transports:['websocket']
+    });
     socket.on("connect", () => {
       console.log("✅ Connected to socket:", socket.id);
     });
@@ -102,6 +106,7 @@ export default function Home() {
       <input
         type="text"
         name="name"
+        
         onChange={(e) => setName(e.target.value)}
         className="border border-gray-400"
       />

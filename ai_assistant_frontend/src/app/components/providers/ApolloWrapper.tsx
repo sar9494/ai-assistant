@@ -6,7 +6,7 @@ import { ApolloNextAppProvider,InMemoryCache,ApolloClient } from "@apollo/client
 import { PropsWithChildren } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
-const uri = process.env.BACKEND_URI ?? 'http://localhost:4000/graphql';
+const uri = process.env.BACKEND_URI ?? 'http://localhost:3000/api/graphql';
 
 const makeClient = () => {
   const httpLink = new HttpLink({

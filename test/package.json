@@ -9,7 +9,7 @@
     "generate": "prisma generate",
     "codegen": "graphql-codegen --config codegen.ts",
     "deploy": "vercel --prod"
-  },
+    },
   "keywords": [],
   "author": "",
   "license": "ISC",
