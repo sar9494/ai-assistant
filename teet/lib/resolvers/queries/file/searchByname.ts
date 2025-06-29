@@ -1,5 +1,6 @@
-import prisma from "context";
-import { QueryResolvers } from "generated";
+import prisma from "../../../../prismaClient";
+import { File, QueryResolvers } from "../../../generated";
+
 
 export const searchByName: QueryResolvers["searchByName"] = async (
   _,
@@ -19,7 +20,7 @@ export const searchByName: QueryResolvers["searchByName"] = async (
         : {},
     });
 
-    return searchedFiles.map((file) => ({
+    return searchedFiles.map((file:File) => ({
       id: file.id.toString(), // Prisma's ID is number, GraphQL ID is string
       name: file.name,
       url: file.url,

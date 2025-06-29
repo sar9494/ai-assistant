@@ -1,5 +1,6 @@
-import prisma from "context";
-import { MutationResolvers, Response } from "generated";
+import prisma from "../../../../prismaClient";
+import { MutationResolvers, Response } from "../../../generated";
+
 
 export const deleteMessage: MutationResolvers["deleteMessage"] = async (
   _,

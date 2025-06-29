@@ -1,12 +1,14 @@
 {
   "name": "teet",
   "version": "0.1.0",
+  "type":"module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "ws": "node socket-server.js"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^5.0.7",
@@ -15,7 +17,10 @@
     "dotenv": "^16.6.0",
     "graphql": "^16.11.0",
     "graphql-yoga": "^5.13.5",
+    "mammoth": "^1.9.1",
+    "multer": "^2.0.1",
     "next": "^13.1.2",
+    "next-connect": "^1.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -23,9 +28,12 @@
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^1.4.13",
     "@types/node": "^18.19.112",
     "@types/react": "^18.0.26",
     "autoprefixer": "^10.4.13",
+    "concurrently": "^9.2.0",
     "postcss": "^8.4.21",
     "prisma": "^6.10.1",
     "tailwindcss": "^3.2.4",

@@ -147,7 +147,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/24LP9506/Desktop/dada/teet/src/generated/prisma",
+      "value": "/home/saruul/ai-assistant/teet/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -156,17 +156,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/24LP9506/Desktop/dada/teet/prisma/schema.prisma",
+    "sourceFilePath": "/home/saruul/ai-assistant/teet/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.10.1",

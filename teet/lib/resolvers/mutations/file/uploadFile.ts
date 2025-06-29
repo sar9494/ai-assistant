@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import mammoth from "mammoth";
 import fs from "fs/promises";
-import { pinecone } from "connectPinecone";
-import prisma from "context";
+import { pinecone } from "../../../../connectPinecone";
+import prisma from "../../../../prismaClient";
 
 const assistant = pinecone.Assistant("ai-assistant");
 
