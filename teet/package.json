@@ -1,19 +1,21 @@
 {
   "name": "teet",
   "version": "0.1.0",
-  "type":"module",
+  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next dev -p 8000",
+  "build": "next build",
+  "start": "next start -p 8000",
     "codegen": "graphql-codegen --config codegen.ts",
     "ws": "node socket-server.js"
   },
+  
   "dependencies": {
     "@graphql-codegen/cli": "^5.0.7",
     "@pinecone-database/pinecone": "^6.1.1",
     "@prisma/client": "^6.10.1",
+    "apollo-server-micro": "^3.13.0",
     "dotenv": "^16.6.0",
     "graphql": "^16.11.0",
     "graphql-yoga": "^5.13.5",
