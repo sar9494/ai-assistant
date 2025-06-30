@@ -68,14 +68,14 @@ io.on("connection", (socket) => {
     if (user?.role === "EMPLOYEE") {
       await prisma.message.create({
         data: {
-          userId: msg.userId,
+          conversationId: msg.userId,
           content: msg.content,
           received: msg.received,
         },
       });
       await prisma.message.create({
         data: {
-          userId: msg.userId,
+          conversationId: msg.userId,
           content: chatResp.message?.content || "",
           received: true,
           answered: !chatResp.message?.content?.match(

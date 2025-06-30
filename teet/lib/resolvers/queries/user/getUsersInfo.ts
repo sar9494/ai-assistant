@@ -8,13 +8,8 @@ export const userInformation: QueryResolvers["userInformation"] = async (
   try {
     const user = await prisma.user.findUnique({
       where: { id: 1 },
-      include: { messages: true },
+      include: { conversation: true },
     });
-    console.log(user);
-
-    // if (!user) {
-    //   throw new Error("Хэрэглэгч олдсонгүй.");
-    // }
 
     return user as unknown as User;
   } catch (error) {
