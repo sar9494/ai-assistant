@@ -86,17 +86,17 @@ export default function SendMessages(props: SendMessageProps) {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0 "
+        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-lg focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
         disabled={isLoading}
       />
       <Button
         onClick={sendMessage}
-        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors"
+        className={`absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 rounded-xl transition-colors ${message ? 'bg-[#455074] hover:bg-[#455074]' : 'bg-[#2b344b] hover:bg-[#3a4560]'}`}
         disabled={isLoading}
       >
         <ArrowUp
           style={{ width: "1.875rem", height: "1.875rem" }}
-          className={`text-white opacity-40`}
+          className={`text-white ${message ? 'opacity-100' : 'opacity-40'}`}
         />
       </Button>
     </div>
