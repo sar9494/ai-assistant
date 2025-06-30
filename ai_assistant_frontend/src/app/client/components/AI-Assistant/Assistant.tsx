@@ -77,6 +77,7 @@ export default function ChatAssistant() {
     },
   ]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const mockChatHistory = [
     { id: 1, title: "Шинэ чат", date: new Date().toISOString() },
@@ -192,6 +193,14 @@ export default function ChatAssistant() {
                 </span>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex flex-col max-w-[80%] self-start items-start">
+                <div className="px-4 py-2 rounded-lg text-sm bg-[#1f2937] text-white flex items-center gap-2">
+                  <span>Анухай уншиж байна</span>
+                  <span className="animate-bounce">...</span>
+                </div>
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
 
@@ -200,6 +209,8 @@ export default function ChatAssistant() {
               message={input}
               setMessage={setInput}
               setMessages={setMessages}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
             />
           </div>
         </div>
