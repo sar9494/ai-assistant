@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "node --loader ts-node/esm src/server.ts",
     "codegen": "graphql-codegen --config codegen.ts",
-    "server": "node --loader ts-node/esm src/server.ts"
+    "server": "node --loader ts-node/esm src/server.ts",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
