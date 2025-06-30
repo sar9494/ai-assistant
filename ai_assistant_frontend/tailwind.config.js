@@ -75,5 +75,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate, tailwindScrollbar, require("daisyui")],
+  plugins: [tailwindcssAnimate, tailwindScrollbar],
 };
