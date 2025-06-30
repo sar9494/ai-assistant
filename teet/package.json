@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "prebuild": "prisma generate",
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "node --loader ts-node/esm src/server.ts",
