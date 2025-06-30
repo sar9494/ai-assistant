@@ -11,6 +11,7 @@ import { typeDefs } from "../lib/schemas";
 import prisma from "../prismaClient";
 import { Server } from "socket.io";
 import { pinecone } from "../connectPinecone";
+// import { yoga } from "./app/api/graphql/route.js";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const httpServer = createServer(app);
 const upload = multer({ dest: "uploads/" });
 const assistant = pinecone.Assistant("ai-assistant");
 
-app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 const apolloServer = new ApolloServer({
@@ -30,13 +31,15 @@ const apolloServer = new ApolloServer({
 await apolloServer.start();
 
 // ✅ Proper GraphQL middleware setup
-app.use(
-  "/api/graphql",
-  express.json(),
-  expressMiddleware(apolloServer, {
-    context: async ({ req }) => ({ token: req.headers.authorization }),
-  })
-);
+// app.use(
+//   "/api/graphql",
+//   express.json(),
+//   expressMiddleware(apolloServer, {
+//     context: async ({ req }) => ({ token: req.headers.authorization }),
+//   })
+// );
+
+// app.use("/api/graphql", yoga);
 
 app.post("/api/upload", upload.single("file"), uploadFile);
 

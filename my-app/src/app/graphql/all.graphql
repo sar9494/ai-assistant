@@ -1,0 +1,44 @@
+query Query {
+  sampleQuery
+}
+
+mutation UPLOAD_FILE($input: UploadFileInput!) {
+  uploadFile(input: $input)
+}
+
+query UserInformation($userId: Int!) {
+  userInformation(userId: $userId) {
+    id
+    email
+    messages {
+      id
+      content
+      received
+      answered
+      createdAt
+    }
+  }
+}
+query unAnsweredQuestions {
+  unansweredMessages {
+    id
+    content
+    createdAt
+  }
+}
+mutation DELETE_FILE($input: DeleteFileInput!) {
+  deleteFile(input: $input)
+}
+
+mutation deleteMessage($input: DeleteMessageInput!) {
+  deleteMessage(input: $input)
+}
+
+query getAllFiles {
+  files {
+    id
+    name
+    url
+    createdAt
+  }
+}
