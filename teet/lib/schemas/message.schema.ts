@@ -3,15 +3,15 @@ import { gql } from "apollo-server-micro";
 export const messageDefs = gql`
   type Message {
     id: ID!
-    userId: Int!
-    user: User!
+    conversationId: Int!
+    conversation: Conversation!
     content: String!
     answered: Boolean!
     received: Boolean!
     createdAt: Date!
   }
   input CreateMessageInput {
-    userId: Int!
+    conversationId: Int!
     content: String!
     received: Boolean!
   }

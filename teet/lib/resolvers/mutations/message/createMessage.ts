@@ -3,14 +3,14 @@ import { MutationResolvers,Response } from "../../../generated";
 
 
 export const createMessage: MutationResolvers["createMessage"] = async (
-  _: any,
+  _,
   { input }: any
 ) => {
-  const { content, received, userId } = input;
+  const { content, received, conversationId } = input;
   await prisma.message.create({
     data: {
+      conversationId,
       content,
-      userId,
       received,
     },
   });

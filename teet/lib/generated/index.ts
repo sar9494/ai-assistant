@@ -19,15 +19,35 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type Conversation = {
+  __typename?: 'Conversation';
+  createdAt: Scalars['Date']['output'];
+  id: Scalars['ID']['output'];
+  messages: Array<Message>;
+  title?: Maybe<Scalars['String']['output']>;
+  user: User;
+  userId: Scalars['Int']['output'];
+};
+
+export type CreateConversationInput = {
+  messages: Array<CreateMessageInput>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['Int']['input'];
+};
+
 export type CreateMessageInput = {
   content: Scalars['String']['input'];
+  conversationId: Scalars['Int']['input'];
   received: Scalars['Boolean']['input'];
-  userId: Scalars['Int']['input'];
 };
 
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type DeleteConversationInput = {
+  id: Scalars['ID']['input'];
 };
 
 export type DeleteFileInput = {
@@ -47,25 +67,36 @@ export type File = {
   url: Scalars['String']['output'];
 };
 
+export type GetConversationInput = {
+  userId: Scalars['Int']['input'];
+};
+
 export type Message = {
   __typename?: 'Message';
   answered: Scalars['Boolean']['output'];
   content: Scalars['String']['output'];
+  conversation: Conversation;
+  conversationId: Scalars['Int']['output'];
   createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   received: Scalars['Boolean']['output'];
-  user: User;
-  userId: Scalars['Int']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createConversation: Response;
   createMessage: Response;
   createUser: Response;
+  deleteConversation: Response;
   deleteFile: Response;
   deleteMessage: Response;
   sampleMutation: Scalars['String']['output'];
   uploadFile: Response;
+};
+
+
+export type MutationCreateConversationArgs = {
+  input: CreateConversationInput;
 };
 
 
@@ -76,6 +107,11 @@ export type MutationCreateMessageArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeleteConversationArgs = {
+  input: DeleteConversationInput;
 };
 
 
@@ -96,10 +132,16 @@ export type MutationUploadFileArgs = {
 export type Query = {
   __typename?: 'Query';
   files: Array<File>;
+  getConversations: Array<Conversation>;
   sampleQuery: Scalars['String']['output'];
   searchByName: Array<File>;
   unansweredMessages: Array<Message>;
   userInformation: User;
+};
+
+
+export type QueryGetConversationsArgs = {
+  input: GetConversationInput;
 };
 
 
@@ -209,12 +251,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Conversation: ResolverTypeWrapper<Conversation>;
+  CreateConversationInput: CreateConversationInput;
   CreateMessageInput: CreateMessageInput;
   CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
+  DeleteConversationInput: DeleteConversationInput;
   DeleteFileInput: DeleteFileInput;
   DeleteMessageInput: DeleteMessageInput;
   File: ResolverTypeWrapper<File>;
+  GetConversationInput: GetConversationInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
@@ -232,12 +278,16 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  Conversation: Conversation;
+  CreateConversationInput: CreateConversationInput;
   CreateMessageInput: CreateMessageInput;
   CreateUserInput: CreateUserInput;
   Date: Scalars['Date']['output'];
+  DeleteConversationInput: DeleteConversationInput;
   DeleteFileInput: DeleteFileInput;
   DeleteMessageInput: DeleteMessageInput;
   File: File;
+  GetConversationInput: GetConversationInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
@@ -248,6 +298,16 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   UploadFileInput: UploadFileInput;
   User: User;
+};
+
+export type ConversationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Conversation'] = ResolversParentTypes['Conversation']> = {
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -270,17 +330,19 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type MessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   answered?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  conversation?: Resolver<ResolversTypes['Conversation'], ParentType, ContextType>;
+  conversationId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   received?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createConversation?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationCreateConversationArgs, 'input'>>;
   createMessage?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationCreateMessageArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  deleteConversation?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationDeleteConversationArgs, 'input'>>;
   deleteFile?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationDeleteFileArgs, 'input'>>;
   deleteMessage?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'input'>>;
   sampleMutation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -289,6 +351,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   files?: Resolver<Array<ResolversTypes['File']>, ParentType, ContextType>;
+  getConversations?: Resolver<Array<ResolversTypes['Conversation']>, ParentType, ContextType, RequireFields<QueryGetConversationsArgs, 'input'>>;
   sampleQuery?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   searchByName?: Resolver<Array<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QuerySearchByNameArgs, 'input'>>;
   unansweredMessages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
@@ -306,6 +369,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type Resolvers<ContextType = Context> = {
+  Conversation?: ConversationResolvers<ContextType>;
   Date?: GraphQLScalarType;
   File?: FileResolvers<ContextType>;
   JSON?: GraphQLScalarType;
