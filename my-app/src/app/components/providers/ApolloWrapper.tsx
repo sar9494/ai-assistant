@@ -41,29 +41,15 @@
 //     </ApolloNextAppProvider>
 //   );
 // };
+
 "use client";
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { PropsWithChildren } from "react";
 
-const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL, // Make sure this port matches your backend
-  credentials: "include", // Include if you need cookies/auth
-});
-
 const client = new ApolloClient({
-  link: httpLink,
+  uri: "https://assistant-beige.vercel.app/api/graphql",
   cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: "cache-and-network",
-    },
-  },
 });
 
 export const ApolloWrapper = ({ children }: PropsWithChildren) => {
