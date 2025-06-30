@@ -82,7 +82,7 @@ export default function SendMessages(props: SendMessageProps) {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0 "
       />
       <Button
         onClick={sendMessage}
