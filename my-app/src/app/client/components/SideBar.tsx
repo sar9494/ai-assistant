@@ -34,12 +34,12 @@ export default function Sidebar({ value, onChange }: SidebarProps) {
       {/* Tabs */}
       <Tabs value={value} onValueChange={onChange} className="w-full mt-[200px] gap-2">
         <TabsList className="flex flex-col gap-6 items-start w-full bg-transparent p-0">
-          <SidebarItem value="dashboard" icon={<LayoutDashboard className='text-white' />} label="Dashboard" />
-          <SidebarItem value="team" icon={<Users className='text-white' />} label="Team member" />
-          <SidebarItem value="calendar" icon={<CalendarDays className='text-white' />} label="Calendar" />
-          <SidebarItem value="todo" icon={<CheckSquare className='text-white' />} label="To-do" />
-          <SidebarItem value="time" icon={<Clock className='text-white' />} label="Time tracker" />
-          <SidebarItem value="assistant" icon={<SparklesIcon className='text-white' />} label="AI assistant" />
+          <SidebarItem value="dashboard" icon={<LayoutDashboard />} label="Dashboard" />
+          <SidebarItem value="team" icon={<Users />} label="Team member" />
+          <SidebarItem value="calendar" icon={<CalendarDays />} label="Calendar" />
+          <SidebarItem value="todo" icon={<CheckSquare />} label="To-do" />
+          <SidebarItem value="time" icon={<Clock />} label="Time tracker" />
+          <SidebarItem value="assistant" icon={<SparklesIcon />} label="AI assistant" />
         </TabsList>
       </Tabs>
     </div>
@@ -57,11 +57,13 @@ function SidebarItem({
 }) {
   return (
     <TabsTrigger
-      value={value}
-      className="w-full flex items-center justify-start gap-3 px-3 py-2 text-sm font-medium rounded text-left text-white transition-all duration-200 hover:bg-[#181E2A] hover:scale-105 hover:text-[#82BCDF] data-[state=active]:bg-muted"
-    >
-      <div className="w-5 h-5 stroke-[1.5] shrink-0">{icon}</div>
-      <span className="truncate">{label}</span>
-    </TabsTrigger>
+    value={value}
+    className="w-full flex items-center justify-start gap-3 px-3 py-2 text-sm font-medium rounded text-left text-white transition-all duration-200 hover:bg-[#181E2A] hover:scale-105 hover:text-[#82BCDF] data-[state=active]:bg-[#181E2A] data-[state=active]:text-[#82BCDF]"
+  >
+    <div className="w-5 h-5 stroke-[1.5] shrink-0 text-inherit">
+      {icon}
+    </div>
+    <span className="truncate">{label}</span>
+  </TabsTrigger>  
   );
 }

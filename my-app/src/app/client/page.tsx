@@ -9,13 +9,12 @@ export default function ClientPage() {
   const [tab, setTab] = useState("dashboard");
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen h-screen w-screen min-w-full overflow-hidden">
       <div className="flex min-h-screen">
         <Sidebar value={tab} onChange={setTab} />
       </div>
-
       {/* Main content */}
-      <main className="flex-1">
+      <main className="flex-1 overflow-hidden">
         <Tabs value={tab} className="w-full">
           {/* Dashboard */}
           <TabsContent value="dashboard">
