@@ -128,13 +128,20 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
 exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   content: 'content',
   received: 'received',
   answered: 'answered',
   createdAt: 'createdAt',
-  userId: 'userId'
+  conversationId: 'conversationId'
 };
 
 exports.Prisma.FileScalarFieldEnum = {
@@ -154,6 +161,11 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.UserRoleEnum = exports.$Enums.UserRoleEnum = {
   ADMIN: 'ADMIN',
   EMPLOYEE: 'EMPLOYEE'
@@ -161,6 +173,7 @@ exports.UserRoleEnum = exports.$Enums.UserRoleEnum = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Conversation: 'Conversation',
   Message: 'Message',
   File: 'File'
 };
