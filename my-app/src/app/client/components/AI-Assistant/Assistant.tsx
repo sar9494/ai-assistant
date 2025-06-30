@@ -116,18 +116,18 @@ export default function ChatAssistant() {
   });
 
   // useEffect(() => {
-  //   // if (user?.messages?.length) {
-  //   //   const userMessages = user.messages.map((m) => ({
-  //   //     id: m.id,
-  //   //     received: m.received,
-  //   //     content: m.content,
-  //   //     timestamp: new Date(m.createdAt).toLocaleTimeString("mn-MN", {
-  //   //       hour: "2-digit",
-  //   //       minute: "2-digit",
-  //   //       hour12: false,
-  //   //     }),
-  //   //   }));
-  //     // setMessages(userMessages);
+  //   if (user?.messages?.length) {
+  //     const userMessages = user.messages.map((m) => ({
+  //       id: m.id,
+  //       received: m.received,
+  //       content: m.content,
+  //       timestamp: new Date(m.createdAt).toLocaleTimeString("mn-MN", {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //         hour12: false,
+  //       }),
+  //     }));
+  //     setMessages(userMessages);
   //   }
   // }, [user]);
 

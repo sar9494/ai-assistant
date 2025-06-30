@@ -11,7 +11,6 @@ import { typeDefs } from "../lib/schemas";
 import prisma from "../prismaClient";
 import { Server } from "socket.io";
 import { pinecone } from "../connectPinecone";
-// import { yoga } from "./app/api/graphql/route.js";
 
 dotenv.config();
 
@@ -29,17 +28,6 @@ const apolloServer = new ApolloServer({
   introspection: true,
 });
 await apolloServer.start();
-
-// ✅ Proper GraphQL middleware setup
-// app.use(
-//   "/api/graphql",
-//   express.json(),
-//   expressMiddleware(apolloServer, {
-//     context: async ({ req }) => ({ token: req.headers.authorization }),
-//   })
-// );
-
-// app.use("/api/graphql", yoga);
 
 app.post("/api/upload", upload.single("file"), uploadFile);
 
