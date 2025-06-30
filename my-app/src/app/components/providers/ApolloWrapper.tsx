@@ -48,7 +48,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { PropsWithChildren } from "react";
 
 const client = new ApolloClient({
-  uri: "https://assistant-beige.vercel.app/api/graphql",
+  uri: "https://ai-backend-lime.vercel.app/api/graphql",
   cache: new InMemoryCache(),
 });
 

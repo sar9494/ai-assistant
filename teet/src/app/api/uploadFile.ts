@@ -4,6 +4,7 @@ import { createRouter } from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import mammoth from "mammoth";
 import fs from "fs/promises";
+import cors from "cors";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   file?: {
@@ -24,7 +25,9 @@ const upload = multer({ dest: "uploads/" });
 const router = createRouter<ExtendedNextApiRequest, NextApiResponse>();
 
 router.use(upload.single("file") as any);
-
+router.use(
+  cors({ origin: `https://ai-frontend-kappa-three.vercel.app/api/upload` })
+);
 router.post("/api/upload", async (req, res) => {
   try {
     if (!req.file || !req.file.path) {

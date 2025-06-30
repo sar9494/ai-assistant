@@ -19,15 +19,35 @@ export type Scalars = {
   JSON: { input: { [key: string]: unknown }; output: { [key: string]: unknown }; }
 };
 
+export type Conversation = {
+  __typename?: 'Conversation';
+  createdAt: Scalars['Date']['output'];
+  id: Scalars['ID']['output'];
+  messages: Array<Message>;
+  title: Maybe<Scalars['String']['output']>;
+  user: User;
+  userId: Scalars['Int']['output'];
+};
+
+export type CreateConversationInput = {
+  messages: Array<CreateMessageInput>;
+  title: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['Int']['input'];
+};
+
 export type CreateMessageInput = {
   content: Scalars['String']['input'];
+  conversationId: Scalars['Int']['input'];
   received: Scalars['Boolean']['input'];
-  userId: Scalars['Int']['input'];
 };
 
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type DeleteConversationInput = {
+  id: Scalars['ID']['input'];
 };
 
 export type DeleteFileInput = {
@@ -47,25 +67,36 @@ export type File = {
   url: Scalars['String']['output'];
 };
 
+export type GetConversationInput = {
+  userId: Scalars['Int']['input'];
+};
+
 export type Message = {
   __typename?: 'Message';
   answered: Scalars['Boolean']['output'];
   content: Scalars['String']['output'];
+  conversation: Conversation;
+  conversationId: Scalars['Int']['output'];
   createdAt: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   received: Scalars['Boolean']['output'];
-  user: User;
-  userId: Scalars['Int']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createConversation: Response;
   createMessage: Response;
   createUser: Response;
+  deleteConversation: Response;
   deleteFile: Response;
   deleteMessage: Response;
   sampleMutation: Scalars['String']['output'];
   uploadFile: Response;
+};
+
+
+export type MutationCreateConversationArgs = {
+  input: CreateConversationInput;
 };
 
 
@@ -76,6 +107,11 @@ export type MutationCreateMessageArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeleteConversationArgs = {
+  input: DeleteConversationInput;
 };
 
 
@@ -96,10 +132,16 @@ export type MutationUploadFileArgs = {
 export type Query = {
   __typename?: 'Query';
   files: Array<File>;
+  getConversations: Array<Conversation>;
   sampleQuery: Scalars['String']['output'];
   searchByName: Array<File>;
   unansweredMessages: Array<Message>;
   userInformation: User;
+};
+
+
+export type QueryGetConversationsArgs = {
+  input: GetConversationInput;
 };
 
 

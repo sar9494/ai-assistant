@@ -13,7 +13,7 @@ const yoga = createYoga<{
   schema,
   graphqlEndpoint: "/api/graphql",
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:3001"], // Add your frontend URLs
+    origin: ["https://ai-frontend-ruby.vercel.app", "http://localhost:3001"], // Add your frontend URLs
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Changed to true if you need cookies/auth
@@ -26,7 +26,7 @@ export async function OPTIONS(request: Request) {
   return new Response(null, {
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "http://localhost:3000", // Your frontend URL
+      "Access-Control-Allow-Origin": "https://ai-frontend-ruby.vercel.app", // Your frontend URL
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",

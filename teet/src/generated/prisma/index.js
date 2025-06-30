@@ -161,7 +161,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/tuvshinsaikhan/Desktop/pineconeProjects/ai-assistant/teet/src/generated/prisma",
+      "value": "/Users/24LP9506/Desktop/dada/teet/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -175,11 +175,12 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/tuvshinsaikhan/Desktop/pineconeProjects/ai-assistant/teet/prisma/schema.prisma",
+    "sourceFilePath": "/Users/24LP9506/Desktop/dada/teet/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": "../../../.env",
+    "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.10.1",

@@ -4,22 +4,21 @@ import multer from "multer";
 import dotenv from "dotenv";
 import cors from "cors";
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
 import { resolvers } from "../lib/resolvers";
 import { uploadFile } from "../lib/resolvers/mutations";
 import { typeDefs } from "../lib/schemas";
 import prisma from "../prismaClient";
 import { Server } from "socket.io";
-import { pinecone } from "../connectPinecone";
+import { assistant } from "../connectPinecone";
 
 dotenv.config();
+console.log(process.env.DATABASE_URL);
 
 const app = express();
 const httpServer = createServer(app);
 const upload = multer({ dest: "uploads/" });
-const assistant = pinecone.Assistant("ai-assistant");
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "https://ai-frontend-ruby.vercel.app" }));
 app.use(express.json());
 
 const apolloServer = new ApolloServer({

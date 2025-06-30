@@ -7,4 +7,4 @@ export const pinecone = new Pinecone({
     "pcsk_6H2ySU_UH9qxwRvn4ADZgfwCrMRC4aFM2MjRw2SFyLbU1YxPAAMf4m6TWzS1mkfArCKToj",
 });
 
-const index = pinecone.index("ai-assistant");
+export const assistant = pinecone.Assistant("ai-assistant");

@@ -23,9 +23,9 @@ export default function SendMessages(props: SendMessageProps) {
       setIsLoading(true);
       socketRef.current.emit("chatMessage", {
         content: message,
-        room: 1,
+        room: 4,
         received: false,
-        userId: 1,
+        userId: 4,
       });
 
       const newMessage: Message = {
