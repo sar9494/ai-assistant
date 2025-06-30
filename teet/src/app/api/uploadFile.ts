@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import mammoth from "mammoth";
 import fs from "fs/promises";
 
-// Extend NextApiRequest to include the file property from multer
 interface ExtendedNextApiRequest extends NextApiRequest {
   file?: {
     fieldname: string;
@@ -20,13 +19,10 @@ interface ExtendedNextApiRequest extends NextApiRequest {
   };
 }
 
-// Set up multer storage
 const upload = multer({ dest: "uploads/" });
 
-// Create the router
 const router = createRouter<ExtendedNextApiRequest, NextApiResponse>();
 
-// ✅ Fix: Cast multer middleware as any to bypass type issues
 router.use(upload.single("file") as any);
 
 router.post("/api/upload", async (req, res) => {
@@ -44,8 +40,6 @@ router.post("/api/upload", async (req, res) => {
     const txtPath = `uploads/${name}.txt`;
     await fs.writeFile(txtPath, text, "utf-8");
 
-    // Add assistant + DB logic here if needed
-
     res.status(200).json({
       success: true,
       message: "File uploaded and processed successfully",
@@ -57,12 +51,10 @@ router.post("/api/upload", async (req, res) => {
   }
 });
 
-// Handle unsupported methods
 router.all((req, res) => {
   res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
 });
 
-// Export the handler
 export default router.handler({
   onError: (err: any, req, res) => {
     console.error(err.stack);
@@ -73,7 +65,6 @@ export default router.handler({
   },
 });
 
-// Disable body parsing for file uploads
 export const config = {
   api: {
     bodyParser: false,
