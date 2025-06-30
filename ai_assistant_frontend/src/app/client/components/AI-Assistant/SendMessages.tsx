@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
-import { Send } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Message } from "./types";
@@ -11,6 +11,7 @@ type SendMessageProps = {
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 };
+
 export default function SendMessages(props: SendMessageProps) {
   const { message, setMessage, setMessages } = props;
   const socketRef = useRef<Socket | null>(null);
@@ -75,18 +76,23 @@ export default function SendMessages(props: SendMessageProps) {
   }, []);
 
   return (
-    <div className="h-full ">
-      <div className="w-1/2 max-w-full flex gap-2">
-        <Input
-          placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+    <div className="relative">
+      <Input
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        placeholder="Танд ямар тусламж хэрэгтэй вэ?"
+        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+      />
+      <Button
+        onClick={sendMessage}
+        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors"
+      >
+        <ArrowUp
+          style={{ width: "1.875rem", height: "1.875rem" }}
+          className={`text-white opacity-40`}
         />
-        <Button onClick={sendMessage}>
-          <Send className="w-4 h-4" />
-        </Button>
-      </div>
+      </Button>
     </div>
   );
 }
