@@ -10,6 +10,7 @@ const schema = createSchema({
 
 const { handleRequest } = createYoga({
   schema,
+  cors: { origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] },
   graphqlEndpoint: "/api/graphql", // optional
 });
 
