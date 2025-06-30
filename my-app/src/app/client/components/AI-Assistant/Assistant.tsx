@@ -73,14 +73,7 @@ function getChatGroupLabel(dateStr: string): "Өнөөдөр" | "Өчигдөр"
 export default function ChatAssistant() {
   const [input, setInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      received: true,
-      content: "Сайн уу! 👋 Би таны хувийн туслах Анухай байна.",
-      timestamp: getTimeString(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -142,9 +135,9 @@ export default function ChatAssistant() {
   return (
     <div className="flex h-screen bg-[#101522] text-white">
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col relative">
         <ChatHeader isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-        <div className="flex-1 flex flex-col items-center justify-center pb-[83px]">
+        <div className="flex-1 flex flex-col items-center justify-center pb-[100px]">
           <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center">
             Хувийн туслах
             <div className="mx-4">
@@ -161,6 +154,8 @@ export default function ChatAssistant() {
             </span>
           </h1>
           <ChatMessages messages={messages} isLoading={isLoading} bottomRef={bottomRef} />
+        </div>
+        <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">
           <ChatInput input={input} setInput={setInput} setMessages={setMessages} isLoading={isLoading} setIsLoading={setIsLoading} />
         </div>
       </div>
