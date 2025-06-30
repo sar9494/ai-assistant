@@ -17,5 +17,3 @@ export { handleRequest as GET, handleRequest as POST };
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
-
-
