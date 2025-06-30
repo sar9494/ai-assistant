@@ -10,14 +10,17 @@ type SendMessageProps = {
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function SendMessages(props: SendMessageProps) {
-  const { message, setMessage, setMessages } = props;
+  const { message, setMessage, setMessages, isLoading, setIsLoading } = props;
   const socketRef = useRef<Socket | null>(null);
 
   const sendMessage = () => {
-    if (message !== "" && socketRef.current) {
+    if (message !== "" && socketRef.current && !isLoading) {
+      setIsLoading(true);
       socketRef.current.emit("chatMessage", {
         content: message,
         room: 1,
@@ -66,6 +69,7 @@ export default function SendMessages(props: SendMessageProps) {
       };
 
       setMessages((prev) => [...prev, receivedMessage]);
+      setIsLoading(false);
     });
 
     socket.emit("join_room", 1);
@@ -83,10 +87,12 @@ export default function SendMessages(props: SendMessageProps) {
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
         className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0 "
+        disabled={isLoading}
       />
       <Button
         onClick={sendMessage}
         className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors"
+        disabled={isLoading}
       >
         <ArrowUp
           style={{ width: "1.875rem", height: "1.875rem" }}
