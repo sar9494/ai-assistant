@@ -5,7 +5,15 @@ import { useUser } from "@/lib/userProvider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PanelRight, Plus, Search, Trash, Command, Heading } from "lucide-react";
+import {
+  PanelRight,
+  Plus,
+  Search,
+  Trash,
+  Command,
+  Heading,
+  MessageCircle,
+} from "lucide-react";
 import Blob from "../Blob";
 import SendMessages from "./SendMessages";
 import { Message } from "./types";
@@ -26,25 +34,80 @@ type ChatItemProps = {
 
 function ChatItem({ title, date }: ChatItemProps) {
   return (
-    <div className="p-2 bg-[#1b1d2f] rounded-lg hover:bg-[#2c2f48] cursor-pointer">
-      <p className="text-sm font-medium">{title}</p>
-      <p className="text-xs text-gray-400">{date}</p>
+    <div className="flex flex-col hover:bg-[#1b1d2f] rounded-lg cursor-pointer">
+      <div className="flex items-center justify-between">
+        <p className="text-[20px] font-semibold text-white truncate max-w-[230px]">{title}</p>
+        <MessageCircle className="text-[#98A2B3] w-[18px] h-[18px] mt-4" />
+      </div>
+      <p className="text-[18px] text-[#98A2B3]">{date}</p>
     </div>
   );
+}
+
+// Helper to group by Today / Yesterday
+function getChatGroupLabel(dateStr: string): "Өнөөдөр" | "Өчигдөр" | string {
+  const date = new Date(dateStr);
+  const now = new Date();
+
+  const isToday = date.toDateString() === now.toDateString();
+
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+  const isYesterday = date.toDateString() === yesterday.toDateString();
+
+  if (isToday) return "Өнөөдөр";
+  if (isYesterday) return "Өчигдөр";
+  return date.toLocaleDateString("mn-MN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 export default function ChatAssistant() {
   const { user } = useUser();
   const [input, setInput] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       received: true,
-      content: "Сайн уу! 👋 Би таны хувийн туслах REBECCA байна.",
+      content: "Сайн уу! 👋 Би таны хувийн туслах Анухай байна.",
       timestamp: getTimeString(),
     },
   ]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  const mockChatHistory = [
+    { id: 1, title: "Шинэ чат", date: new Date().toISOString() },
+    { id: 2, title: "Манай менежер хар үс ...", date: new Date().toISOString() },
+    {
+      id: 3,
+      title: "Манай менежер хэн бэ ...",
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 4,
+      title: "Манай менежер ...",
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ];
+
+  // Grouping chat items
+  const groupedChats: Record<string, { title: string; date: string }[]> = {};
+
+  mockChatHistory.forEach((chat) => {
+    const label = getChatGroupLabel(chat.date);
+    if (!groupedChats[label]) groupedChats[label] = [];
+    groupedChats[label].push({
+      title: chat.title,
+      date: new Date(chat.date).toLocaleTimeString("mn-MN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
+    });
+  });
 
   useEffect(() => {
     if (user?.messages?.length) {
@@ -58,7 +121,6 @@ export default function ChatAssistant() {
           hour12: false,
         }),
       }));
-
       setMessages(userMessages);
     }
   }, [user]);
@@ -71,7 +133,6 @@ export default function ChatAssistant() {
     <div className="flex h-screen bg-[#101522] text-white">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between pl-3 py-5 border-b border-[#2c2f48] pr-3">
           <h1 className="text-[22px] font-semibold text-[#C8CBCF]">Шинэ чат</h1>
           <div className="flex items-center gap-5">
@@ -86,11 +147,13 @@ export default function ChatAssistant() {
             </Button>
             <div className="border-r h-[42px] border-[#344054] bg-[#344054] opacity-70 mr-[10px]"></div>
             <Trash className="text-[#98A2B3]" />
-            <PanelRight className="text-[#98A2B3]" />
+            <PanelRight 
+              className="text-[#98A2B3] cursor-pointer hover:text-white transition-colors" 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            />
           </div>
         </div>
 
-        {/* Messages */}
         <div className="flex-1 flex flex-col items-center justify-center pb-[83px]">
           <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center">
             Хувийн туслах
@@ -98,7 +161,7 @@ export default function ChatAssistant() {
               <Blob />
             </div>
             <span
-              className="bg-clip-text text-transparent" 
+              className="bg-clip-text text-transparent"
               style={{
                 backgroundImage:
                   "linear-gradient(93.26deg, #82BCDF 11.08%, #967ADE 54.22%, #CB98E5 83.62%)",
@@ -132,14 +195,7 @@ export default function ChatAssistant() {
             <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
           <div className="relative w-full max-w-[895px] mx-auto mt-4">
-            {/* <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-              className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
-            /> */}
             <SendMessages
               message={input}
               setMessage={setInput}
@@ -149,32 +205,38 @@ export default function ChatAssistant() {
         </div>
       </div>
 
-      {/* History */}
-      <div className="w-[340px] border-l border-[#2c2f48] pt-[47px] px-3  bg-[#0b111c]">
-        <div className="mb-4 relative">
-          <Input
-            placeholder="Хайх"
-            className="bg-[#1b1d2f] text-white border-none pl-[49px] h-12 text-[20px]"
-            style={{ fontSize: '20px' }}
-          />
-          <Search className="text-[#98A2B3] absolute left-[10px] top-1/2 -translate-y-1/2 w-8 h-8" />
-          <div>
+      {/* Chat History Sidebar */}
+      {isSidebarOpen && (
+        <div className="w-[340px] border-l border-[#2c2f48] pt-[47px] px-3 bg-[#0b111c]">
+          <div className=" relative">
+            <Input
+              placeholder="Хайх"
+              className="bg-[#1b1d2f] text-white border-none pl-[49px] h-12 text-[20px] placeholder:text-[#667085] placeholder:text-[20px]"
+            />
+            <Search className="text-[#98A2B3] absolute left-[10px] top-1/2 -translate-y-1/2 w-8 h-8" />
             <div className="absolute right-[50px] top-1/2 -translate-y-1/2 bg-[#455072] w-8 h-8 rounded flex items-center justify-center">
-              <Command size={20.74} className="text-[#98A2B3] relative z-10" />
+              <Command size={20.74} className="text-[#98A2B3]" />
             </div>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#455072] w-8 h-8 rounded flex items-center justify-center">
-              <Heading size={20.74} className="text-[#98A2B3] relative z-10" />
+              <Heading size={20.74} className="text-[#98A2B3]" />
             </div>
           </div>
+          <ScrollArea className="h-[85vh] pr-2">
+            <div className="space-y-4 px-3">
+              {Object.entries(groupedChats).map(([group, items]) => (
+                <div className="mb-10" key={group}>
+                  <div className="text-[20px] text-[#98A2B3] mb-[12px] mt-[32px]">{group}</div>
+                  <div className="flex flex-col gap-5">
+                    {items.map((item, idx) => (
+                      <ChatItem key={idx} title={item.title} date={`${group}, ${item.date}`} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
         </div>
-        <ScrollArea className="h-[85vh]">
-          <div className="space-y-2">
-            <ChatItem title="Шинэ чат" date="Өнөөдөр, 11:50 pm" />
-            <ChatItem title="Манай менежер ..." date="Өнөөдөр, 11:50 pm" />
-            <ChatItem title=" ..." date="Өчигдөр, 11:50 pm" />
-          </div>
-        </ScrollArea>
-      </div>
+      )}
     </div>
   );
 }
