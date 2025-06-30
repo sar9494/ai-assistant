@@ -25,9 +25,20 @@ const upload = multer({ dest: "uploads/" });
 const router = createRouter<ExtendedNextApiRequest, NextApiResponse>();
 
 router.use(upload.single("file") as any);
-router.use(
-  cors({ origin: `https://ai-frontend-kappa-three.vercel.app/api/upload` })
-);
+// router.use(cors({ origin: `https://ai-frontend-ruby.vercel.app/api/upload` }));
+export async function OPTIONS(request: Request) {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      // "Access-Control-Allow-Origin": "https://ai-frontend-ruby.vercel.app",
+      "Access-Control-Allow-Origin": "http://localhost:3000", // Your frontend URL
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Credentials": "true",
+    },
+  });
+}
+
 router.post("/api/upload", async (req, res) => {
   try {
     if (!req.file || !req.file.path) {

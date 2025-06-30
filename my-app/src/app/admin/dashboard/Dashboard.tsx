@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
     });
     await refetch();
   };
-  console.log(data);
+  console.log("data", data);
   return (
     <div className="space-y-6">
       <h1 className="text-lg font-bold">Хариулагдаагүй асуултууд</h1>

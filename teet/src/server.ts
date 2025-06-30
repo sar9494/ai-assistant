@@ -18,7 +18,9 @@ const app = express();
 const httpServer = createServer(app);
 const upload = multer({ dest: "uploads/" });
 
-app.use(cors({ origin: "https://ai-frontend-ruby.vercel.app" }));
+// app.use(cors({ origin: "https://ai-frontend-ruby.vercel.app" }));
+app.use(cors({ origin: "http://localhost:3000" }));
+
 app.use(express.json());
 
 const apolloServer = new ApolloServer({
