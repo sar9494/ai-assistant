@@ -1,9 +1,9 @@
 // pages/api/upload.ts
-import multer from 'multer';
-import { createRouter } from 'next-connect';
-import { NextApiRequest, NextApiResponse } from 'next';
-import mammoth from 'mammoth';
-import fs from 'fs/promises';
+import multer from "multer";
+import { createRouter } from "next-connect";
+import { NextApiRequest, NextApiResponse } from "next";
+import mammoth from "mammoth";
+import fs from "fs/promises";
 
 // Extend NextApiRequest to include the file property from multer
 interface ExtendedNextApiRequest extends NextApiRequest {
@@ -21,15 +21,15 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 // Set up multer storage
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: "uploads/" });
 
 // Create the router
 const router = createRouter<ExtendedNextApiRequest, NextApiResponse>();
 
 // ✅ Fix: Cast multer middleware as any to bypass type issues
-router.use(upload.single('file') as any);
+router.use(upload.single("file") as any);
 
-router.post(async (req, res) => {
+router.post("/api/upload", async (req, res) => {
   try {
     if (!req.file || !req.file.path) {
       return res.status(400).json({ error: "Missing file path" });
@@ -49,11 +49,10 @@ router.post(async (req, res) => {
     res.status(200).json({
       success: true,
       message: "File uploaded and processed successfully",
-      textPath: txtPath
+      textPath: txtPath,
     });
-
   } catch (err: any) {
-    console.error('Upload error:', err);
+    console.error("Upload error:", err);
     res.status(500).json({ error: "Upload failed" });
   }
 });

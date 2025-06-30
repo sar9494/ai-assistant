@@ -7,7 +7,7 @@ const config: CodegenConfig = {
     "lib/generated/index.ts": {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
-        contextType: "../types#Context",
+        contextType: "../../lib/types/index.js#Context",
         makeResolverTypeCallable: true,
         maybeValue: "T",
       },
