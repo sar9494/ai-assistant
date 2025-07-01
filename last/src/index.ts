@@ -1,16 +1,16 @@
 import express from "express";
-
 import cors from "cors";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-
 import multer from "multer";
 import { uploadFile } from "./resolvers/mutations";
 import { pinecone } from "../connectPinecone";
 import prisma from "../prismaClient";
 import { messageRouter } from "./router/message";
 import { fileRouter } from "./router/file";
+import { userRouter } from "./router/user";
+import { conversationRouter } from "./router/conversation";
 
 const upload = multer({ dest: "uploads/" });
 
@@ -24,9 +24,11 @@ const httpServer = createServer(app);
 app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(express.json());
 
-// app.post("/api/upload", upload.single("file"), uploadFile);
+app.post("/api/upload", upload.single("file"), uploadFile);
 app.use("/message", messageRouter);
 app.use("/file", fileRouter);
+app.use("/user", userRouter);
+app.use("/conversation", conversationRouter);
 
 async function startServer() {
   const io = new Server(httpServer, {

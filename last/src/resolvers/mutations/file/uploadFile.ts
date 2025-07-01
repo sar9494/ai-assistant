@@ -4,10 +4,14 @@ import fs from "fs/promises";
 import { assistant } from "../../../../connectPinecone";
 import prisma from "../../../../prismaClient";
 
-export const uploadFile = async (req: Request, res: Response) => {
+export const uploadFile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     if (!req.file || !req.file.path) {
-      return res.status(400).json({ error: "Missing file path" });
+      res.status(400).json({ error: "Missing file path" });
+      return;
     }
     const name = req.body.name;
     const type = req.body.type;
@@ -30,8 +34,10 @@ export const uploadFile = async (req: Request, res: Response) => {
       file.name.includes(txtPath.split("/")[1])
     );
     if (!newFile) {
-      return res.status(400).json({ error: "File not found" });
+      res.status(400).json({ error: "File not found" });
+      return;
     }
+    console.log(newFile);
 
     await prisma.file.create({
       data: {

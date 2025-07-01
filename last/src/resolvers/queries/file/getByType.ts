@@ -5,7 +5,7 @@ export const getByType = async (req: Request, res: Response) => {
   const { type } = req.body;
   try {
     const files = await prisma.file.findMany({
-      where: type,
+      where: { type },
     });
     res.json({ success: true, files: files });
   } catch (error) {

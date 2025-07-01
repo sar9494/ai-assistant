@@ -5,6 +5,7 @@ export const searchByName = async (req: Request, res: Response) => {
   const { input } = req.body;
   try {
     const { name } = input;
+    console.log(name);
 
     const searchedFiles = await prisma.file.findMany({
       where: name

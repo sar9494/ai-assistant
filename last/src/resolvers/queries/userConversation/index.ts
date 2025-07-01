@@ -1,1 +1,1 @@
-export * from './getConversations'
+export * from "./getConversation";
