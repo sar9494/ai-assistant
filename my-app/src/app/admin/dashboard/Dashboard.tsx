@@ -1,35 +1,11 @@
 "use client";
 import { FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  useDeleteMessageMutation,
-  useUnAnsweredQuestionsQuery,
-} from "@/generated/graphql";
+
 import Delete from "./Delete";
 import { toast } from "sonner";
 
 export default function AdminDashboardPage() {
-  const { data, refetch } = useUnAnsweredQuestionsQuery();
-  const [deleteMessage, { loading }] = useDeleteMessageMutation({
-    onError: () => {
-      toast("Message устгах үед алдаа гарлаа: ");
-    },
-    onCompleted: () => {
-      toast("Message амжилттай устгагдлаа");
-    },
-  });
-
-  const handleDeleteFile = async (id: string) => {
-    await deleteMessage({
-      variables: {
-        input: {
-          id,
-        },
-      },
-    });
-    await refetch();
-  };
-  console.log("data", data);
   return (
     <div className="space-y-6">
       <h1 className="text-lg font-bold">Хариулагдаагүй асуултууд</h1>
