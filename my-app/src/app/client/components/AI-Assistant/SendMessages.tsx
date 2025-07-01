@@ -129,13 +129,13 @@ export default function SendMessages(props: SendMessageProps) {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-xl focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+        className="bg-[#1B202F] text-white border-[#1B202F] pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-xl focus-visible:outline-none focus:ring-0 focus-visible:ring-0 tracking-[0px] "
         disabled={isLoading || !isConnected}
         maxLength={1000}
       />
       <Button
         onClick={sendMessage}
-        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-[4px_6px_12px_2px_rgba(255,255,255,0.02)]"
         disabled={isLoading || !isConnected || message.trim() === ""}
         title={
           !isConnected
