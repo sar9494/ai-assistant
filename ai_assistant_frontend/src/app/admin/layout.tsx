@@ -1,9 +1,9 @@
-import React from "react";
 import "@/app/globals.css";
 import { Files, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 export default function AdminLayout({
   children,
@@ -42,8 +42,10 @@ export default function AdminLayout({
           </Link>
         </div>
       </aside>
-      <main className="flex-1 bg-gray-50 p-6 overflow-y-auto">{children}</main>
+
+      <main className="flex-1 bg-[#181C23] p-8 overflow-x-auto text-white">
+        {children}
+      </main>
     </div>
   );
 }
-
