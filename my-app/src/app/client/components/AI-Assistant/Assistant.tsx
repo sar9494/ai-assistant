@@ -105,33 +105,65 @@ export default function ChatAssistant() {
   }, [messages]);
 
   return (
-    <div className="flex h-screen bg-[#101522] text-white">
+    <div className="flex h-screen bg-[#101522] text-white font-gip">
       {/* Main Chat Area */}
-
-      <div className="flex-1 flex flex-col relative">
-        <ChatHeader isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-        <div className="flex-1 flex flex-col items-center justify-center pb-[100px]">
-          <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center">
-            Хувийн туслах
-            <div className="mx-4">
-              <Blob />
+      <div className="flex-1 flex flex-col relative bg-[#101522]">
+        <ChatHeader
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+        <div
+          className={`flex-1 flex flex-col items-center ${
+            messages.length === 0 ? "justify-center" : "justify-start"
+          } ${messages.length > 0 ? "pb-[100px]" : ""}`}
+        >
+          {messages.length === 0 && (
+            <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip">
+              Хувийн туслах
+              <div className="mx-4">
+                <Blob />
+              </div>
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(93.26deg, #82BCDF 11.08%, #967ADE 54.22%, #CB98E5 83.62%)",
+                }}
+              >
+                Анухай
+              </span>
+            </h1>
+          )}
+          {messages.length > 0 && (
+            <ChatMessages
+              messages={messages}
+              isLoading={isLoading}
+              bottomRef={bottomRef}
+            />
+          )}
+          {messages.length === 0 && (
+            <div className="w-full max-w-[895px] mx-auto">
+              <ChatInput
+                input={input}
+                setInput={setInput}
+                setMessages={setMessages}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
             </div>
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage:
-                  "linear-gradient(93.26deg, #82BCDF 11.08%, #967ADE 54.22%, #CB98E5 83.62%)",
-              }}
-            >
-              Анухай
-            </span>
-          </h1>
-
-          <ChatMessages messages={messages} isLoading={isLoading} bottomRef={bottomRef} />
+          )}
         </div>
-        <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">
-          <ChatInput input={input} setInput={setInput} setMessages={setMessages} isLoading={isLoading} setIsLoading={setIsLoading} />
-        </div>
+        {messages.length > 0 && (
+          <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">
+            <ChatInput
+              input={input}
+              setInput={setInput}
+              setMessages={setMessages}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+          </div>
+        )}
       </div>
 
       {/* Chat History Sidebar */}
