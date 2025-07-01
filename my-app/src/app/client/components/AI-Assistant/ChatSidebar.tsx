@@ -36,7 +36,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
               <div className="text-[20px] text-[#98A2B3] mb-[12px] mt-[32px]">
                 {group}
               </div>
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col ">
                 {items.map((item, idx) => (
                   <ChatItem
                     key={idx}
