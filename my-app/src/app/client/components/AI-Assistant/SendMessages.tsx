@@ -157,6 +157,7 @@ export default function SendMessages(props: SendMessageProps) {
               ? "opacity-40"
               : "opacity-80 hover:opacity-100"
           }`}
+
         />
       </Button>
     </div>

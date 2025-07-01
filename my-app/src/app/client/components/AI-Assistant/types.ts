@@ -4,4 +4,6 @@ export type Message = {
   content: string;
   timestamp: string;
   received: boolean;
+  avatar?: string;
+  name?: string;
 };
