@@ -9,14 +9,17 @@ type ChatSidebarProps = {
   groupedChats: Record<string, { title: string; date: string }[]>;
 };
 
-const ChatSidebar: React.FC<ChatSidebarProps> = ({ isSidebarOpen, groupedChats }) => {
+const ChatSidebar: React.FC<ChatSidebarProps> = ({
+  isSidebarOpen,
+  groupedChats,
+}) => {
   if (!isSidebarOpen) return null;
   return (
     <div className="w-[340px] border-l border-[#2c2f48] pt-[47px] px-3 bg-[#0b111c]">
       <div className=" relative">
         <Input
           placeholder="Хайх"
-          className="bg-[#1b1d2f] text-white border-none pl-[49px] h-12 text-[20px] placeholder:text-[#667085] placeholder:text-[20px]"
+          className="bg-[#1b1d2f] text-white border-none pl-[49px] h-12 text-[20px] placeholder:text-[#667085] placeholder:text-[20px] !text-xl"
         />
         <Search className="text-[#98A2B3] absolute left-[10px] top-1/2 -translate-y-1/2 w-8 h-8" />
         <div className="absolute right-[50px] top-1/2 -translate-y-1/2 bg-[#455072] w-8 h-8 rounded flex items-center justify-center">
@@ -50,4 +53,4 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({ isSidebarOpen, groupedChats }
   );
 };
 
-export default ChatSidebar; 
+export default ChatSidebar;

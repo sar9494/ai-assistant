@@ -112,43 +112,41 @@ export default function ChatAssistant() {
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <div
-          className={`flex-1 flex flex-col items-center ${
-            messages.length === 0 ? "justify-center" : "justify-start"
-          } ${messages.length > 0 ? "pb-[100px]" : ""}`}
-        >
-          {messages.length === 0 && (
-            <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip">
-              Хувийн туслах
-              <div className="mx-4">
-                <Blob />
+        <div className="flex-1 flex flex-col h-0">
+          {/* Centered welcome if no messages */}
+          {messages.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip">
+                Хувийн туслах
+                <div className="mx-4">
+                  <Blob />
+                </div>
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(93.26deg, #82BCDF 11.08%, #967ADE 54.22%, #CB98E5 83.62%)",
+                  }}
+                >
+                  Анухай
+                </span>
+              </h1>
+              <div className="w-full max-w-[895px] mx-auto">
+                <ChatInput
+                  input={input}
+                  setInput={setInput}
+                  setMessages={setMessages}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                />
               </div>
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(93.26deg, #82BCDF 11.08%, #967ADE 54.22%, #CB98E5 83.62%)",
-                }}
-              >
-                Анухай
-              </span>
-            </h1>
-          )}
-          {messages.length > 0 && (
-            <ChatMessages
-              messages={messages}
-              isLoading={isLoading}
-              bottomRef={bottomRef}
-            />
-          )}
-          {messages.length === 0 && (
-            <div className="w-full max-w-[895px] mx-auto">
-              <ChatInput
-                input={input}
-                setInput={setInput}
-                setMessages={setMessages}
+            </div>
+          ) : (
+            <div className="flex-1 overflow-y-auto w-full flex flex-col items-center">
+              <ChatMessages
+                messages={messages}
                 isLoading={isLoading}
-                setIsLoading={setIsLoading}
+                bottomRef={bottomRef}
               />
             </div>
           )}

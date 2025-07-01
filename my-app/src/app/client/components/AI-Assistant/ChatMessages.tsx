@@ -23,29 +23,31 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
     return groups;
   }, {} as Record<string, typeof messages>);
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string, firstMsgTimestamp: string) => {
     const date = new Date(dateString);
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
+    const time = formatTime(firstMsgTimestamp);
 
     if (date.toDateString() === today.toDateString()) {
-      return `Өнөөдөр`;
+      return `Өнөөдөр, ${time}`;
     } else if (date.toDateString() === yesterday.toDateString()) {
-      return `Өчигдөр`;
+      return `Өчигдөр, ${time}`;
     } else {
-      return date.toLocaleDateString("mn-MN", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+      return (
+        date.toLocaleDateString("mn-MN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }) + `, ${time}`
+      );
     }
   };
 
   const formatTime = (timestamp: string) => {
-    if (/^\d{2}:\d{2}/.test(timestamp)) return timestamp;
     const date = new Date(timestamp);
-    if (isNaN(date.getTime())) return timestamp;
+    if (isNaN(date.getTime())) return "";
     return date.toLocaleTimeString("mn-MN", {
       hour: "2-digit",
       minute: "2-digit",
@@ -59,52 +61,72 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         <div key={dateKey}>
           <div className="flex items-center justify-center my-4">
             <div className="flex-1 h-px bg-[#34405466]" />
-            <span className="px-4 text-xs text-gray-400 font-medium">
-              {formatDate(dayMessages[0].timestamp)}
+            <span className="px-4 text-lg text-[#C8CBCF] font-medium">
+              {formatDate(dayMessages[0].timestamp, dayMessages[0].timestamp)}
             </span>
             <div className="flex-1 h-px bg-[#34405466]" />
           </div>
 
-          {dayMessages.map((msg) => (
-            <div
-              key={msg.id}
-              className="flex items-start gap-5 w-full max-w-full"
-            >
-              {/* Avatar */}
-              <div className="shrink-0">
-                {msg.name === "Анухай" && msg.received ? (
-                  <Image
-                    src="/blob.png"
-                    alt="Анухай"
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                ) : (
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage src={msg.avatar || ""} alt={msg.name || ""} />
-                    <AvatarFallback>{msg.name?.[0] || "A"}</AvatarFallback>
-                  </Avatar>
-                )}
-              </div>
+          {dayMessages.map((msg, idx) => {
+            const isAI = msg.received;
+            const prevIsAI = idx > 0 ? dayMessages[idx - 1].received : false;
+            const marginClass = isAI && !prevIsAI ? "my-[50px]" : "";
+            return (
+              <div
+                key={msg.id}
+                className={`flex items-start gap-5 w-full max-w-full ${marginClass}`}
+              >
+                {/* Avatar */}
+                <div className="shrink-0">
+                  {msg.name === "Анухай" && msg.received ? (
+                    <Image
+                      src="/blob.png"
+                      alt="Анухай"
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage
+                        src={msg.avatar || ""}
+                        alt={msg.name || ""}
+                      />
+                      <AvatarFallback>{msg.name?.[0] || "A"}</AvatarFallback>
+                    </Avatar>
+                  )}
+                </div>
 
-              {/* Message content */}
-              <div className="flex flex-col gap-1 relative w-full">
-                {/* Timestamp - top right */}
-                <span className="absolute top-0 right-0 text-gray-500 text-[18px] font-normal">
-                  {formatTime(msg.timestamp)}
-                </span>
-                {/* Name */}
-                <span className="text-xl text-white font-semibold">
-                  {msg.name || "User"}
-                </span>
-                {/* Message bubble */}
-                <div className="text-[#98A2B3] text-xl whitespace-pre-wrap break-words max-w-full font-medium">
-                  {msg.content}
+                {/* Message content */}
+                <div className="flex flex-col gap-2 relative w-full">
+                  {/* Timestamp - top right */}
+                  <span className="absolute top-0 right-0 text-[#C8CBCF] text-[18px] font-normal">
+                    {formatTime(msg.timestamp)}
+                  </span>
+                  {/* Name */}
+                  <span className="text-xl text-[#C8CBCF] font-semibold">
+                    {msg.received ? "AnuxAI" : msg.name || "User"}
+                  </span>
+                  {/* Message bubble */}
+                  <div
+                    className="text-[#98A2B3] text-xl whitespace-pre-wrap break-words max-w-full font-medium"
+                    style={
+                      msg.received
+                        ? {
+                            background: "#1B202FB2",
+                            border: "1.5px solid #344054B3",
+                            borderRadius: "12px",
+                            padding: "12px 16px",
+                          }
+                        : {}
+                    }
+                  >
+                    {msg.content}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ))}
 
