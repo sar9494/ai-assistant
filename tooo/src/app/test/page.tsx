@@ -13,8 +13,8 @@ export default function Home() {
     { received: boolean; content: string }[]
   >([]);
   const router = useRouter();
-  // const [file, setFile] = useState<File | undefined>();
-  // const [name, setName] = useState("");
+  const [file, setFile] = useState<File | undefined>();
+  const [name, setName] = useState("");
 
   const sendMessage = () => {
     if (message !== "") {
@@ -31,30 +31,35 @@ export default function Home() {
     }
   };
 
-  // const handleSubmit = async () => {
-  //   if (!file) return;
+  const handleSubmit = async () => {
+    if (!file) return;
 
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-  //   formData.append("name", name);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", name);
+    formData.append("type", "HR");
 
-  //   // const res = await fetch("http://localhost:4000/api/upload", {
-  //   //   method: "POST",
-  //   //   body: formData,
-  //   // });
+    const res = await fetch(
+      "https://ai-assistant-1-1y2o.onrender.com/api/upload",
+      // "http://localhost:4000/api/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-  //   // const data = await res.json();
-  //   // console.log(data);
-  // };
+    const data = await res.json();
+    console.log(data);
+  };
 
-  // useEffect(() => {
-  //   console.log(file);
-  // }, [file]);
+  useEffect(() => {
+    console.log(file);
+  }, [file]);
 
   useEffect(() => {
     setMessages([]);
 
-    socket = io("http://localhost:4000", {
+    socket = io("https://ai-assistant-1-1y2o.onrender.com    ", {
       transports: ["websocket"],
     });
     socket.on("connect", () => {
@@ -93,13 +98,13 @@ export default function Home() {
           );
         })}
       </div>
-      {/* <input
+      <input
         type="text"
         name="name"
         onChange={(e) => setName(e.target.value)}
         className="border border-gray-400"
-      /> */}
-      {/* <input
+      />
+      <input
         type="file"
         name="file"
         accept=".docx"
@@ -107,7 +112,7 @@ export default function Home() {
       />
       <button onClick={handleSubmit} className="bg-[#03346E] rounded-full p-2">
         <Send color="white" />
-      </button> */}
+      </button>
 
       <div className="fixed bottom-0 flex w-full p-5 gap-2 items-center">
         <input
