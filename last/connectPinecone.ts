@@ -4,7 +4,7 @@ dotenv.config();
 
 export const pinecone = new Pinecone({
   apiKey:
-    "pcsk_6H2ySU_UH9qxwRvn4ADZgfwCrMRC4aFM2MjRw2SFyLbU1YxPAAMf4m6TWzS1mkfArCKToj",
+    "pcsk_SZp3h_NQxceA1fAF1AJhkgLQcQFUjc7oEoWk1HPyj4NvBUXob2YUCiMgPry7iKZLrcZk1",
 });
 
 export const assistant = pinecone.Assistant("ai-assistant");
