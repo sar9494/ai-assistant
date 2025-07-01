@@ -9,7 +9,7 @@ type ChatItemProps = {
 const ChatItem: React.FC<ChatItemProps> = ({ title, date }) => (
   <div className="flex flex-col hover:bg-[#1b1d2f] rounded-lg cursor-pointer">
     <div className="flex items-center justify-between">
-      <p className="text-[20px] font-semibold text-white truncate max-w-[230px]">
+      <p className="text-[20px] font-semibold text-[#C8CBCF] truncate max-w-[230px]">
         {title}
       </p>
       <MessageCircle className="text-[#98A2B3] w-[18px] h-[18px] mt-4" />
@@ -18,4 +18,4 @@ const ChatItem: React.FC<ChatItemProps> = ({ title, date }) => (
   </div>
 );
 
-export default ChatItem; 
+export default ChatItem;

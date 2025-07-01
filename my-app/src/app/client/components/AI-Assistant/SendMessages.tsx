@@ -53,11 +53,7 @@ export default function SendMessages(props: SendMessageProps) {
         id: crypto.randomUUID(),
         received: msg.received,
         content: msg.content,
-        timestamp: new Date().toLocaleTimeString("mn-MN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
+        timestamp: new Date().toISOString(),
       };
 
       setMessages((prev) => [...prev, receivedMessage]);
@@ -91,11 +87,7 @@ export default function SendMessages(props: SendMessageProps) {
         id: crypto.randomUUID(),
         received: false,
         content: message.trim(),
-        timestamp: new Date().toLocaleTimeString("mn-MN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
+        timestamp: new Date().toISOString(),
       };
 
       setMessages((prev) => [...prev, newMessage]);
@@ -128,13 +120,16 @@ export default function SendMessages(props: SendMessageProps) {
   );
 
   return (
-    <div className="relative font-gip">
+    <div
+      className="relative font-gip"
+      style={{ border: "1px solid #344054B2", borderRadius: "12px" }}
+    >
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-xl focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
         disabled={isLoading || !isConnected}
         maxLength={1000}
       />

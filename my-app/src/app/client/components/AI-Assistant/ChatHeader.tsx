@@ -7,9 +7,14 @@ interface ChatHeaderProps {
   setIsSidebarOpen: (open: boolean) => void;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ isSidebarOpen, setIsSidebarOpen }) => (
+const ChatHeader: React.FC<ChatHeaderProps> = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+}) => (
   <div className="flex items-center justify-between pl-3 py-5 border-b border-[#2c2f48] pr-3">
-    <h1 className="text-[22px] font-semibold text-[#C8CBCF]">Шинэ чат</h1>
+    <h1 className="text-[22px] font-semibold text-[#C8CBCF] hover:bg-[#1b1d2f] p-2">
+      Шинэ чат
+    </h1>
     <div className="flex items-center gap-5">
       <Button
         className="text-white flex gap-2 items-center w-[133px] h-[42px] text-[18px] font-semibold justify-center rounded-[12px]"
@@ -30,4 +35,4 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ isSidebarOpen, setIsSidebarOpen
   </div>
 );
 
-export default ChatHeader; 
+export default ChatHeader;
