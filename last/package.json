@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "prisma generate",
     "start": "npx nodemon src/index.ts",
     "prisma:generate": "prisma generate"
   },
