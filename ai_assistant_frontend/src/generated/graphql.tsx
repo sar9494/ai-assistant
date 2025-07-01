@@ -52,8 +52,10 @@ export type Message = {
   answered: Scalars['Boolean']['output'];
   content: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
+  file: Maybe<File>;
   id: Scalars['ID']['output'];
   received: Scalars['Boolean']['output'];
+  status: Scalars['String']['output'];
   user: User;
   userId: Scalars['Int']['output'];
 };
@@ -128,10 +130,12 @@ export type UploadFileInput = {
 
 export type User = {
   __typename?: 'User';
+  avatarUrl: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   messages: Array<Message>;
+  name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   role: UserRoleEnum;
 };
@@ -163,7 +167,7 @@ export type UserInformationQuery = { __typename?: 'Query', userInformation: { __
 export type UnAnsweredQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UnAnsweredQuestionsQuery = { __typename?: 'Query', unansweredMessages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: string }> };
+export type UnAnsweredQuestionsQuery = { __typename?: 'Query', unansweredMessages: Array<{ __typename?: 'Message', id: string, content: string, createdAt: string, status: string, user: { __typename?: 'User', id: string, name: string, avatarUrl: string | null, role: UserRoleEnum }, file: { __typename?: 'File', id: string, name: string, url: string } | null }> };
 
 export type Delete_FileMutationVariables = Exact<{
   input: DeleteFileInput;
@@ -307,6 +311,18 @@ export const UnAnsweredQuestionsDocument = gql`
     id
     content
     createdAt
+    status
+    user {
+      id
+      name
+      avatarUrl
+      role
+    }
+    file {
+      id
+      name
+      url
+    }
   }
 }
     `;

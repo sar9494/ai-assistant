@@ -1095,6 +1095,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type FileCountOutputType
+   */
+
+  export type FileCountOutputType = {
+    messages: number
+  }
+
+  export type FileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | FileCountOutputTypeCountMessagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FileCountOutputType without action
+   */
+  export type FileCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FileCountOutputType
+     */
+    select?: FileCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FileCountOutputType without action
+   */
+  export type FileCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1122,6 +1153,8 @@ export namespace Prisma {
     id: number | null
     email: string | null
     password: string | null
+    name: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     role: $Enums.UserRoleEnum | null
   }
@@ -1130,6 +1163,8 @@ export namespace Prisma {
     id: number | null
     email: string | null
     password: string | null
+    name: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     role: $Enums.UserRoleEnum | null
   }
@@ -1138,6 +1173,8 @@ export namespace Prisma {
     id: number
     email: number
     password: number
+    name: number
+    avatarUrl: number
     createdAt: number
     role: number
     _all: number
@@ -1156,6 +1193,8 @@ export namespace Prisma {
     id?: true
     email?: true
     password?: true
+    name?: true
+    avatarUrl?: true
     createdAt?: true
     role?: true
   }
@@ -1164,6 +1203,8 @@ export namespace Prisma {
     id?: true
     email?: true
     password?: true
+    name?: true
+    avatarUrl?: true
     createdAt?: true
     role?: true
   }
@@ -1172,6 +1213,8 @@ export namespace Prisma {
     id?: true
     email?: true
     password?: true
+    name?: true
+    avatarUrl?: true
     createdAt?: true
     role?: true
     _all?: true
@@ -1267,6 +1310,8 @@ export namespace Prisma {
     id: number
     email: string
     password: string
+    name: string
+    avatarUrl: string | null
     createdAt: Date
     role: $Enums.UserRoleEnum
     _count: UserCountAggregateOutputType | null
@@ -1294,6 +1339,8 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     password?: boolean
+    name?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     role?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
@@ -1304,6 +1351,8 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     password?: boolean
+    name?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     role?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1312,6 +1361,8 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     password?: boolean
+    name?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     role?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1320,11 +1371,13 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     password?: boolean
+    name?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "createdAt" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "avatarUrl" | "createdAt" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1341,6 +1394,8 @@ export namespace Prisma {
       id: number
       email: string
       password: string
+      name: string
+      avatarUrl: string | null
       createdAt: Date
       role: $Enums.UserRoleEnum
     }, ExtArgs["result"]["user"]>
@@ -1770,6 +1825,8 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly name: FieldRef<"User", 'String'>
+    readonly avatarUrl: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'UserRoleEnum'>
   }
@@ -2217,11 +2274,13 @@ export namespace Prisma {
   export type MessageAvgAggregateOutputType = {
     id: number | null
     userId: number | null
+    fileId: number | null
   }
 
   export type MessageSumAggregateOutputType = {
     id: number | null
     userId: number | null
+    fileId: number | null
   }
 
   export type MessageMinAggregateOutputType = {
@@ -2231,6 +2290,7 @@ export namespace Prisma {
     answered: boolean | null
     createdAt: Date | null
     userId: number | null
+    fileId: number | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -2240,6 +2300,7 @@ export namespace Prisma {
     answered: boolean | null
     createdAt: Date | null
     userId: number | null
+    fileId: number | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -2249,6 +2310,7 @@ export namespace Prisma {
     answered: number
     createdAt: number
     userId: number
+    fileId: number
     _all: number
   }
 
@@ -2256,11 +2318,13 @@ export namespace Prisma {
   export type MessageAvgAggregateInputType = {
     id?: true
     userId?: true
+    fileId?: true
   }
 
   export type MessageSumAggregateInputType = {
     id?: true
     userId?: true
+    fileId?: true
   }
 
   export type MessageMinAggregateInputType = {
@@ -2270,6 +2334,7 @@ export namespace Prisma {
     answered?: true
     createdAt?: true
     userId?: true
+    fileId?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -2279,6 +2344,7 @@ export namespace Prisma {
     answered?: true
     createdAt?: true
     userId?: true
+    fileId?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -2288,6 +2354,7 @@ export namespace Prisma {
     answered?: true
     createdAt?: true
     userId?: true
+    fileId?: true
     _all?: true
   }
 
@@ -2384,6 +2451,7 @@ export namespace Prisma {
     answered: boolean
     createdAt: Date
     userId: number
+    fileId: number | null
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -2412,7 +2480,9 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: boolean
     userId?: boolean
+    fileId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2422,7 +2492,9 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: boolean
     userId?: boolean
+    fileId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2432,7 +2504,9 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: boolean
     userId?: boolean
+    fileId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
   export type MessageSelectScalar = {
@@ -2442,23 +2516,28 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: boolean
     userId?: boolean
+    fileId?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "received" | "answered" | "createdAt" | "userId", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "received" | "answered" | "createdAt" | "userId" | "fileId", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }
   export type MessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }
   export type MessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    file?: boolean | Message$fileArgs<ExtArgs>
   }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Message"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      file: Prisma.$FilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2467,6 +2546,7 @@ export namespace Prisma {
       answered: boolean
       createdAt: Date
       userId: number
+      fileId: number | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -2862,6 +2942,7 @@ export namespace Prisma {
   export interface Prisma__MessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    file<T extends Message$fileArgs<ExtArgs> = {}>(args?: Subset<T, Message$fileArgs<ExtArgs>>): Prisma__FileClient<$Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2897,6 +2978,7 @@ export namespace Prisma {
     readonly answered: FieldRef<"Message", 'Boolean'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
     readonly userId: FieldRef<"Message", 'Int'>
+    readonly fileId: FieldRef<"Message", 'Int'>
   }
     
 
@@ -3293,6 +3375,25 @@ export namespace Prisma {
   }
 
   /**
+   * Message.file
+   */
+  export type Message$fileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the File
+     */
+    select?: FileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the File
+     */
+    omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    where?: FileWhereInput
+  }
+
+  /**
    * Message without action
    */
   export type MessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3509,6 +3610,8 @@ export namespace Prisma {
     fileId?: boolean
     url?: boolean
     createdAt?: boolean
+    messages?: boolean | File$messagesArgs<ExtArgs>
+    _count?: boolean | FileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["file"]>
 
   export type FileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3536,10 +3639,18 @@ export namespace Prisma {
   }
 
   export type FileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "fileId" | "url" | "createdAt", ExtArgs["result"]["file"]>
+  export type FileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | File$messagesArgs<ExtArgs>
+    _count?: boolean | FileCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type FileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $FilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "File"
-    objects: {}
+    objects: {
+      messages: Prisma.$MessagePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
@@ -3940,6 +4051,7 @@ export namespace Prisma {
    */
   export interface Prisma__FileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    messages<T extends File$messagesArgs<ExtArgs> = {}>(args?: Subset<T, File$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3991,6 +4103,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where: FileWhereUniqueInput
@@ -4009,6 +4125,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where: FileWhereUniqueInput
@@ -4026,6 +4146,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * Filter, which File to fetch.
      */
@@ -4075,6 +4199,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which File to fetch.
      */
     where?: FileWhereInput
@@ -4123,6 +4251,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter, which Files to fetch.
      */
     where?: FileWhereInput
@@ -4165,6 +4297,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * The data needed to create a File.
      */
@@ -4213,6 +4349,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
     /**
      * The data needed to update a File.
      */
@@ -4280,6 +4420,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * The filter to search for the File to update in case it exists.
      */
     where: FileWhereUniqueInput
@@ -4306,6 +4450,10 @@ export namespace Prisma {
      */
     omit?: FileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
+    /**
      * Filter which File to delete.
      */
     where: FileWhereUniqueInput
@@ -4326,6 +4474,30 @@ export namespace Prisma {
   }
 
   /**
+   * File.messages
+   */
+  export type File$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
    * File without action
    */
   export type FileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4337,6 +4509,10 @@ export namespace Prisma {
      * Omit specific fields from the File
      */
     omit?: FileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FileInclude<ExtArgs> | null
   }
 
 
@@ -4358,6 +4534,8 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     password: 'password',
+    name: 'name',
+    avatarUrl: 'avatarUrl',
     createdAt: 'createdAt',
     role: 'role'
   };
@@ -4371,7 +4549,8 @@ export namespace Prisma {
     received: 'received',
     answered: 'answered',
     createdAt: 'createdAt',
-    userId: 'userId'
+    userId: 'userId',
+    fileId: 'fileId'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -4402,6 +4581,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -4496,6 +4683,8 @@ export namespace Prisma {
     id?: IntFilter<"User"> | number
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    avatarUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumUserRoleEnumFilter<"User"> | $Enums.UserRoleEnum
     messages?: MessageListRelationFilter
@@ -4505,6 +4694,8 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    name?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     role?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
@@ -4517,6 +4708,8 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    avatarUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumUserRoleEnumFilter<"User"> | $Enums.UserRoleEnum
     messages?: MessageListRelationFilter
@@ -4526,6 +4719,8 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    name?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -4542,6 +4737,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"User"> | number
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
+    name?: StringWithAggregatesFilter<"User"> | string
+    avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     role?: EnumUserRoleEnumWithAggregatesFilter<"User"> | $Enums.UserRoleEnum
   }
@@ -4556,7 +4753,9 @@ export namespace Prisma {
     answered?: BoolFilter<"Message"> | boolean
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: IntFilter<"Message"> | number
+    fileId?: IntNullableFilter<"Message"> | number | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    file?: XOR<FileNullableScalarRelationFilter, FileWhereInput> | null
   }
 
   export type MessageOrderByWithRelationInput = {
@@ -4566,7 +4765,9 @@ export namespace Prisma {
     answered?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    file?: FileOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -4579,7 +4780,9 @@ export namespace Prisma {
     answered?: BoolFilter<"Message"> | boolean
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: IntFilter<"Message"> | number
+    fileId?: IntNullableFilter<"Message"> | number | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    file?: XOR<FileNullableScalarRelationFilter, FileWhereInput> | null
   }, "id">
 
   export type MessageOrderByWithAggregationInput = {
@@ -4589,6 +4792,7 @@ export namespace Prisma {
     answered?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -4606,6 +4810,7 @@ export namespace Prisma {
     answered?: BoolWithAggregatesFilter<"Message"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     userId?: IntWithAggregatesFilter<"Message"> | number
+    fileId?: IntNullableWithAggregatesFilter<"Message"> | number | null
   }
 
   export type FileWhereInput = {
@@ -4617,6 +4822,7 @@ export namespace Prisma {
     fileId?: StringFilter<"File"> | string
     url?: StringFilter<"File"> | string
     createdAt?: DateTimeFilter<"File"> | Date | string
+    messages?: MessageListRelationFilter
   }
 
   export type FileOrderByWithRelationInput = {
@@ -4625,6 +4831,7 @@ export namespace Prisma {
     fileId?: SortOrder
     url?: SortOrder
     createdAt?: SortOrder
+    messages?: MessageOrderByRelationAggregateInput
   }
 
   export type FileWhereUniqueInput = Prisma.AtLeast<{
@@ -4636,6 +4843,7 @@ export namespace Prisma {
     name?: StringFilter<"File"> | string
     url?: StringFilter<"File"> | string
     createdAt?: DateTimeFilter<"File"> | Date | string
+    messages?: MessageListRelationFilter
   }, "id" | "fileId">
 
   export type FileOrderByWithAggregationInput = {
@@ -4665,6 +4873,8 @@ export namespace Prisma {
   export type UserCreateInput = {
     email: string
     password: string
+    name: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     role: $Enums.UserRoleEnum
     messages?: MessageCreateNestedManyWithoutUserInput
@@ -4674,6 +4884,8 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
+    name: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     role: $Enums.UserRoleEnum
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
@@ -4682,6 +4894,8 @@ export namespace Prisma {
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
     messages?: MessageUpdateManyWithoutUserNestedInput
@@ -4691,6 +4905,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
@@ -4700,6 +4916,8 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
+    name: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     role: $Enums.UserRoleEnum
   }
@@ -4707,6 +4925,8 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
   }
@@ -4715,6 +4935,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
   }
@@ -4725,6 +4947,7 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutMessagesInput
+    file?: FileCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateInput = {
@@ -4734,6 +4957,7 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: Date | string
     userId: number
+    fileId?: number | null
   }
 
   export type MessageUpdateInput = {
@@ -4742,6 +4966,7 @@ export namespace Prisma {
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMessagesNestedInput
+    file?: FileUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
@@ -4751,6 +4976,7 @@ export namespace Prisma {
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    fileId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MessageCreateManyInput = {
@@ -4760,6 +4986,7 @@ export namespace Prisma {
     answered?: boolean
     createdAt?: Date | string
     userId: number
+    fileId?: number | null
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -4776,6 +5003,7 @@ export namespace Prisma {
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    fileId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FileCreateInput = {
@@ -4783,6 +5011,7 @@ export namespace Prisma {
     fileId: string
     url: string
     createdAt?: Date | string
+    messages?: MessageCreateNestedManyWithoutFileInput
   }
 
   export type FileUncheckedCreateInput = {
@@ -4791,6 +5020,7 @@ export namespace Prisma {
     fileId: string
     url: string
     createdAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutFileInput
   }
 
   export type FileUpdateInput = {
@@ -4798,6 +5028,7 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUpdateManyWithoutFileNestedInput
   }
 
   export type FileUncheckedUpdateInput = {
@@ -4806,6 +5037,7 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutFileNestedInput
   }
 
   export type FileCreateManyInput = {
@@ -4857,6 +5089,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4881,6 +5128,11 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -4889,6 +5141,8 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    name?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     role?: SortOrder
   }
@@ -4901,6 +5155,8 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    name?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     role?: SortOrder
   }
@@ -4909,6 +5165,8 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    name?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     role?: SortOrder
   }
@@ -4951,6 +5209,24 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4980,9 +5256,25 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type FileNullableScalarRelationFilter = {
+    is?: FileWhereInput | null
+    isNot?: FileWhereInput | null
   }
 
   export type MessageCountOrderByAggregateInput = {
@@ -4992,11 +5284,13 @@ export namespace Prisma {
     answered?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
@@ -5006,6 +5300,7 @@ export namespace Prisma {
     answered?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -5015,11 +5310,13 @@ export namespace Prisma {
     answered?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    fileId?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -5028,6 +5325,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type FileCountOrderByAggregateInput = {
@@ -5080,6 +5393,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -5130,6 +5447,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type FileCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<FileCreateWithoutMessagesInput, FileUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: FileCreateOrConnectWithoutMessagesInput
+    connect?: FileWhereUniqueInput
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -5140,6 +5463,66 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutMessagesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesInput, UserUpdateWithoutMessagesInput>, UserUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type FileUpdateOneWithoutMessagesNestedInput = {
+    create?: XOR<FileCreateWithoutMessagesInput, FileUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: FileCreateOrConnectWithoutMessagesInput
+    upsert?: FileUpsertWithoutMessagesInput
+    disconnect?: FileWhereInput | boolean
+    delete?: FileWhereInput | boolean
+    connect?: FileWhereUniqueInput
+    update?: XOR<XOR<FileUpdateToOneWithWhereWithoutMessagesInput, FileUpdateWithoutMessagesInput>, FileUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type MessageCreateNestedManyWithoutFileInput = {
+    create?: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput> | MessageCreateWithoutFileInput[] | MessageUncheckedCreateWithoutFileInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutFileInput | MessageCreateOrConnectWithoutFileInput[]
+    createMany?: MessageCreateManyFileInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutFileInput = {
+    create?: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput> | MessageCreateWithoutFileInput[] | MessageUncheckedCreateWithoutFileInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutFileInput | MessageCreateOrConnectWithoutFileInput[]
+    createMany?: MessageCreateManyFileInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type MessageUpdateManyWithoutFileNestedInput = {
+    create?: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput> | MessageCreateWithoutFileInput[] | MessageUncheckedCreateWithoutFileInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutFileInput | MessageCreateOrConnectWithoutFileInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutFileInput | MessageUpsertWithWhereUniqueWithoutFileInput[]
+    createMany?: MessageCreateManyFileInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutFileInput | MessageUpdateWithWhereUniqueWithoutFileInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutFileInput | MessageUpdateManyWithWhereWithoutFileInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutFileNestedInput = {
+    create?: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput> | MessageCreateWithoutFileInput[] | MessageUncheckedCreateWithoutFileInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutFileInput | MessageCreateOrConnectWithoutFileInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutFileInput | MessageUpsertWithWhereUniqueWithoutFileInput[]
+    createMany?: MessageCreateManyFileInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutFileInput | MessageUpdateWithWhereUniqueWithoutFileInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutFileInput | MessageUpdateManyWithWhereWithoutFileInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5165,6 +5548,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -5229,6 +5626,34 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5266,11 +5691,39 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type MessageCreateWithoutUserInput = {
     content: string
     received: boolean
     answered?: boolean
     createdAt?: Date | string
+    file?: FileCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateWithoutUserInput = {
@@ -5279,6 +5732,7 @@ export namespace Prisma {
     received: boolean
     answered?: boolean
     createdAt?: Date | string
+    fileId?: number | null
   }
 
   export type MessageCreateOrConnectWithoutUserInput = {
@@ -5317,11 +5771,14 @@ export namespace Prisma {
     answered?: BoolFilter<"Message"> | boolean
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: IntFilter<"Message"> | number
+    fileId?: IntNullableFilter<"Message"> | number | null
   }
 
   export type UserCreateWithoutMessagesInput = {
     email: string
     password: string
+    name: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     role: $Enums.UserRoleEnum
   }
@@ -5330,6 +5787,8 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
+    name: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     role: $Enums.UserRoleEnum
   }
@@ -5337,6 +5796,26 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutMessagesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type FileCreateWithoutMessagesInput = {
+    name: string
+    fileId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type FileUncheckedCreateWithoutMessagesInput = {
+    id?: number
+    name: string
+    fileId: string
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type FileCreateOrConnectWithoutMessagesInput = {
+    where: FileWhereUniqueInput
+    create: XOR<FileCreateWithoutMessagesInput, FileUncheckedCreateWithoutMessagesInput>
   }
 
   export type UserUpsertWithoutMessagesInput = {
@@ -5353,6 +5832,8 @@ export namespace Prisma {
   export type UserUpdateWithoutMessagesInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
   }
@@ -5361,8 +5842,79 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumUserRoleEnumFieldUpdateOperationsInput | $Enums.UserRoleEnum
+  }
+
+  export type FileUpsertWithoutMessagesInput = {
+    update: XOR<FileUpdateWithoutMessagesInput, FileUncheckedUpdateWithoutMessagesInput>
+    create: XOR<FileCreateWithoutMessagesInput, FileUncheckedCreateWithoutMessagesInput>
+    where?: FileWhereInput
+  }
+
+  export type FileUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: FileWhereInput
+    data: XOR<FileUpdateWithoutMessagesInput, FileUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type FileUpdateWithoutMessagesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    fileId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FileUncheckedUpdateWithoutMessagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    fileId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageCreateWithoutFileInput = {
+    content: string
+    received: boolean
+    answered?: boolean
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutMessagesInput
+  }
+
+  export type MessageUncheckedCreateWithoutFileInput = {
+    id?: number
+    content: string
+    received: boolean
+    answered?: boolean
+    createdAt?: Date | string
+    userId: number
+  }
+
+  export type MessageCreateOrConnectWithoutFileInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput>
+  }
+
+  export type MessageCreateManyFileInputEnvelope = {
+    data: MessageCreateManyFileInput | MessageCreateManyFileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutFileInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutFileInput, MessageUncheckedUpdateWithoutFileInput>
+    create: XOR<MessageCreateWithoutFileInput, MessageUncheckedCreateWithoutFileInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutFileInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutFileInput, MessageUncheckedUpdateWithoutFileInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutFileInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutFileInput>
   }
 
   export type MessageCreateManyUserInput = {
@@ -5371,6 +5923,7 @@ export namespace Prisma {
     received: boolean
     answered?: boolean
     createdAt?: Date | string
+    fileId?: number | null
   }
 
   export type MessageUpdateWithoutUserInput = {
@@ -5378,6 +5931,7 @@ export namespace Prisma {
     received?: BoolFieldUpdateOperationsInput | boolean
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    file?: FileUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateWithoutUserInput = {
@@ -5386,6 +5940,7 @@ export namespace Prisma {
     received?: BoolFieldUpdateOperationsInput | boolean
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MessageUncheckedUpdateManyWithoutUserInput = {
@@ -5394,6 +5949,42 @@ export namespace Prisma {
     received?: BoolFieldUpdateOperationsInput | boolean
     answered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type MessageCreateManyFileInput = {
+    id?: number
+    content: string
+    received: boolean
+    answered?: boolean
+    createdAt?: Date | string
+    userId: number
+  }
+
+  export type MessageUpdateWithoutFileInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    received?: BoolFieldUpdateOperationsInput | boolean
+    answered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type MessageUncheckedUpdateWithoutFileInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    received?: BoolFieldUpdateOperationsInput | boolean
+    answered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MessageUncheckedUpdateManyWithoutFileInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    received?: BoolFieldUpdateOperationsInput | boolean
+    answered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
 

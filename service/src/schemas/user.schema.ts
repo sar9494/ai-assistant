@@ -1,30 +1,32 @@
 import gql from "graphql-tag";
 
 export const userDefs = gql`
-
   type User {
     id: ID!
     email: String!
     password: String!
-    messages:[Message!]!
+    name: String!
+    avatarUrl: String
+    messages: [Message!]!
     createdAt: Date!
-    role:UserRoleEnum!
+    role: UserRoleEnum!
   }
-  
+
   enum UserRoleEnum {
-  ADMIN
-  EMPLOYEE
+    ADMIN
+    EMPLOYEE
   }
 
   input CreateUserInput {
     email: String!
     password: String!
+    name: String!
   }
   type Mutation {
     createUser(input: CreateUserInput!): Response!
   }
 
   type Query {
-  userInformation(userId: Int!): User!
-}
+    userInformation(userId: Int!): User!
+  }
 `;

@@ -24,6 +24,18 @@ query unAnsweredQuestions {
     id
     content
     createdAt
+    status
+    user {
+      id
+      name
+      avatarUrl
+      role
+    }
+    file {
+      id
+      name
+      url
+    }
   }
 }
 mutation DELETE_FILE($input: DeleteFileInput!) {
