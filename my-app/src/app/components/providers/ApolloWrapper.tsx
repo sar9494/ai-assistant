@@ -1,56 +1,23 @@
-// "use client";
-
-// import { HttpLink } from "@apollo/client";
-// import {
-//   ApolloNextAppProvider,
-//   InMemoryCache,
-//   ApolloClient,
-// } from "@apollo/client-integration-nextjs";
-
-// import { PropsWithChildren } from "react";
-// import { setContext } from "@apollo/client/link/context";
-
-// const uri =
-//   process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL ??
-//   "http://localhost:4000/api/graphql";
-
-// const makeClient = () => {
-//   const httpLink = new HttpLink({
-//     uri,
-//     // fetchOptions: { cache: "no-store", mode: "cors" },
-//   });
-
-//   const authLink = setContext((_, { headers }) => {
-//     return {
-//       headers: {
-//         ...headers,
-//       },
-//     };
-//   });
-
-//   return new ApolloClient({
-//     cache: new InMemoryCache(),
-//     link: authLink.concat(httpLink),
-//   });
-// };
-
-// export const ApolloWrapper = ({ children }: PropsWithChildren) => {
-//   return (
-//     <ApolloNextAppProvider makeClient={makeClient}>
-//       {children}
-//     </ApolloNextAppProvider>
-//   );
-// };
-
 "use client";
-
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { PropsWithChildren } from "react";
 
+// Apollo Client тохиргоо
 const client = new ApolloClient({
-  // uri: "https://ai-backend-lime.vercel.app/api/graphql",
-  uri: "http://localhost:4000/api/graphql",
+  uri:
+    // process.env.NODE_ENV === "production"
+    //   ?
+    // "https://ai-backend-lime.vercel.app/api/graphql",
+    "http://localhost:4000/api/graphql",
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      errorPolicy: "ignore",
+    },
+    query: {
+      errorPolicy: "all",
+    },
+  },
 });
 
 export const ApolloWrapper = ({ children }: PropsWithChildren) => {

@@ -1,0 +1,563 @@
+// ==================== DEPENDENCIES ====================
+/*
+npm install graphql apollo-server-micro socket.io socket.io-client
+npm install -D @types/socket.io
+*/
+
+// ==================== SOCKET.IO SERVER SETUP ====================
+// lib/socket.ts
+import { Server as NetServer } from "http";
+import { NextApiResponse } from "next";
+import { Server as SocketIOServer } from "socket.io";
+
+export type NextApiResponseServerIO = NextApiResponse & {
+  socket: {
+    server: NetServer & {
+      io: SocketIOServer;
+    };
+  };
+};
+
+let io: SocketIOServer | undefined;
+
+export const getIO = (): SocketIOServer | undefined => {
+  return io;
+};
+
+export const initSocketIO = (server: NetServer): SocketIOServer => {
+  if (!io) {
+    io = new SocketIOServer(server, {
+      cors: {
+        origin:
+          process.env.NODE_ENV === "production"
+            ? "https://yourdomain.com"
+            : "http://localhost:3000",
+        methods: ["GET", "POST"],
+      },
+    });
+
+    io.on("connection", (socket) => {
+      console.log("Client connected:", socket.id);
+
+      // Join user to their personal room for notifications
+      socket.on("join-user-room", (userId: string) => {
+        socket.join(`user-${userId}`);
+        console.log(`User ${userId} joined their room`);
+      });
+
+      // Handle real-time chat
+      socket.on(
+        "send-message",
+        (data: { roomId: string; message: string; userId: string }) => {
+          socket.to(data.roomId).emit("new-message", {
+            id: Date.now().toString(),
+            message: data.message,
+            userId: data.userId,
+            timestamp: new Date().toISOString(),
+          });
+        }
+      );
+
+      // Handle GraphQL subscription events
+      socket.on("subscribe-to-updates", (topic: string) => {
+        socket.join(topic);
+        console.log(`Socket ${socket.id} subscribed to ${topic}`);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Client disconnected:", socket.id);
+      });
+    });
+  }
+  return io;
+};
+
+// ==================== GRAPHQL SETUP ====================
+// lib/apollo-server.ts
+import { ApolloServer } from "apollo-server-micro";
+import { typeDefs } from "./schema";
+import { resolvers } from "./resolvers";
+import { getIO } from "./socket";
+
+export const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req, res }) => ({
+    req,
+    res,
+    io: getIO(), // Pass Socket.IO instance to GraphQL context
+  }),
+  introspection: process.env.NODE_ENV !== "production",
+  playground: process.env.NODE_ENV !== "production",
+});
+
+// lib/schema.ts
+import { gql } from "apollo-server-micro";
+
+export const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    createdAt: String!
+  }
+
+  type Message {
+    id: ID!
+    content: String!
+    userId: ID!
+    user: User!
+    roomId: ID!
+    createdAt: String!
+  }
+
+  type Room {
+    id: ID!
+    name: String!
+    messages: [Message!]!
+    users: [User!]!
+  }
+
+  type Query {
+    users: [User!]!
+    user(id: ID!): User
+    rooms: [Room!]!
+    room(id: ID!): Room
+    messages(roomId: ID!): [Message!]!
+  }
+
+  type Mutation {
+    createUser(name: String!, email: String!): User!
+    createRoom(name: String!): Room!
+    sendMessage(content: String!, userId: ID!, roomId: ID!): Message!
+    joinRoom(userId: ID!, roomId: ID!): Room!
+  }
+
+  type Subscription {
+    messageAdded(roomId: ID!): Message!
+    userJoined(roomId: ID!): User!
+  }
+`;
+
+// lib/resolvers.ts
+import { Server as SocketIOServer } from "socket.io";
+
+// Mock database - replace with your actual database
+const users: any[] = [];
+const rooms: any[] = [];
+const messages: any[] = [];
+
+interface Context {
+  req: any;
+  res: any;
+  io?: SocketIOServer;
+}
+
+export const resolvers = {
+  Query: {
+    users: () => users,
+    user: (_: any, { id }: { id: string }) =>
+      users.find((user) => user.id === id),
+    rooms: () => rooms,
+    room: (_: any, { id }: { id: string }) =>
+      rooms.find((room) => room.id === id),
+    messages: (_: any, { roomId }: { roomId: string }) =>
+      messages.filter((message) => message.roomId === roomId),
+  },
+
+  Mutation: {
+    createUser: (
+      _: any,
+      { name, email }: { name: string; email: string },
+      { io }: Context
+    ) => {
+      const user = {
+        id: Date.now().toString(),
+        name,
+        email,
+        createdAt: new Date().toISOString(),
+      };
+      users.push(user);
+
+      // Emit real-time event
+      if (io) {
+        io.emit("user-created", user);
+      }
+
+      return user;
+    },
+
+    createRoom: (_: any, { name }: { name: string }, { io }: Context) => {
+      const room = {
+        id: Date.now().toString(),
+        name,
+        users: [],
+        messages: [],
+        createdAt: new Date().toISOString(),
+      };
+      rooms.push(room);
+
+      if (io) {
+        io.emit("room-created", room);
+      }
+
+      return room;
+    },
+
+    sendMessage: (
+      _: any,
+      {
+        content,
+        userId,
+        roomId,
+      }: {
+        content: string;
+        userId: string;
+        roomId: string;
+      },
+      { io }: Context
+    ) => {
+      const message = {
+        id: Date.now().toString(),
+        content,
+        userId,
+        roomId,
+        createdAt: new Date().toISOString(),
+      };
+      messages.push(message);
+
+      // Emit to specific room via Socket.IO
+      if (io) {
+        io.to(roomId).emit("new-message", {
+          ...message,
+          user: users.find((u) => u.id === userId),
+        });
+      }
+
+      return message;
+    },
+
+    joinRoom: (
+      _: any,
+      {
+        userId,
+        roomId,
+      }: {
+        userId: string;
+        roomId: string;
+      },
+      { io }: Context
+    ) => {
+      const room = rooms.find((r) => r.id === roomId);
+      const user = users.find((u) => u.id === userId);
+
+      if (room && user && !room.users.find((u: any) => u.id === userId)) {
+        room.users.push(user);
+
+        if (io) {
+          io.to(roomId).emit("user-joined", user);
+        }
+      }
+
+      return room;
+    },
+  },
+
+  // Resolvers for nested fields
+  Message: {
+    user: (message: any) => users.find((user) => user.id === message.userId),
+  },
+
+  Room: {
+    messages: (room: any) => messages.filter((msg) => msg.roomId === room.id),
+    users: (room: any) => room.users || [],
+  },
+};
+
+// ==================== API ROUTES ====================
+// pages/api/socket.ts
+import { NextApiRequest } from "next";
+import { NextApiResponseServerIO, initSocketIO } from "../../lib/socket";
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponseServerIO
+) {
+  if (req.method === "GET") {
+    if (res.socket.server.io) {
+      console.log("Socket.IO server already running");
+    } else {
+      console.log("Initializing Socket.IO server");
+      const io = initSocketIO(res.socket.server);
+      res.socket.server.io = io;
+    }
+
+    res.status(200).json({ success: true });
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
+  }
+}
+
+// pages/api/graphql.ts
+import { apolloServer } from "../../lib/apollo-server";
+import { initSocketIO } from "../../lib/socket";
+import { NextApiRequest } from "next";
+import { NextApiResponseServerIO } from "../../lib/socket";
+
+// Disable body parsing for GraphQL
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponseServerIO
+) {
+  // Initialize Socket.IO if not already done
+  if (!res.socket.server.io) {
+    initSocketIO(res.socket.server);
+    res.socket.server.io = initSocketIO(res.socket.server);
+  }
+
+  // Handle GraphQL requests
+  if (req.method === "POST" || req.method === "GET") {
+    await apolloServer.start();
+    await apolloServer.createHandler({ path: "/api/graphql" })(req, res);
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
+  }
+}
+
+// ==================== CLIENT SETUP ====================
+// lib/apollo-client.ts
+import { ApolloClient, InMemoryCache, split, HttpLink } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { WebSocketLink } from "@apollo/client/link/ws";
+
+const httpLink = new HttpLink({
+  uri: "/api/graphql",
+});
+
+// For GraphQL subscriptions (optional - you can use Socket.IO instead)
+const wsLink = process.browser
+  ? new WebSocketLink({
+      uri: "ws://localhost:3000/api/graphql",
+      options: {
+        reconnect: true,
+      },
+    })
+  : null;
+
+const splitLink =
+  process.browser && wsLink
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+          );
+        },
+        wsLink,
+        httpLink
+      )
+    : httpLink;
+
+export const apolloClient = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
+});
+
+// components/SocketProvider.tsx
+("use client");
+import { createContext, useContext, useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
+
+interface SocketContextType {
+  socket: Socket | null;
+  isConnected: boolean;
+}
+
+const SocketContext = createContext<SocketContextType>({
+  socket: null,
+  isConnected: false,
+});
+
+export const useSocket = () => useContext(SocketContext);
+
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    // Initialize Socket.IO server
+    fetch("/api/socket");
+
+    // Create client connection
+    const socketInstance = io({
+      transports: ["websocket"],
+    });
+
+    socketInstance.on("connect", () => {
+      console.log("Connected to Socket.IO server");
+      setIsConnected(true);
+    });
+
+    socketInstance.on("disconnect", () => {
+      console.log("Disconnected from Socket.IO server");
+      setIsConnected(false);
+    });
+
+    setSocket(socketInstance);
+
+    return () => socketInstance.disconnect();
+  }, []);
+
+  return (
+    <SocketContext.Provider value={{ socket, isConnected }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
+// ==================== USAGE EXAMPLE ====================
+// components/ChatRoom.tsx
+("use client");
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { useSocket } from "./SocketProvider";
+
+const GET_MESSAGES = gql`
+  query GetMessages($roomId: ID!) {
+    messages(roomId: $roomId) {
+      id
+      content
+      createdAt
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const SEND_MESSAGE = gql`
+  mutation SendMessage($content: String!, $userId: ID!, $roomId: ID!) {
+    sendMessage(content: $content, userId: $userId, roomId: $roomId) {
+      id
+      content
+      createdAt
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export default function ChatRoom({
+  roomId,
+  userId,
+}: {
+  roomId: string;
+  userId: string;
+}) {
+  const { socket, isConnected } = useSocket();
+  const [messages, setMessages] = useState<any[]>([]);
+  const [newMessage, setNewMessage] = useState("");
+
+  // GraphQL query for initial messages
+  const { data, loading } = useQuery(GET_MESSAGES, {
+    variables: { roomId },
+  });
+
+  // GraphQL mutation for sending messages
+  const [sendMessage] = useMutation(SEND_MESSAGE);
+
+  // Set initial messages from GraphQL
+  useEffect(() => {
+    if (data?.messages) {
+      setMessages(data.messages);
+    }
+  }, [data]);
+
+  // Socket.IO real-time updates
+  useEffect(() => {
+    if (!socket) return;
+
+    // Join room
+    socket.emit("join-user-room", userId);
+    socket.emit("subscribe-to-updates", roomId);
+
+    // Listen for new messages
+    socket.on("new-message", (message: any) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.off("new-message");
+    };
+  }, [socket, roomId, userId]);
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+
+    try {
+      // Send via GraphQL (handles database)
+      await sendMessage({
+        variables: {
+          content: newMessage,
+          userId,
+          roomId,
+        },
+      });
+
+      setNewMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  if (loading) return <div>Loading messages...</div>;
+
+  return (
+    <div className="flex flex-col h-96 border rounded-lg">
+      <div className="flex-1 overflow-y-auto p-4 space-y-2">
+        {messages.map((message) => (
+          <div key={message.id} className="flex flex-col">
+            <span className="text-sm text-gray-500">
+              {message.user.name} -{" "}
+              {new Date(message.createdAt).toLocaleTimeString()}
+            </span>
+            <span>{message.content}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="border-t p-4 flex gap-2">
+        <input
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+          placeholder="Type a message..."
+          className="flex-1 border rounded px-3 py-2"
+        />
+        <button
+          onClick={handleSendMessage}
+          disabled={!isConnected}
+          className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          Send
+        </button>
+      </div>
+
+      <div className="text-xs text-gray-500 p-2">
+        Status: {isConnected ? "Connected" : "Disconnected"}
+      </div>
+    </div>
+  );
+}
