@@ -14,7 +14,7 @@ export default function ClientPage() {
         <Sidebar value={tab} onChange={setTab} />
       </div>
       {/* Main content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden h-screen">
         <Tabs value={tab} className="w-full">
           {/* Dashboard */}
           <TabsContent value="dashboard">
