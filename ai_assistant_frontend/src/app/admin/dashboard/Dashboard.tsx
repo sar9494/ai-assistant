@@ -9,7 +9,7 @@ import {
   Search,
   Calendar,
   File,
-  Loader,
+  RotateCw ,
   ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -87,16 +87,26 @@ export default function AdminDashboardPage() {
 
   <span className="whitespace-nowrap text-gray-400">32 хайлт</span>
 
-  <div className="relative ml-auto">
+<div className="flex items-center gap-2 ml-auto">
+  <div className="relative w-52">
     <input
       placeholder="Хайх"
-      className="placeholder:text-gray-500 bg-[#232733] pl-10 pr-10 py-2 rounded-lg text-white outline-none"
+      className="placeholder:text-gray-500 bg-[#232733] pl-10 pr-10 py-2 rounded-lg text-white outline-none w-full"
     />
     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-    <kbd className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-[2px] rounded bg-[#2C303C] py-[1px] px-[4px] text-[10px] font-mono leading-none text-gray-300">
-      ⌘ <span className="font-sans">H</span>
-    </kbd>
+    <kbd className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
+  <span className="text-[20px] text-gray-400 font-mono">⌘</span>
+  <span className="text-[15px] text-white  font-sans ml-2">H</span> {/* ml-2 нэмсэн */}
+</kbd>
+
+
+
   </div>
+
+  <button >
+    <RotateCw className="h-4 w-4 text-gray-300" />
+  </button>
+</div>
 </div>
       <div className="mb-4 flex space-x-8 border-b border-[#232733]">
         {["Бүгд", "Шийдсэн", "Шийдээгүй"].map((tab, i) => (
@@ -127,12 +137,6 @@ export default function AdminDashboardPage() {
       </div>
     </th>
 
-    <th className="w-[140px] p-4">
-      <div className="flex items-center gap-2">
-        <Loader className="w-4 h-4 text-gray-400" /> Төлөв
-      </div>
-    </th>
-
     <th className="w-[150px] p-4">
       <div className="flex items-center gap-2">
         <Calendar className="w-4 h-4 text-gray-400" /> Огноо
@@ -141,7 +145,7 @@ export default function AdminDashboardPage() {
 
     <th className="w-[180px] p-4">
       <div className="flex items-center gap-2">
-        <File className="w-4 h-4 text-gray-400" /> Файл
+        <File className="w-4 h-4 text-gray-400" />
       </div>
     </th>
 
