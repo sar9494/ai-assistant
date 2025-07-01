@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 // import { MessageCircle } from "lucide-react";
 import Blob from "../Blob";
-import { Message } from "./types";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 // import ChatInput from "./ChatInput";
 import ChatSidebar from "./ChatSidebar";
 import SendMessages from "./SendMessages";
+import { Message } from "@/types/types";
 
 let socket: Socket;
 // function getTimeString(): string {
@@ -64,37 +64,10 @@ export default function ChatAssistant() {
   const [input, setInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState("");
 
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  // const bottomRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendMessage = () => {
-    if (message !== "") {
-      socket.emit("chatMessage", {
-        content: message,
-        room: 1,
-        received: false,
-        userId: 1,
-      });
-      console.log("sending", message);
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          received: false,
-          content: message,
-          timestamp: new Date().toLocaleTimeString("mn-MN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
-        },
-      ]);
-      setMessage("");
-    }
-  };
   const mockChatHistory = [
     { id: 1, title: "Шинэ чат", date: new Date().toISOString() },
     {
@@ -129,9 +102,25 @@ export default function ChatAssistant() {
     });
   });
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // useEffect(() => {
+  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
+
+  const sendMessage = () => {
+    if (input !== "") {
+      socket.emit("chatMessage", {
+        content: input,
+        room: 1,
+        received: false,
+        userId: 1,
+      });
+      console.log("sending", input);
+      setIsLoading(true);
+
+      setMessages((prev) => [...prev, { received: false, content: input }]);
+      setInput("");
+    }
+  };
 
   useEffect(() => {
     setMessages([]);
@@ -147,18 +136,10 @@ export default function ChatAssistant() {
     });
     socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
       console.log("Received message:", msg);
+      setIsLoading(false);
       setMessages((prev) => [
         ...prev,
-        {
-          id: crypto.randomUUID(),
-          received: msg.received,
-          content: msg.content,
-          timestamp: new Date().toLocaleTimeString("mn-MN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
-        },
+        { received: true, content: msg.content },
       ]);
     });
     socket.emit("join_room", 1);
@@ -197,14 +178,14 @@ export default function ChatAssistant() {
           <ChatMessages
             messages={messages}
             isLoading={isLoading}
-            bottomRef={bottomRef}
+            // bottomRef={bottomRef}
           />
         </div>
         <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">
           <div className="relative w-full max-w-[895px] mx-auto mt-4">
             <SendMessages
-              message={input}
-              setMessage={setInput}
+              input={input}
+              setInput={setInput}
               setMessages={setMessages}
               isLoading={isLoading}
               setIsLoading={setIsLoading}

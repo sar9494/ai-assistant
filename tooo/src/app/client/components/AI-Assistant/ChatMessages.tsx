@@ -1,18 +1,18 @@
 import React from "react";
-import { Message } from "./types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { Message } from "@/types/types";
 
 type ChatMessagesProps = {
   messages: Message[];
   isLoading: boolean;
-  bottomRef: React.RefObject<HTMLDivElement>;
+  // bottomRef: React.RefObject<HTMLDivElement>;
 };
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
   messages,
   isLoading,
-  bottomRef,
+  // bottomRef,
 }) => (
   <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 pb-4">
     {messages.map((msg) => (
@@ -20,8 +20,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         key={msg.id}
         className="flex gap-3 self-start items-start max-w-[80%] w-full"
       >
-        {/* Avatar */}
-        {msg.name === "Анухай" && msg.received ? (
+        {msg.received ? (
           <Image
             src="/blob.png"
             alt="Анухай"
@@ -31,20 +30,18 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
           />
         ) : (
           <Avatar className="w-8 h-8 mt-1">
-            <AvatarImage src={msg.avatar || ""} alt={msg.name || ""} />
-            <AvatarFallback>{msg.name?.[0] || "A"}</AvatarFallback>
+            <AvatarImage src={"/blob.png"} />
+            <AvatarFallback>{"/blob.png"}</AvatarFallback>
           </Avatar>
         )}
 
-        {/* Message Block */}
         <div className="flex flex-col gap-1">
           <div className="flex justify-between items-start">
-            {/* Name */}
-            <span className="text-sm font-semibold text-white">{msg.name}</span>
-            {/* Timestamp */}
-            <span className="text-xs text-gray-400 ml-2">{msg.timestamp}</span>
+            <span className="text-sm font-semibold text-white">
+              {msg.content}
+            </span>
+            <span className="text-xs text-gray-400 ml-2">{msg.createdAt}</span>
           </div>
-          {/* Message Content */}
           <div className="text-sm text-white whitespace-pre-wrap px-0 py-0">
             {msg.content}
           </div>
@@ -52,7 +49,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       </div>
     ))}
 
-    {/* Loading bubble */}
     {isLoading && (
       <div className="flex gap-3 self-start items-start max-w-[80%]">
         <Avatar className="w-8 h-8 mt-1" />
@@ -62,7 +58,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         </div>
       </div>
     )}
-    <div ref={bottomRef} />
   </div>
 );
 
