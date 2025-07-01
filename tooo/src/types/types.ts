@@ -17,14 +17,14 @@ export type Conversation = {
 };
 
 export type Message = {
-  id: number;
+  id?: number;
   content: string;
-  userId: number;
+  userId?: number;
   user?: User;
   received: boolean;
-  answered: boolean;
-  createdAt: string;
-  conversationId: number;
+  answered?: boolean;
+  createdAt?: string;
+  conversationId?: number;
   Conversation?: Conversation;
 };
 
