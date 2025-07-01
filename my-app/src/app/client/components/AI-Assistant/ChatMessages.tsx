@@ -56,7 +56,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522]">
+    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522] mb-[100px]">
       {Object.entries(groupedMessages).map(([dateKey, dayMessages]) => (
         <div key={dateKey}>
           <div className="flex items-center justify-center my-4">
@@ -98,7 +98,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                 </div>
 
                 {/* Message content */}
-                <div className="flex flex-col gap-2 relative w-full">
+                <div className="flex flex-col gap-2 relative max-w-[811px] w-full">
                   {/* Timestamp - top right */}
                   <span className="absolute top-0 right-0 text-[#C8CBCF] text-[18px] font-normal">
                     {formatTime(msg.timestamp)}
@@ -109,7 +109,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                   </span>
                   {/* Message bubble */}
                   <div
-                    className="text-[#98A2B3] text-xl whitespace-pre-wrap break-words max-w-full font-medium"
+                    className={`text-[#98A2B3] text-xl whitespace-pre-wrap break-words font-medium max-w-[80%]`}
                     style={
                       msg.received
                         ? {
