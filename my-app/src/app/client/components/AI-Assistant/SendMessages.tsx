@@ -128,7 +128,7 @@ export default function SendMessages(props: SendMessageProps) {
   );
 
   return (
-    <div className="relative">
+    <div className="relative font-gip">
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -157,7 +157,6 @@ export default function SendMessages(props: SendMessageProps) {
               ? "opacity-40"
               : "opacity-80 hover:opacity-100"
           }`}
-
         />
       </Button>
     </div>
