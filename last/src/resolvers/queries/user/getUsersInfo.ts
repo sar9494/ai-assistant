@@ -2,11 +2,10 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const userInformation = async (req: Request, res: Response) => {
-  const { input } = req.body;
-  const { userId } = input;
+  const { id } = req.query as { id: string };
   try {
     const user = await prisma.user.findUnique({
-      where: { id: Number(userId) },
+      where: { id: Number(id) },
       include: { conversation: true },
     });
 
