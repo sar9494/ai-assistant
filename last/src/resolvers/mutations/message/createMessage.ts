@@ -10,8 +10,7 @@ type CreateMessageInput = {
 };
 
 export const createMessage = async (req: Request, res: Response) => {
-  const { input } = req.body;
-  const { content, received, conversationId, userId } = input;
+  const { content, received, conversationId, userId } = req.body;
 
   if (!content || typeof received !== "boolean" || !conversationId) {
     throw new Error("Invalid input data");

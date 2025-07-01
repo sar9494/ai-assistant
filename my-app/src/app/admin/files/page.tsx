@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  useDelete_FileMutation,
-  useGetAllFilesQuery,
-} from "@/generated/graphql";
+import { Plus, Trash2, File as FileIcon } from "lucide-react";
+import AddFileModal from "./AddFileModal";
+
+
 import { toast } from "sonner";
 import { CalendarDate } from "./_components/DatePicker";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -22,6 +22,7 @@ export type mockFileDataType = {
 };
 
 const Page = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -172,6 +173,8 @@ const Page = () => {
         return "#58AF54";
     }
   };
+
+  const handleDeleteFile = async (id: string) => {};
   const getColorsByType = (type: string) => {
     switch (type) {
       case "EMPLOYEE":

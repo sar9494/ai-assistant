@@ -4,7 +4,6 @@ import { ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Message } from "@/types/types";
-// import { useSocket } from "@/app/components/context/SocketContext";
 
 type SendMessageProps = {
   input: string;
@@ -12,19 +11,11 @@ type SendMessageProps = {
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  userId?: number;
-  roomId?: number;
   sendMessage: () => void;
 };
 
 export default function SendMessages(props: SendMessageProps) {
-  const {
-    input,
-    setInput,
-    isLoading,
-
-    sendMessage,
-  } = props;
+  const { input, setInput, isLoading, sendMessage } = props;
   useEffect(() => {
     console.log(input);
   }, [input]);

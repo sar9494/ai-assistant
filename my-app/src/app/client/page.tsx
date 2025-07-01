@@ -4,9 +4,12 @@ import { useState } from "react";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Sidebar from "./components/SideBar";
 import Assistant from "./components/AI-Assistant/Assistant";
+import { useUser } from "../provider/userProvider";
 
 export default function ClientPage() {
   const [tab, setTab] = useState("dashboard");
+  const { user } = useUser();
+  console.log(user);
 
   return (
     <div className="flex min-h-screen h-screen w-screen min-w-full overflow-hidden">

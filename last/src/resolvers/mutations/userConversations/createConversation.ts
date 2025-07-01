@@ -2,8 +2,7 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const createConversation = async (req: Request, res: Response) => {
-  const { input } = req.body;
-  const { userId, messages } = input;
+  const { userId } = req.body;
 
   try {
     const userExists = await prisma.user.findUnique({
@@ -14,29 +13,18 @@ export const createConversation = async (req: Request, res: Response) => {
       throw new Error(`User does not exist`);
     }
 
-    const finalTitle = messages[0].content.slice(0, 30);
-
-    await prisma.conversation.create({
+    const newConversation = await prisma.conversation.create({
       data: {
-        title: finalTitle,
+        title: "Шинэ чат",
         userId: Number(userId),
-        messages: {
-          create: messages.map(
-            (msg: {
-              content: string;
-              received: boolean;
-              answered?: boolean;
-            }) => ({
-              content: msg.content,
-              received: msg.received,
-              answered: msg.answered ?? false,
-            })
-          ),
-        },
       },
     });
 
-    res.json({ success: true, message: "Conversation created successfully" });
+    res.json({
+      success: true,
+      message: "Conversation created successfully",
+      conversation: newConversation,
+    });
   } catch (error) {
     console.error(error);
     throw new Error("Failed to create conversation with messages");

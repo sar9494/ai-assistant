@@ -1,8 +1,8 @@
 import React from "react";
-import { Message } from "./types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import styles from "./Assistant.module.css";
+import { Message } from "@/types/types";
 
 type ChatMessagesProps = {
   messages: Message[];
@@ -16,7 +16,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   bottomRef,
 }) => {
   const groupedMessages = messages.reduce((groups, msg) => {
-    const date = new Date(msg.timestamp);
+    const date = new Date(msg.createdAt!);
     const dateKey = date.toDateString();
 
     if (!groups[dateKey]) groups[dateKey] = [];
@@ -63,7 +63,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
           <div className="flex items-center justify-center my-4">
             <div className="flex-1 h-px bg-[#34405466]" />
             <span className="px-4 text-lg text-[#C8CBCF] font-medium">
-              {formatDate(dayMessages[0].timestamp, dayMessages[0].timestamp)}
+              {formatDate(dayMessages[0].createdAt!, dayMessages[0].createdAt!)}
             </span>
             <div className="flex-1 h-px bg-[#34405466]" />
           </div>
@@ -74,7 +74,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
             const marginClass = isAI && !prevIsAI ? "my-[50px]" : "";
             return (
               <div
-                key={msg.id}
+                key={idx}
                 className={`flex gap-5 w-full max-w-full ${marginClass}`}
               >
                 {/* Message content */}
@@ -85,7 +85,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                     <div className="flex gap-4 p-4 rounded-xl border border-[#344054B3] bg-[#1B202FB2] text-[#98A2B3] max-w-[879px] w-full">
                       {/* Avatar */}
                       <div className="shrink-0">
-                        {msg.name === "Анухай" && msg.received ? (
+                        {msg.received ? (
                           <Image
                             src="/blob.png"
                             alt="Анухай"
@@ -95,12 +95,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                           />
                         ) : (
                           <Avatar className="w-12 h-12">
-                            <AvatarImage
-                              src={msg.avatar || ""}
-                              alt={msg.name || ""}
-                            />
+                            <AvatarImage src={"/blob.png"} />
                             <AvatarFallback>
-                              {msg.name?.[0] || "A"}
+                              {/* {msg.name?.[0] || "A"} */}
                             </AvatarFallback>
                           </Avatar>
                         )}
@@ -110,11 +107,11 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                         <div className="flex items-center justify-between w-full">
                           {/* Name */}
                           <span className="text-[#C8CBCF] text-xl font-semibold">
-                            {msg.name || "User"}
+                            {msg.received || "User"}
                           </span>
                           {/* Timestamp */}
                           <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
-                            {formatTime(msg.timestamp)}
+                            {formatTime(msg.createdAt!)}
                           </span>
                         </div>
                         {/* Message */}
@@ -129,13 +126,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                       {/* Avatar */}
                       <div className="shrink-0">
                         <Avatar className="w-12 h-12">
-                          <AvatarImage
-                            src={msg.avatar || ""}
-                            alt={msg.name || ""}
-                          />
-                          <AvatarFallback>
-                            {msg.name?.[0] || "A"}
-                          </AvatarFallback>
+                          <AvatarImage src={"/blob.png"} />
+
+                          <AvatarFallback></AvatarFallback>
                         </Avatar>
                       </div>
                       {/* Content: name, timestamp, and message */}
@@ -143,11 +136,11 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
                         <div className="flex items-center justify-between w-full">
                           {/* Name */}
                           <span className="text-[#C8CBCF] text-xl font-semibold">
-                            {msg.name || "User"}
+                            {msg.received || "User"}
                           </span>
                           {/* Timestamp */}
                           <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
-                            {formatTime(msg.timestamp)}
+                            {formatTime(msg.createdAt!)}
                           </span>
                         </div>
                         {/* Message */}

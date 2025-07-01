@@ -11,23 +11,9 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Exact, GetAllFilesQuery } from "@/generated/graphql";
-import { ApolloQueryResult } from "@apollo/client";
 
-const AddFileModal = (props: {
-  isOpen: boolean;
-  onClose: () => void;
-  refetch: (
-    variables?:
-      | Partial<
-          Exact<{
-            [key: string]: never;
-          }>
-        >
-      | undefined
-  ) => Promise<ApolloQueryResult<GetAllFilesQuery>>;
-}) => {
-  const { isOpen, onClose, refetch } = props;
+const AddFileModal = (props: { isOpen: boolean; onClose: () => void }) => {
+  const { isOpen, onClose } = props;
   const [file, setFile] = useState<File | undefined>();
   const [name, setName] = useState("");
 
@@ -51,7 +37,6 @@ const AddFileModal = (props: {
 
     const data = await res.json();
     console.log(data);
-    await refetch();
   };
 
   return (

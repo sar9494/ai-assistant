@@ -2,9 +2,7 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const createUser = async (req: Request, res: Response) => {
-  const { input } = req.body;
-
-  const { email, password } = input;
+  const { email, password } = req.body;
 
   try {
     await prisma.user.create({
