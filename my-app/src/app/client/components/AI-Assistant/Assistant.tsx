@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { MessageCircle } from "lucide-react";
+import { ArrowUp, MessageCircle } from "lucide-react";
 import Blob from "../Blob";
 import { Message } from "./types";
 import ChatHeader from "./ChatHeader";
@@ -143,6 +143,7 @@ export default function ChatAssistant() {
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
                 />
+
                 {/* Quick action buttons */}
                 <div className="flex gap-2 justify-center mt-4">
                   {[
@@ -154,9 +155,10 @@ export default function ChatAssistant() {
                       key={text}
                       type="button"
                       onClick={() => setInput(text)}
-                      className="px-4 py-2 rounded-lg bg-[#181B2C] text-[#98A2B3] hover:bg-[#23263a] border border-[#23263a] transition-colors text-[16px] font-medium"
+                      className="px-4 py-2 rounded-lg bg-[#181B2C] text-[#98A2B3] hover:bg-[#23263a] border border-[#23263a] transition-colors text-[16px] font-medium flex items-center gap-2"
                     >
                       {text}
+                      <ArrowUp className="w-4 h-4" />
                     </button>
                   ))}
                 </div>

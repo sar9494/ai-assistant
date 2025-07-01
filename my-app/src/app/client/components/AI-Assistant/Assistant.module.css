@@ -34,3 +34,14 @@
     opacity: 1;
   }
 }
+
+.gradient-btn {
+  transition: box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 0 0px 0px #bfaaff80;
+}
+
+.gradient-btn:hover,
+.gradient-btn:focus {
+  box-shadow: 0 4px 24px 0 #bfaaff80;
+  filter: brightness(1.05);
+}
