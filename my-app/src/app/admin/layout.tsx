@@ -42,7 +42,7 @@ export default function AdminLayout({
           </Link>
         </div>
       </aside>
-      <main className="flex-1 bg-gray-50 p-6 overflow-y-auto">{children}</main>
+      <main className="flex-1 bg-gray-50 overflow-y-auto">{children}</main>
     </div>
   );
 }
