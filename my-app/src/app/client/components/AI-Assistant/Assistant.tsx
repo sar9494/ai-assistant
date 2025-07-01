@@ -2,21 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  PanelRight,
-  Plus,
-  Search,
-  Trash,
-  Command,
-  Heading,
-  MessageCircle,
-} from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Blob from "../Blob";
-import SendMessages from "./SendMessages";
 import { Message } from "./types";
-import { Input } from "@/components/ui/input";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -112,22 +100,6 @@ export default function ChatAssistant() {
     });
   });
 
-  // useEffect(() => {
-  //   if (user?.messages?.length) {
-  //     const userMessages = user.messages.map((m) => ({
-  //       id: m.id,
-  //       received: m.received,
-  //       content: m.content,
-  //       timestamp: new Date(m.createdAt).toLocaleTimeString("mn-MN", {
-  //         hour: "2-digit",
-  //         minute: "2-digit",
-  //         hour12: false,
-  //       }),
-  //     }));
-  //     setMessages(userMessages);
-  //   }
-  // }, [user]);
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -135,6 +107,7 @@ export default function ChatAssistant() {
   return (
     <div className="flex h-screen bg-[#101522] text-white">
       {/* Main Chat Area */}
+
       <div className="flex-1 flex flex-col relative">
         <ChatHeader isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         <div className="flex-1 flex flex-col items-center justify-center pb-[100px]">
@@ -153,6 +126,7 @@ export default function ChatAssistant() {
               Анухай
             </span>
           </h1>
+
           <ChatMessages messages={messages} isLoading={isLoading} bottomRef={bottomRef} />
         </div>
         <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">

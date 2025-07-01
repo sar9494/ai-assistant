@@ -6,14 +6,16 @@
   "scripts": {
     "prebuild": "prisma generate",
     "dev": "next dev -p 4000",
+    "dev:server": "tsx src/server.ts",
     "build": "next build",
-    "start": "node --loader ts-node/esm src/server.ts",
+    "start": "next start -p 4000",
     "codegen": "graphql-codegen --config codegen.ts",
     "server": "node --loader ts-node/esm src/server.ts",
     "vercel-build": "next build"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
+    "@as-integrations/next": "^3.2.0",
     "@graphql-codegen/cli": "^5.0.7",
     "@pinecone-database/pinecone": "^6.1.1",
     "@prisma/client": "^6.10.1",
@@ -46,6 +48,8 @@
     "prisma": "^6.10.1",
     "tailwindcss": "^3.2.4",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }
 }

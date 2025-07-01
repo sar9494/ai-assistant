@@ -44,7 +44,7 @@ const AddFileModal = (props: {
     formData.append("file", file);
     formData.append("name", name);
 
-    const res = await fetch("https://assistant-beige.vercel.app/api/upload", {
+    const res = await fetch("http://localhost:4000/api/upload", {
       method: "POST",
       body: formData,
     });

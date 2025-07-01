@@ -4,9 +4,9 @@ import multer from "multer";
 import dotenv from "dotenv";
 import cors from "cors";
 import { ApolloServer } from "@apollo/server";
-import { resolvers } from "../lib/resolvers";
-import { uploadFile } from "../lib/resolvers/mutations";
-import { typeDefs } from "../lib/schemas";
+import { resolvers } from "./resolvers";
+import { uploadFile } from "./resolvers/mutations";
+import { typeDefs } from "./schemas";
 import prisma from "../prismaClient";
 import { Server } from "socket.io";
 import { assistant } from "../connectPinecone";
@@ -18,7 +18,9 @@ const app = express();
 const httpServer = createServer(app);
 const upload = multer({ dest: "uploads/" });
 
-app.use(cors({ origin: "https://ai-frontend-ruby.vercel.app" }));
+// app.use(cors({ origin: "https://ai-frontend-ruby.vercel.app" }));
+app.use(cors({ origin: "http://localhost:3000" }));
+
 app.use(express.json());
 
 const apolloServer = new ApolloServer({

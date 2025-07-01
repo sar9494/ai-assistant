@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import mammoth from "mammoth";
 import fs from "fs/promises";
-import { pinecone } from "../../../../connectPinecone";
+import { assistant } from "../../../../connectPinecone";
 import prisma from "../../../../prismaClient";
-
-const assistant = pinecone.Assistant("ai-assistant");
 
 export const uploadFile = async (req: Request, res: Response) => {
   try {
