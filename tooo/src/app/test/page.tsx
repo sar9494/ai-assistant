@@ -40,8 +40,8 @@ export default function Home() {
     formData.append("type", "HR");
 
     const res = await fetch(
-      "https://ai-assistant-1-1y2o.onrender.com/api/upload",
-      // "http://localhost:4000/api/upload",
+      // "https://ai-assistant-1-1y2o.onrender.com/api/upload",
+      "http://localhost:4000/api/upload",
       {
         method: "POST",
         body: formData,
@@ -59,7 +59,7 @@ export default function Home() {
   useEffect(() => {
     setMessages([]);
 
-    socket = io("https://ai-assistant-1-1y2o.onrender.com    ", {
+    socket = io("http://localhost:4000", {
       transports: ["websocket"],
     });
     socket.on("connect", () => {
