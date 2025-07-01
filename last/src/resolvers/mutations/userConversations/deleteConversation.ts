@@ -2,8 +2,7 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const deleteConversation = async (req: Request, res: Response) => {
-  const { input } = req.body;
-  const { id } = input;
+  const { id } = req.body;
 
   try {
     if (!id) {

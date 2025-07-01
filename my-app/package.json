@@ -6,16 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "codegen": "graphql-codegen"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.8",
     "@eslint/eslintrc": "^3.0.0",
-    "@graphql-codegen/cli": "^5.0.7",
-    "@graphql-codegen/typescript": "^4.1.6",
-    "@graphql-codegen/typescript-operations": "^4.6.1",
-    "@graphql-codegen/typescript-react-apollo": "^4.3.3",
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.14",

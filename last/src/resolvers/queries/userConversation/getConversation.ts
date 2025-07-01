@@ -2,10 +2,8 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const getConversations = async (req: Request, res: Response) => {
-  const { input } = req.body;
+  const { id } = req.query;
   try {
-    const { id } = input;
-
     if (!id || isNaN(Number(id))) {
       throw new Error("Хэрэглэгчийн ID буруу байна.");
     }

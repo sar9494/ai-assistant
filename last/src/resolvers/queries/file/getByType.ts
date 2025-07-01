@@ -1,8 +1,9 @@
 import { Response, Request } from "express";
 import prisma from "../../../../prismaClient";
+import { FileType } from "../../../../types/types";
 
 export const getByType = async (req: Request, res: Response) => {
-  const { type } = req.body;
+  const { type } = req.query as { type: FileType };
   try {
     const files = await prisma.file.findMany({
       where: { type },

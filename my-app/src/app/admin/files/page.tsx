@@ -3,25 +3,11 @@
 import React, { useState } from "react";
 import { Plus, Trash2, File as FileIcon } from "lucide-react";
 import AddFileModal from "./AddFileModal";
-import {
-  useDelete_FileMutation,
-  useGetAllFilesQuery,
-} from "@/generated/graphql";
+
 import { toast } from "sonner";
 
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, refetch, error } = useGetAllFilesQuery();
-  const [deleteFile] = useDelete_FileMutation({
-    onError: () => {
-      toast("Файл устгах үед алдаа гарлаа: ");
-    },
-    onCompleted: () => {
-      toast("Файл амжилттай устгагдлаа");
-    },
-  });
-
-  console.log("error", error?.message);
 
   const formatSize = (size: number) => {
     if (size > 1024 * 1024) return (size / (1024 * 1024)).toFixed(1) + "MB";
@@ -29,16 +15,7 @@ const Page = () => {
     return size + "B";
   };
 
-  const handleDeleteFile = async (id: string) => {
-    await deleteFile({
-      variables: {
-        input: {
-          id,
-        },
-      },
-    });
-    await refetch();
-  };
+  const handleDeleteFile = async (id: string) => {};
 
   return (
     <div className="min-h-screen bg-white  text-black flex flex-col">
@@ -67,29 +44,29 @@ const Page = () => {
           </button>
         </div>
         <div className="flex flex-wrap gap-6">
-          {data?.files.map((file) => (
-            <div
-              key={file.id}
-              className="relative w-56 h-40 bg-[#F7FAFC] rounded-xl shadow-sm flex flex-col items-center justify-center p-4"
+          {/* {data?.files.map((file) => ( */}
+          <div
+            // key={file.id}
+            className="relative w-56 h-40 bg-[#F7FAFC] rounded-xl shadow-sm flex flex-col items-center justify-center p-4"
+          >
+            <button
+              className="absolute top-3 right-3 text-red-400 hover:text-red-600"
+              // onClick={() => handleDeleteFile(file.id)}
             >
-              <button
-                className="absolute top-3 right-3 text-red-400 hover:text-red-600"
-                onClick={() => handleDeleteFile(file.id)}
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-              <FileIcon className="w-12 h-12 text-blue-400 mb-2" />
-              <div className="text-base font-medium text-gray-800 text-center truncate w-full">
-                {file.name}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">{formatSize(2)}</div>
+              <Trash2 className="w-5 h-5" />
+            </button>
+            <FileIcon className="w-12 h-12 text-blue-400 mb-2" />
+            <div className="text-base font-medium text-gray-800 text-center truncate w-full">
+              {/* {file.name} */}
             </div>
-          ))}
+            <div className="text-xs text-gray-500 mt-1">{formatSize(2)}</div>
+          </div>
+          {/* ))} */}
         </div>
         <AddFileModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          refetch={refetch}
+          // refetch={refetch}
         />
       </main>
     </div>

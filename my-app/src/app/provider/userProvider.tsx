@@ -22,9 +22,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/?id=123`
       );
-      console.log(response.data);
+      console.log(response.data.user);
 
-      return response.data;
+      return response.data.user;
     },
   });
 

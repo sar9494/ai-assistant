@@ -1,5 +1,5 @@
 import React from "react";
-import SendMessages from "./SendMessages";
+// import SendMessages from "./SendMessages";
 import { Message } from "@/types/types";
 
 type ChatInputProps = {
@@ -18,13 +18,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
   setIsLoading,
 }) => (
   <div className="relative w-full max-w-[895px] mx-auto mt-4">
-    <SendMessages
-      message={input}
-      setMessage={setInput}
+    {/* <SendMessages
+      input={input}
+      setInput={setInput}
       setMessages={setMessages}
       isLoading={isLoading}
       setIsLoading={setIsLoading}
-    />
+    /> */}
   </div>
 );
 
