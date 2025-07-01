@@ -105,7 +105,7 @@ export default function ChatAssistant() {
   }, [messages]);
 
   return (
-    <div className="flex h-screen bg-[#101522] text-white font-gip">
+    <div className="flex h-screen bg-[#101522] text-white font-gip relative overflow-hidden">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative bg-[#101522]">
         <ChatHeader
@@ -115,8 +115,12 @@ export default function ChatAssistant() {
         <div className="flex-1 flex flex-col h-0">
           {/* Centered welcome if no messages */}
           {messages.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center">
-              <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip">
+            <div className="flex-1 flex flex-col items-center justify-center relative">
+              {/* BLOB BACKGROUND */}
+              <div className="absolute bottom-[-300px] left-[-100px] w-[500px] h-[500px] pointer-events-none z-0">
+                <div className="w-full h-full rounded-full bg-[radial-gradient(circle,#C600FC_0%,#967ADE_60%)] opacity-50 blur-[120px]" />
+              </div>
+              <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip font-bold">
                 Хувийн туслах
                 <div className="mx-4">
                   <Blob />
@@ -139,6 +143,23 @@ export default function ChatAssistant() {
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
                 />
+                {/* Quick action buttons */}
+                <div className="flex gap-2 justify-center mt-4">
+                  {[
+                    "Байгууллагын үнэт зүйл",
+                    "Дотоод журам",
+                    "Хэдэн хүн ажилдаг вэ",
+                  ].map((text) => (
+                    <button
+                      key={text}
+                      type="button"
+                      onClick={() => setInput(text)}
+                      className="px-4 py-2 rounded-lg bg-[#181B2C] text-[#98A2B3] hover:bg-[#23263a] border border-[#23263a] transition-colors text-[16px] font-medium"
+                    >
+                      {text}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (

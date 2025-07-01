@@ -2,6 +2,7 @@ import React from "react";
 import { Message } from "./types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import styles from "./Assistant.module.css";
 
 type ChatMessagesProps = {
   messages: Message[];
@@ -56,7 +57,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522] mb-[100px]">
+    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522] mb-[200px]">
       {Object.entries(groupedMessages).map(([dateKey, dayMessages]) => (
         <div key={dateKey}>
           <div className="flex items-center justify-center my-4">
@@ -133,10 +134,12 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       {/* Loading */}
       {isLoading && (
         <div className="flex gap-3 self-start items-start max-w-[80%]">
-          <Avatar className="w-8 h-8 mt-1" />
-          <div className="bg-[#1f2937] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2">
-            <span>Анухай уншиж байна</span>
-            <span className="animate-bounce">...</span>
+          <div className="bg-[#1f2937] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2 ml-16 mt-[50px]">
+            <span className={styles.typing}>
+              <span className={styles["typing-dot"]}></span>
+              <span className={styles["typing-dot"]}></span>
+              <span className={styles["typing-dot"]}></span>
+            </span>
           </div>
         </div>
       )}
