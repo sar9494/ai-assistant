@@ -5,13 +5,14 @@ export const createUser: MutationResolvers["createUser"] = async (
   _,
   { input }
 ) => {
-  const { email, password } = input;
+  const { email, password, name } = input;
 
   try {
     await prisma.user.create({
       data: {
         email,
         password,
+        name,
         role: "ADMIN",
       },
     });

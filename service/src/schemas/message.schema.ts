@@ -4,20 +4,22 @@ export const messageDefs = gql`
   type Message {
     id: ID!
     userId: Int!
-    user:User!
+    user: User!
     content: String!
-    answered:Boolean!
-    received:Boolean!
+    answered: Boolean!
+    received: Boolean!
     createdAt: Date!
+    file: File
+    status: String!
   }
   input CreateMessageInput {
     userId: Int!
     content: String!
-    received:Boolean!
+    received: Boolean!
   }
   input DeleteMessageInput {
-    id:ID!
-      }
+    id: ID!
+  }
 
   type Mutation {
     createMessage(input: CreateMessageInput!): Response!
