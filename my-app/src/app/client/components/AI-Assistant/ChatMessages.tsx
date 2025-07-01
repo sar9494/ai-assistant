@@ -75,55 +75,88 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
             return (
               <div
                 key={msg.id}
-                className={`flex items-start gap-5 w-full max-w-full ${marginClass}`}
+                className={`flex gap-5 w-full max-w-full ${marginClass}`}
               >
-                {/* Avatar */}
-                <div className="shrink-0">
-                  {msg.name === "Анухай" && msg.received ? (
-                    <Image
-                      src="/blob.png"
-                      alt="Анухай"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <Avatar className="w-12 h-12">
-                      <AvatarImage
-                        src={msg.avatar || ""}
-                        alt={msg.name || ""}
-                      />
-                      <AvatarFallback>{msg.name?.[0] || "A"}</AvatarFallback>
-                    </Avatar>
-                  )}
-                </div>
-
                 {/* Message content */}
-                <div className="flex flex-col gap-2 relative max-w-[811px] w-full">
+                <div className="relative max-w-[879px] w-full">
                   {/* Timestamp - top right */}
-                  <span className="absolute top-0 right-0 text-[#C8CBCF] text-[18px] font-normal">
-                    {formatTime(msg.timestamp)}
-                  </span>
-                  {/* Name */}
-                  <span className="text-xl text-[#C8CBCF] font-semibold">
-                    {msg.received ? "AnuxAI" : msg.name || "User"}
-                  </span>
-                  {/* Message bubble */}
-                  <div
-                    className={`text-[#98A2B3] text-xl whitespace-pre-wrap break-words font-medium max-w-[80%]`}
-                    style={
-                      msg.received
-                        ? {
-                            background: "#1B202FB2",
-                            border: "1.5px solid #344054B3",
-                            borderRadius: "12px",
-                            padding: "12px 16px",
-                          }
-                        : {}
-                    }
-                  >
-                    {msg.content}
-                  </div>
+                  {isAI ? (
+                    // Assistant message bubble
+                    <div className="flex gap-4 p-4 rounded-xl border border-[#344054B3] bg-[#1B202FB2] text-[#98A2B3] max-w-[879px] w-full">
+                      {/* Avatar */}
+                      <div className="shrink-0">
+                        {msg.name === "Анухай" && msg.received ? (
+                          <Image
+                            src="/blob.png"
+                            alt="Анухай"
+                            width={32}
+                            height={32}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <Avatar className="w-12 h-12">
+                            <AvatarImage
+                              src={msg.avatar || ""}
+                              alt={msg.name || ""}
+                            />
+                            <AvatarFallback>
+                              {msg.name?.[0] || "A"}
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                      </div>
+                      {/* Content: name, timestamp, and message */}
+                      <div className="flex flex-col max-w-[827px] w-full">
+                        <div className="flex items-center justify-between w-full">
+                          {/* Name */}
+                          <span className="text-[#C8CBCF] text-xl font-semibold">
+                            {msg.name || "User"}
+                          </span>
+                          {/* Timestamp */}
+                          <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
+                            {formatTime(msg.timestamp)}
+                          </span>
+                        </div>
+                        {/* Message */}
+                        <div className="text-xl whitespace-pre-wrap break-all font-normal mt-1">
+                          {msg.content}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    // User message: avatar, username, and message (no bubble)
+                    <div className="flex gap-4 items-center max-w-[879px] w-full">
+                      {/* Avatar */}
+                      <div className="shrink-0">
+                        <Avatar className="w-12 h-12">
+                          <AvatarImage
+                            src={msg.avatar || ""}
+                            alt={msg.name || ""}
+                          />
+                          <AvatarFallback>
+                            {msg.name?.[0] || "A"}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                      {/* Content: name, timestamp, and message */}
+                      <div className="flex flex-col max-w-[827px] w-full">
+                        <div className="flex items-center justify-between w-full">
+                          {/* Name */}
+                          <span className="text-[#C8CBCF] text-xl font-semibold">
+                            {msg.name || "User"}
+                          </span>
+                          {/* Timestamp */}
+                          <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
+                            {formatTime(msg.timestamp)}
+                          </span>
+                        </div>
+                        {/* Message */}
+                        <div className="text-xl whitespace-pre-wrap break-all font-normal text-[#D0D5DD] mt-1">
+                          {msg.content}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             );
