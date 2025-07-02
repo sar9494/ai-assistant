@@ -54,9 +54,9 @@ async function startServer() {
       });
       socket.emit("chatMessage", {
         content: chatResp.message?.content,
-        room: 1,
+        room: msg.userId,
         received: true,
-        userId: 1,
+        userId: msg.userId,
       });
       const user = await prisma.user.findUnique({
         where: {
@@ -64,29 +64,60 @@ async function startServer() {
         },
       });
       if (user?.role === "EMPLOYEE") {
-        await prisma.message.create({
-          data: {
-            userId: msg.userId,
-            conversationId: msg.userId,
-            content: msg.content,
-            received: msg.received,
-          },
-        });
-        await prisma.message.create({
-          data: {
-            userId: msg.userId,
-            conversationId: msg.userId,
-            content: chatResp.message?.content || "",
-            received: true,
-            answered:
-              chatResp.message?.content?.includes("clarify") ||
-              chatResp.message?.content?.includes("олдсонгүй") ||
-              chatResp.message?.content?.includes("Уучлаарай") ||
-              chatResp.message?.content?.includes("уучлаарай")
-                ? false
-                : true,
-          },
-        });
+        if (msg.conversationId === "") {
+          const newConv = await prisma.conversation.create({
+            data: {
+              userId: msg.userId,
+            },
+          });
+          await prisma.message.create({
+            data: {
+              userId: msg.userId,
+              conversationId: newConv.id,
+              content: msg.content,
+              received: msg.received,
+            },
+          });
+          await prisma.message.create({
+            data: {
+              userId: msg.userId,
+              conversationId: newConv.id,
+              content: chatResp.message?.content || "",
+              received: true,
+              answered:
+                chatResp.message?.content?.includes("clarify") ||
+                chatResp.message?.content?.includes("олдсонгүй") ||
+                chatResp.message?.content?.includes("Уучлаарай") ||
+                chatResp.message?.content?.includes("уучлаарай")
+                  ? false
+                  : true,
+            },
+          });
+        } else {
+          await prisma.message.create({
+            data: {
+              userId: msg.userId,
+              conversationId: msg.conversationId,
+              content: msg.content,
+              received: msg.received,
+            },
+          });
+          await prisma.message.create({
+            data: {
+              userId: msg.userId,
+              conversationId: msg.conversationId,
+              content: chatResp.message?.content || "",
+              received: true,
+              answered:
+                chatResp.message?.content?.includes("clarify") ||
+                chatResp.message?.content?.includes("олдсонгүй") ||
+                chatResp.message?.content?.includes("Уучлаарай") ||
+                chatResp.message?.content?.includes("уучлаарай")
+                  ? false
+                  : true,
+            },
+          });
+        }
       }
     });
 

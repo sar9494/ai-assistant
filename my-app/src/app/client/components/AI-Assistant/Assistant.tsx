@@ -10,6 +10,7 @@ import ChatSidebar from "./ChatSidebar";
 import SendMessages from "./SendMessages";
 import { io, Socket } from "socket.io-client";
 import { Message } from "@/types/types";
+import { useUser } from "@/app/provider/userProvider";
 let socket: Socket;
 
 // Helper to group by Today / Yesterday
@@ -38,6 +39,9 @@ export default function ChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUser();
+  const conversationId =
+    typeof window !== "undefined" ? localStorage.getItem("conversationId") : "";
 
   const mockChatHistory = [
     { id: 1, title: "Шинэ чат", date: new Date().toISOString() },
@@ -61,12 +65,12 @@ export default function ChatAssistant() {
   // Grouping chat items
   const groupedChats: Record<string, { title: string; date: string }[]> = {};
 
-  mockChatHistory.forEach((chat) => {
-    const label = getChatGroupLabel(chat.date);
+  user?.conversation.forEach((chat) => {
+    const label = getChatGroupLabel(chat.createdAt);
     if (!groupedChats[label]) groupedChats[label] = [];
     groupedChats[label].push({
       title: chat.title,
-      date: new Date(chat.date).toLocaleTimeString("mn-MN", {
+      date: new Date(chat.createdAt).toLocaleTimeString("mn-MN", {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -82,9 +86,10 @@ export default function ChatAssistant() {
     if (input !== "") {
       socket.emit("chatMessage", {
         content: input,
-        room: 1,
+        room: user?.id,
         received: false,
-        userId: 1,
+        userId: user?.id,
+        conversationId: messages.length == 0 ? "" : conversationId,
       });
       console.log("sending", input);
       setIsLoading(true);
@@ -114,7 +119,7 @@ export default function ChatAssistant() {
         { received: true, content: msg.content },
       ]);
     });
-    socket.emit("join_room", 1);
+    socket.emit("join_room", user?.id);
 
     return () => {
       socket.disconnect();

@@ -10,7 +10,7 @@ export type User = {
 
 export type Conversation = {
   id: number;
-  title?: string | null;
+  title: string;
   createdAt: string;
   userId: number;
   messages: Message[];
