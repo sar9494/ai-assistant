@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Command, Heading } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ChatItem from "./ChatItem";
+import { useUser } from "@/app/provider/userProvider";
 
 type ChatSidebarProps = {
   isSidebarOpen: boolean;
@@ -13,6 +14,9 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   isSidebarOpen,
   groupedChats,
 }) => {
+  const { user } = useUser();
+  console.log(user);
+
   if (!isSidebarOpen) return null;
   return (
     <div className="w-[340px] border-l border-[#2c2f48] pt-[47px] px-3 bg-[#0b111c]">

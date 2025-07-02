@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Plus, Trash2, File as FileIcon } from "lucide-react";
 import AddFileModal from "./AddFileModal";
-
 
 import { toast } from "sonner";
 import { CalendarDate } from "./_components/DatePicker";
@@ -13,6 +12,7 @@ import { ChooseFile } from "./_components/ChooseFile";
 import SearchFile from "./_components/SearchFileByName";
 import { Badge } from "@/components/ui/badge";
 import UploadFile from "./_components/UploadFile";
+import { getAllFile } from "@/lib/getAllFile";
 
 export type mockFileDataType = {
   id: string;
@@ -25,12 +25,6 @@ const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  // const { data, refetch, error } = useGetAllFilesQuery();
-  // const [deleteFile] = useDelete_FileMutation({
-  //   onError: () => toast("Файл устгах үед алдаа гарлаа: "),
-  //   onCompleted: () => toast("Файл амжилттай устгагдлаа"),
-  // });
 
   const mockFileData: mockFileDataType[] = [
     {
@@ -204,6 +198,13 @@ const Page = () => {
         };
     }
   };
+  const fetchData = async () => {
+    const files = await getAllFile();
+    console.log(files);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#1A1E23] flex flex-col px-16">
@@ -258,7 +259,7 @@ const Page = () => {
                   </Badge>
                 </a>
               </div>
-              <EllipsisVertical className="w-6 h-6 cursor-pointer"/>
+              <EllipsisVertical className="w-6 h-6 cursor-pointer" />
             </CardFooter>
           </Card>
         ))}
