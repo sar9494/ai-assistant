@@ -1,8 +1,7 @@
 import React from "react";
+import { Message } from "./types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-import styles from "./Assistant.module.css";
-import { Message } from "@/types/types";
 
 type ChatMessagesProps = {
   messages: Message[];
@@ -16,7 +15,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   bottomRef,
 }) => {
   const groupedMessages = messages.reduce((groups, msg) => {
-    const date = new Date(msg.createdAt!);
+    const date = new Date(msg.timestamp);
     const dateKey = date.toDateString();
 
     if (!groups[dateKey]) groups[dateKey] = [];
@@ -57,13 +56,13 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522] mb-[200px]">
+    <div className="w-full max-w-[895px] mx-auto flex flex-col gap-4 px-2 font-gip bg-[#101522] mb-[100px]">
       {Object.entries(groupedMessages).map(([dateKey, dayMessages]) => (
         <div key={dateKey}>
           <div className="flex items-center justify-center my-4">
             <div className="flex-1 h-px bg-[#34405466]" />
             <span className="px-4 text-lg text-[#C8CBCF] font-medium">
-              {formatDate(dayMessages[0].createdAt!, dayMessages[0].createdAt!)}
+              {formatDate(dayMessages[0].timestamp, dayMessages[0].timestamp)}
             </span>
             <div className="flex-1 h-px bg-[#34405466]" />
           </div>
@@ -74,82 +73,56 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
             const marginClass = isAI && !prevIsAI ? "my-[50px]" : "";
             return (
               <div
-                key={idx}
-                className={`flex gap-5 w-full max-w-full ${marginClass}`}
+                key={msg.id}
+                className={`flex items-start gap-5 w-full max-w-full ${marginClass}`}
               >
-                {/* Message content */}
-                <div className="relative max-w-[879px] w-full">
-                  {/* Timestamp - top right */}
-                  {isAI ? (
-                    // Assistant message bubble
-                    <div className="flex gap-4 p-4 rounded-xl border border-[#344054B3] bg-[#1B202FB2] text-[#98A2B3] max-w-[879px] w-full">
-                      {/* Avatar */}
-                      <div className="shrink-0">
-                        {msg.received ? (
-                          <Image
-                            src="/blob.png"
-                            alt="Анухай"
-                            width={32}
-                            height={32}
-                            className="w-8 h-8 rounded-full object-cover"
-                          />
-                        ) : (
-                          <Avatar className="w-12 h-12">
-                            <AvatarImage src={"/blob.png"} />
-                            <AvatarFallback>
-                              {/* {msg.name?.[0] || "A"} */}
-                            </AvatarFallback>
-                          </Avatar>
-                        )}
-                      </div>
-                      {/* Content: name, timestamp, and message */}
-                      <div className="flex flex-col max-w-[827px] w-full">
-                        <div className="flex items-center justify-between w-full">
-                          {/* Name */}
-                          <span className="text-[#C8CBCF] text-xl font-semibold">
-                            {msg.received || "User"}
-                          </span>
-                          {/* Timestamp */}
-                          <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
-                            {formatTime(msg.createdAt!)}
-                          </span>
-                        </div>
-                        {/* Message */}
-                        <div className="text-xl whitespace-pre-wrap break-all font-normal mt-1">
-                          {msg.content}
-                        </div>
-                      </div>
-                    </div>
+                {/* Avatar */}
+                <div className="shrink-0">
+                  {msg.name === "Анухай" && msg.received ? (
+                    <Image
+                      src="/blob.png"
+                      alt="Анухай"
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
                   ) : (
-                    // User message: avatar, username, and message (no bubble)
-                    <div className="flex gap-4 items-center max-w-[879px] w-full">
-                      {/* Avatar */}
-                      <div className="shrink-0">
-                        <Avatar className="w-12 h-12">
-                          <AvatarImage src={"/blob.png"} />
-
-                          <AvatarFallback></AvatarFallback>
-                        </Avatar>
-                      </div>
-                      {/* Content: name, timestamp, and message */}
-                      <div className="flex flex-col max-w-[827px] w-full">
-                        <div className="flex items-center justify-between w-full">
-                          {/* Name */}
-                          <span className="text-[#C8CBCF] text-xl font-semibold">
-                            {msg.received || "User"}
-                          </span>
-                          {/* Timestamp */}
-                          <span className="text-[#C8CBCF] text-[18px] font-normal ml-4">
-                            {formatTime(msg.createdAt!)}
-                          </span>
-                        </div>
-                        {/* Message */}
-                        <div className="text-xl whitespace-pre-wrap break-all font-normal text-[#D0D5DD] mt-1">
-                          {msg.content}
-                        </div>
-                      </div>
-                    </div>
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage
+                        src={msg.avatar || ""}
+                        alt={msg.name || ""}
+                      />
+                      <AvatarFallback>{msg.name?.[0] || "A"}</AvatarFallback>
+                    </Avatar>
                   )}
+                </div>
+
+                {/* Message content */}
+                <div className="flex flex-col gap-2 relative max-w-[811px] w-full">
+                  {/* Timestamp - top right */}
+                  <span className="absolute top-0 right-0 text-[#C8CBCF] text-[18px] font-normal">
+                    {formatTime(msg.timestamp)}
+                  </span>
+                  {/* Name */}
+                  <span className="text-xl text-[#C8CBCF] font-semibold">
+                    {msg.received ? "AnuxAI" : msg.name || "User"}
+                  </span>
+                  {/* Message bubble */}
+                  <div
+                    className={`text-[#98A2B3] text-xl whitespace-pre-wrap break-words font-medium max-w-[80%]`}
+                    style={
+                      msg.received
+                        ? {
+                            background: "#1B202FB2",
+                            border: "1.5px solid #344054B3",
+                            borderRadius: "12px",
+                            padding: "12px 16px",
+                          }
+                        : {}
+                    }
+                  >
+                    {msg.content}
+                  </div>
                 </div>
               </div>
             );
@@ -160,12 +133,10 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       {/* Loading */}
       {isLoading && (
         <div className="flex gap-3 self-start items-start max-w-[80%]">
-          <div className="bg-[#1f2937] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2 ml-16 mt-[50px]">
-            <span className={styles.typing}>
-              <span className={styles["typing-dot"]}></span>
-              <span className={styles["typing-dot"]}></span>
-              <span className={styles["typing-dot"]}></span>
-            </span>
+          <Avatar className="w-8 h-8 mt-1" />
+          <div className="bg-[#1f2937] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2">
+            <span>Анухай уншиж байна</span>
+            <span className="animate-bounce">...</span>
           </div>
         </div>
       )}

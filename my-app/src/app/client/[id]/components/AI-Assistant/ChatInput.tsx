@@ -1,6 +1,6 @@
 import React from "react";
-import SendMessages from "./SendMessages";
-import { Message } from "./types";
+// import SendMessages from "./SendMessages";
+import { Message } from "@/types/types";
 
 type ChatInputProps = {
   input: string;
@@ -10,16 +10,22 @@ type ChatInputProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ChatInput: React.FC<ChatInputProps> = ({ input, setInput, setMessages, isLoading, setIsLoading }) => (
+const ChatInput: React.FC<ChatInputProps> = ({
+  input,
+  setInput,
+  setMessages,
+  isLoading,
+  setIsLoading,
+}) => (
   <div className="relative w-full max-w-[895px] mx-auto mt-4">
-    <SendMessages
-      message={input}
-      setMessage={setInput}
+    {/* <SendMessages
+      input={input}
+      setInput={setInput}
       setMessages={setMessages}
       isLoading={isLoading}
       setIsLoading={setIsLoading}
-    />
+    /> */}
   </div>
 );
 
-export default ChatInput; 
+export default ChatInput;

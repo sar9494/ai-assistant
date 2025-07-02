@@ -2,41 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { MessageCircle } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import Blob from "../Blob";
-import { Message } from "./types";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
-import ChatInput from "./ChatInput";
 import ChatSidebar from "./ChatSidebar";
-
-function getTimeString(): string {
-  const now = new Date();
-  return now.toLocaleTimeString("mn-MN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
-type ChatItemProps = {
-  title: string;
-  date: string;
-};
-
-function ChatItem({ title, date }: ChatItemProps) {
-  return (
-    <div className="flex flex-col hover:bg-[#1b1d2f] rounded-lg cursor-pointer">
-      <div className="flex items-center justify-between">
-        <p className="text-[20px] font-semibold text-white truncate max-w-[230px]">
-          {title}
-        </p>
-        <MessageCircle className="text-[#98A2B3] w-[18px] h-[18px] mt-4" />
-      </div>
-      <p className="text-[18px] text-[#98A2B3]">{date}</p>
-    </div>
-  );
-}
+import SendMessages from "./SendMessages";
+import { io, Socket } from "socket.io-client";
+import { Message } from "@/types/types";
+let socket: Socket;
 
 // Helper to group by Today / Yesterday
 function getChatGroupLabel(dateStr: string): "Өнөөдөр" | "Өчигдөр" | string {
@@ -104,8 +78,51 @@ export default function ChatAssistant() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const sendMessage = () => {
+    if (input !== "") {
+      socket.emit("chatMessage", {
+        content: input,
+        room: 1,
+        received: false,
+        userId: 1,
+      });
+      console.log("sending", input);
+      setIsLoading(true);
+
+      setMessages((prev) => [...prev, { received: false, content: input }]);
+      setInput("");
+    }
+  };
+
+  useEffect(() => {
+    setMessages([]);
+
+    socket = io("http://localhost:4000", {
+      transports: ["websocket"],
+    });
+    socket.on("connect", () => {
+      console.log("✅ Connected to socket:", socket.id);
+    });
+    socket.on("connect_error", (err) => {
+      console.error("❌ Socket connection error:", err.message);
+    });
+    socket.on("chatMessage", (msg: { content: string; received: boolean }) => {
+      console.log("Received message:", msg);
+      setIsLoading(false);
+      setMessages((prev) => [
+        ...prev,
+        { received: true, content: msg.content },
+      ]);
+    });
+    socket.emit("join_room", 1);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="flex h-screen bg-[#101522] text-white font-gip">
+    <div className="flex h-screen bg-[#101522] text-white font-gip relative overflow-hidden">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative bg-[#101522]">
         <ChatHeader
@@ -115,8 +132,12 @@ export default function ChatAssistant() {
         <div className="flex-1 flex flex-col h-0">
           {/* Centered welcome if no messages */}
           {messages.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center">
-              <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip">
+            <div className="flex-1 flex flex-col items-center justify-center relative">
+              {/* BLOB BACKGROUND */}
+              <div className="absolute bottom-[-300px] left-[-100px] w-[500px] h-[500px] pointer-events-none z-0">
+                <div className="w-full h-full rounded-full bg-[radial-gradient(circle,#C600FC_0%,#967ADE_60%)] opacity-50 blur-[120px]" />
+              </div>
+              <h1 className="text-[52px] text-white mb-10 flex items-center justify-center text-center font-gip font-bold">
                 Хувийн туслах
                 <div className="mx-4">
                   <Blob />
@@ -132,13 +153,35 @@ export default function ChatAssistant() {
                 </span>
               </h1>
               <div className="w-full max-w-[895px] mx-auto">
-                <ChatInput
-                  input={input}
-                  setInput={setInput}
-                  setMessages={setMessages}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                />
+                <div className="relative w-full max-w-[895px] mx-auto mt-4">
+                  <SendMessages
+                    input={input}
+                    setInput={setInput}
+                    setMessages={setMessages}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    sendMessage={sendMessage}
+                  />
+                </div>
+
+                {/* Quick action buttons */}
+                <div className="flex gap-2 justify-center mt-4">
+                  {[
+                    "Байгууллагын үнэт зүйл",
+                    "Дотоод журам",
+                    "Хэдэн хүн ажилдаг вэ",
+                  ].map((text) => (
+                    <button
+                      key={text}
+                      type="button"
+                      onClick={() => setInput(text)}
+                      className="px-4 py-2 rounded-lg bg-[#181B2C] text-[#98A2B3] hover:bg-[#23263a] border border-[#23263a] transition-colors text-[16px] font-medium flex items-center gap-2"
+                    >
+                      {text}
+                      <ArrowUp className="w-4 h-4" />
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (
@@ -153,13 +196,16 @@ export default function ChatAssistant() {
         </div>
         {messages.length > 0 && (
           <div className="w-full absolute left-0 bottom-0 z-10 bg-[#101522] pb-4">
-            <ChatInput
-              input={input}
-              setInput={setInput}
-              setMessages={setMessages}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
+            <div className="relative w-full max-w-[895px] mx-auto mt-4">
+              <SendMessages
+                input={input}
+                setInput={setInput}
+                setMessages={setMessages}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                sendMessage={sendMessage}
+              />
+            </div>
           </div>
         )}
       </div>

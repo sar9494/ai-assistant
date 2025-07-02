@@ -4,9 +4,12 @@ import { useState } from "react";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Sidebar from "./components/SideBar";
 import Assistant from "./components/AI-Assistant/Assistant";
+import { useUser } from "../../provider/userProvider";
 
 export default function ClientPage() {
-  const [tab, setTab] = useState("dashboard");
+  const [tab, setTab] = useState("assistant");
+  const { user } = useUser();
+  console.log(user);
 
   return (
     <div className="flex min-h-screen h-screen w-screen min-w-full overflow-hidden">
@@ -14,7 +17,7 @@ export default function ClientPage() {
         <Sidebar value={tab} onChange={setTab} />
       </div>
       {/* Main content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden h-screen">
         <Tabs value={tab} className="w-full">
           {/* Dashboard */}
           <TabsContent value="dashboard">

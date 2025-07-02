@@ -1,24 +1,114 @@
 "use client";
-import { useCallback, useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Message } from "@/types/types";
+import { Message } from "./types";
+import { useSocket } from "@/app/components/context/SocketContext";
 
 type SendMessageProps = {
-  input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  sendMessage: () => void;
+  userId?: number;
+  roomId?: number;
 };
 
 export default function SendMessages(props: SendMessageProps) {
-  const { input, setInput, isLoading, sendMessage } = props;
-  useEffect(() => {
-  }, [input]);
+  const {
+    message,
+    setMessage,
+    setMessages,
+    isLoading,
+    setIsLoading,
+    userId = 4,
+    roomId = 1,
+  } = props;
 
+  const { socket, isConnected, joinRoom } = useSocket(); // Use the context
+
+  // Join room when connected
+  useEffect(() => {
+    if (isConnected && socket) {
+      joinRoom(roomId);
+    }
+  }, [isConnected, roomId, joinRoom, socket]);
+
+  // Listen for chat messages
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleChatMessage = (msg: {
+      content: string;
+      received: boolean;
+      userId?: number;
+      isAI?: boolean;
+      error?: boolean;
+    }) => {
+      console.log("💬 Мессеж хүлээн авлаа:", msg);
+
+      const receivedMessage: Message = {
+        id: crypto.randomUUID(),
+        received: msg.received,
+        content: msg.content,
+        timestamp: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, receivedMessage]);
+      setIsLoading(false);
+    };
+
+    socket.on("chatMessage", handleChatMessage);
+
+    return () => {
+      socket.off("chatMessage", handleChatMessage);
+    };
+  }, [socket, setMessages, setIsLoading]);
+
+  // Send message function
+  const sendMessage = useCallback(() => {
+    if (message.trim() === "" || !socket || isLoading || !isConnected) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      socket.emit("chatMessage", {
+        content: message.trim(),
+        room: roomId,
+        received: false,
+        userId: userId,
+      });
+
+      const newMessage: Message = {
+        id: crypto.randomUUID(),
+        received: false,
+        content: message.trim(),
+        timestamp: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, newMessage]);
+      setMessage("");
+    } catch (error) {
+      console.error("❌ Мессеж илгээхэд алдаа:", error);
+      setIsLoading(false);
+    }
+  }, [
+    message,
+    isLoading,
+    roomId,
+    userId,
+    setMessage,
+    setMessages,
+    setIsLoading,
+    socket,
+    isConnected,
+  ]);
+
+  // Handle Enter key
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -35,23 +125,30 @@ export default function SendMessages(props: SendMessageProps) {
       style={{ border: "1px solid #344054B2", borderRadius: "12px" }}
     >
       <Input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Танд ямар тусламж хэрэгтэй вэ?"
-        className="bg-[#1B202F] text-white border-[#1B202F] pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-xl focus-visible:outline-none focus:ring-0 focus-visible:ring-0 tracking-[0px] "
-        disabled={isLoading}
+        className="bg-[#1b1d2f] text-white border-none pr-12 h-30 pb-[72px] pl-5 pt-6 rounded-xl placeholder:text-[#667085] placeholder:text-lg !text-xl focus-visible:outline-none focus:ring-0 focus-visible:ring-0"
+        disabled={isLoading || !isConnected}
         maxLength={1000}
       />
       <Button
         onClick={sendMessage}
-        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-[4px_6px_12px_2px_rgba(255,255,255,0.02)]"
-        disabled={isLoading || typeof input !== "string" || input.trim() === ""}
+        className="absolute bottom-[14px] right-[14px] h-[46px] w-[46px] p-0 bg-[#2b344b] hover:bg-[#3a4560] rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isLoading || !isConnected || message.trim() === ""}
+        title={
+          !isConnected
+            ? "Socket холбогдоогүй байна"
+            : isLoading
+            ? "Хүлээж байна..."
+            : "Мессеж илгээх"
+        }
       >
         <ArrowUp
           style={{ width: "1.875rem", height: "1.875rem" }}
           className={`text-white transition-opacity ${
-            isLoading || typeof input !== "string" || input.trim() === ""
+            isLoading || !isConnected || message.trim() === ""
               ? "opacity-40"
               : "opacity-80 hover:opacity-100"
           }`}
