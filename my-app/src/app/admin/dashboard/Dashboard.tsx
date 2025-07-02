@@ -15,7 +15,6 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Delete from "./Delete";
-import { CalendarDate } from "../files/_components/DatePicker";
 import SearchFile from "../files/_components/SearchFileByName";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -79,10 +78,6 @@ export default function AdminDashboardPage() {
         <p className="text-white text-xl mb-12">Хариулаагүй асуултууд</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <CalendarDate
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
           </div>
           <SearchFile searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </div>

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import { toast } from "sonner";
-import { CalendarDate } from "./_components/DatePicker";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Folder, Tag, Trash } from "lucide-react";
 import { ChooseFile } from "./_components/ChooseFile";
@@ -104,16 +103,7 @@ const Page = () => {
     },
     // ... repeat for ids 11–20 with incremented timestamps or random values
   ];
-  const filteredByDate = selectedDate
-    ? mockFileData.filter((file) => {
-        const fileDate = new Date(file.createdAt);
-        return (
-          fileDate.getFullYear() === selectedDate.getFullYear() &&
-          fileDate.getMonth() === selectedDate.getMonth() &&
-          fileDate.getDate() === selectedDate.getDate()
-        );
-      })
-    : mockFileData;
+
   const getBackgroundColor = (type: string) => {
     switch (type) {
       case "EMPLOYEE":
@@ -214,7 +204,6 @@ const Page = () => {
         <p className="text-white text-xl mb-12">Манай файлууд</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <CalendarDate date={date} setDate={setDate} />
             <ChooseFile
               selectedType={selectedType}
               onChange={(val) => setSelectedType(val)}
