@@ -1,25 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Calendar1, ChevronDownIcon } from "lucide-react"
+import * as React from "react";
+import { Calendar1, ChevronDownIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-export function CalendarDate({
-  selectedDate,
-  setSelectedDate,
-}: {
-  selectedDate: Date | undefined
-  setSelectedDate: (date: Date | undefined) => void
+export function CalendarDate(props: {
+  date: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
-  const [open, setOpen] = React.useState(false)
-
+  const [open, setOpen] = React.useState(false);
+  const { date, setDate } = props;
   return (
     <div className="flex flex-col gap-3">
       <Popover open={open} onOpenChange={setOpen}>
@@ -40,14 +37,14 @@ export function CalendarDate({
             selected={selectedDate}
             captionLayout="dropdown"
             onSelect={(date) => {
-              setSelectedDate(date)
-              setOpen(false)
+              setDate(date);
+              setOpen(false);
             }}
             className="bg-[#1E2530] text-[#818994]"
           />
         </PopoverContent>
       </Popover>
     </div>
-  )
+  );
 }
 
