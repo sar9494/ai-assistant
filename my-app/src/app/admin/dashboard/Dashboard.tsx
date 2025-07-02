@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import { MoreVertical, User, Calendar, File, Plus } from "lucide-react";
 import {
@@ -18,10 +19,33 @@ import Delete from "./Delete";
 import SearchFile from "../files/_components/SearchFileByName";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Message } from "@/types/types";
+import axios from "axios";
+import { AddFile } from "../files/AddFileModal";
+
 
 dayjs.extend(relativeTime);
 
 export default function AdminDashboardPage() {
+  const userImage = "https://i.pravatar.cc/100?u=user";
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setloading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/message/unanswered`
+      );
+      setMessages(res.data.messages);
+      console.log(res.data.messages);
+    } catch (error) {
+      toast("Хариулаагүй асуулт авахад алдаа гарлаа.");
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const mockMessages = [
     {
       id: "1",
@@ -65,25 +89,36 @@ export default function AdminDashboardPage() {
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const loading = false;
 
   const handleDeleteFile = async (id: string) => {
-    toast.success(`Мессеж устгагдлаа: ID #${id}`);
+    try {
+      setloading(true);
+      await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/message`, {
+        data: {
+          id,
+        },
+      });
+      toast("Мессиж амжилттай устгалаа.");
+      fetchData();
+    } catch (error) {
+      toast("Мессиж устгахад алдаа гарлаа.");
+    } finally {
+      setloading(false);
+    }
+
   };
 
   return (
     <div className="min-h-screen bg-[#1A1E23] flex flex-col px-16">
       <div className="max w-full mt-16">
-        <p className="text-white text-xl mb-12">Хариулаагүй асуултууд</p>
-        <div className="flex justify-between">
-          <div className="flex gap-4">
-          </div>
+        <p className="text-white text-2xl mb-12">Хариулаагүй асуултууд</p>
+        {/* <div className="flex justify-between">
+          <div className="flex gap-4"></div>
           <SearchFile searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        </div>
+        </div> */}
       </div>
 
-      {/* Table */}
+
       <div className="overflow-x-auto rounded-xl border border-[#232733] mt-10">
         <Table className="min-w-[920px] w-full text-left">
           <TableHeader className="w=-full bg-[#1E2530] text-[13px] font-semibold text-md">
@@ -92,12 +127,14 @@ export default function AdminDashboardPage() {
               <TableHead className="p-4 text-white">Асуулт</TableHead>
               <TableHead className="w-[220px] p-4">
                 <div className="flex items-center gap-2 text-white">
-                  <User className="w-4 h-4 text-gray-400"/> Ажилтан
+                  <User className="w-4 h-4 text-gray-400" /> Ажилтан
+
                 </div>
               </TableHead>
               <TableHead className="w-[150px] p-4">
                 <div className="flex items-center gap-2 text-white">
-                  <Calendar className="w-4 h-4 text-gray-400"/> Огноо
+                  <Calendar className="w-4 h-4 text-gray-400" /> Огноо
+
                 </div>
               </TableHead>
               <TableHead className="w-[180px] p-4">
@@ -110,7 +147,8 @@ export default function AdminDashboardPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockMessages.map((item, index) => (
+            {messages.map((item, index) => (
+
               <TableRow
                 key={item.id}
                 className="transition-colors hover:bg-[#20232B] border-t border-[#232733]"
@@ -121,12 +159,13 @@ export default function AdminDashboardPage() {
                 <TableCell className="p-4 text-white">{item.content}</TableCell>
                 <TableCell className="p-4">
                   <div className="flex items-center gap-3">
-                    {item.user.avatarUrl ? (
-                      <Image
+                    {!item.received ? (
+                      <img
                         width={32}
                         height={32}
-                        src={item.user.avatarUrl}
-                        alt={item.user.name}
+                        src={userImage}
+                        alt={"user"}
+
                         className="rounded-full object-cover"
                       />
                     ) : (
@@ -136,10 +175,11 @@ export default function AdminDashboardPage() {
                     )}
                     <div>
                       <p className="leading-none text-white">
-                        {item.user.name}
+                        {item.user?.email}
                       </p>
                       <p className="mt-[2px] text-xs text-gray-400">
-                        {item.user.role}
+                        {item.user?.role}
+
                       </p>
                     </div>
                   </div>
@@ -148,27 +188,15 @@ export default function AdminDashboardPage() {
                   {dayjs(item.createdAt).fromNow()}
                 </TableCell>
                 <TableCell className="p-4">
-                  {item.file ? (
-                    <a
-                      href={item.file.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs underline text-[#3F72FF]"
-                    >
-                      {item.file.name}
-                    </a>
-                  ) : (
-                    <Button variant="ghost" size="icon" className="flex w-full justify-start  text-white hover:bg-[#20232B]">
-                    <Plus className="h-4 w-4 text-[#3F72FF]"/>
-                    <p className="text-[#3F72FF]">Файл оруулах</p>
-                    </Button>
-                  )}
+                  <AddFile />
+
                 </TableCell>
                 <TableCell className="p-4">
                   <div className="flex items-center gap-1">
                     <Delete
                       handleDeleteFile={handleDeleteFile}
-                      id={item.id}
+                      id={item.id?.toString() || ""}
+
                       loading={loading}
                     />
                   </div>

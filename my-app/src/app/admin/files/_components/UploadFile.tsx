@@ -42,10 +42,13 @@ const UploadFile = () => {
     formData.append("name", name);
     formData.append("type", type);
     try {
-      const res = await fetch("http://localhost:4000/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       console.log(data);
     } catch (error) {

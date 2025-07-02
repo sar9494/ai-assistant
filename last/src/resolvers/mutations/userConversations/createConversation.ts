@@ -2,7 +2,8 @@ import prisma from "../../../../prismaClient";
 import { Request, Response } from "express";
 
 export const createConversation = async (req: Request, res: Response) => {
-  const { userId } = req.body;
+  const { userId } = req.body.data;
+  console.log(req.body);
 
   try {
     const userExists = await prisma.user.findUnique({
