@@ -1,0 +1,262 @@
+TechUB Mongolia Employee Database
+
+50 Employee Profiles - 2025
+
+
+
+Technology Department
+
+1. Bat-Erdene Enkhjargal
+
+Position: Senior Full Stack DeveloperDepartment: TechnologyPhone: 99114578Hobby: Traditional archery and making fermented mare's milkFun Fact: Once debugged code while riding a horse during a countryside coding retreat
+
+2. Oyunerdene Batbayar
+
+Position: Frontend DeveloperDepartment: TechnologyPhone: 99127834Hobby: Collecting vintage Soviet electronicsFun Fact: Can identify any JavaScript framework just by looking at the folder structure
+
+3. Gantulga Munkhbat
+
+Position: Backend DeveloperDepartment: TechnologyPhone: 99135692Hobby: Throat singing and PostgreSQL optimizationFun Fact: His throat singing has been used as a debugging technique - it helps him think
+
+4. Sarangerel Tseveendorj
+
+Position: DevOps EngineerDepartment: TechnologyPhone: 99148271Hobby: Rock climbing and server monitoringFun Fact: Once fixed a critical production issue while rappelling down a cliff
+
+5. Munkhjargal Dashnyam
+
+Position: Mobile App DeveloperDepartment: TechnologyPhone: 99156483Hobby: Wrestling and Swift programmingFun Fact: Won the national wrestling championship and Google's Android coding challenge in the same year
+
+6. Altantuya Ganbaatar
+
+Position: UI/UX DesignerDepartment: TechnologyPhone: 99167394Hobby: Horseback riding and Figma prototypingFun Fact: Designed the company's award-winning app interface while camping in the Gobi Desert
+
+7. Byambajav Otgonbayar
+
+Position: Data ScientistDepartment: TechnologyPhone: 99175628Hobby: Chess and machine learning model trainingFun Fact: Can predict weather patterns better than meteorologists using his homemade algorithms
+
+8. Narantsetseg Bold
+
+Position: Cybersecurity SpecialistDepartment: TechnologyPhone: 99184937Hobby: Lock picking and ethical hackingFun Fact: Once prevented a major security breach by recognizing the hacker's coding style from a programming forum
+
+9. Erdenebat Saikhanbileg
+
+Position: QA EngineerDepartment: TechnologyPhone: 99192845Hobby: Origami and bug huntingFun Fact: Finds bugs in software the same way he spots imperfections in paper folds - with obsessive attention to detail
+
+10. Tumendelger Batjargal
+
+Position: Cloud ArchitectDepartment: TechnologyPhone: 99203756Hobby: Eagle hunting and AWS certification collectingFun Fact: Trained his golden eagle to fetch USB drives (though it only worked once)
+
+11. Khaliun Byambadorj
+
+Position: Junior DeveloperDepartment: TechnologyPhone: 99214867Hobby: Skateboarding and React componentsFun Fact: Learned to code by building apps to track her skateboard tricks
+
+12. Batbayar Ganbold
+
+Position: Database AdministratorDepartment: TechnologyPhone: 99225978Hobby: Mongolian throat singing and database indexingFun Fact: Claims his throat singing vibrations help optimize database queries
+
+
+
+Product Department
+
+13. Odmandakh Tserendorj
+
+Position: Product ManagerDepartment: ProductPhone: 99234589Hobby: Horseback archery and user story mappingFun Fact: Conducts product strategy meetings while riding horses - says it improves decision-making
+
+14. Uyanga Dorjsuren
+
+Position: Product DesignerDepartment: ProductPhone: 99245690Hobby: Traditional Mongolian dancing and wireframingFun Fact: Choreographed a dance that represents the user journey through their app
+
+15. Batmunkh Tsogtsaikhan
+
+Position: Product AnalystDepartment: ProductPhone: 99256701Hobby: Sudoku and conversion rate optimizationFun Fact: Solves complex business problems using Sudoku logic
+
+
+
+Marketing Department
+
+16. Saikhanbileg Munkhjin
+
+Position: Digital Marketing ManagerDepartment: MarketingPhone: 99267812Hobby: Photography and social media algorithmsFun Fact: Once got 1 million views on a TikTok video of their pet yak learning to use an iPad
+
+17. Narantsatsral Erdenebaatar
+
+Position: Content CreatorDepartment: MarketingPhone: 99278923Hobby: Storytelling and podcast productionFun Fact: Hosts a popular podcast called "Code & Kumiss" where tech professionals share stories over traditional drinks
+
+18. Ganzorig Baterdene
+
+Position: SEO SpecialistDepartment: MarketingPhone: 99289034Hobby: Mountain hiking and keyword researchFun Fact: Optimized the company website to rank #1 for "best tech company with yaks" (they don't actually have yaks)
+
+19. Oyuntuya Gantulga
+
+Position: Brand ManagerDepartment: MarketingPhone: 99290145Hobby: Calligraphy and brand identity designFun Fact: Designed the company logo using traditional Mongolian script that spells out binary code
+
+20. Tsolmon Battulga
+
+Position: Marketing AnalystDepartment: MarketingPhone: 99301256Hobby: Data visualization and traditional paintingFun Fact: Creates marketing reports that look like ancient Mongolian artwork but contain cutting-edge analytics
+
+
+
+Sales Department
+
+21. Jargalsaikhan Munkh-Erdene
+
+Position: Sales DirectorDepartment: SalesPhone: 99312367Hobby: Negotiation games and horseback ridingFun Fact: Closed the company's biggest deal while participating in a traditional horse race
+
+22. Buyanjargal Otgonbat
+
+Position: Account ManagerDepartment: SalesPhone: 99323478Hobby: Relationship building and fermented dairy productsFun Fact: Never lost a client after introducing them to homemade airag (fermented mare's milk)
+
+23. Munkhzaya Tsendbaatar
+
+Position: Sales RepresentativeDepartment: SalesPhone: 99334589Hobby: Public speaking and archeryFun Fact: Practices sales pitches by presenting to her horses - they're a tough audience
+
+24. Erkhembayar Ganbat
+
+Position: Business DevelopmentDepartment: SalesPhone: 99345690Hobby: Strategic games and networkingFun Fact: Built the company's partner network by challenging potential partners to chess matches
+
+
+
+Human Resources Department
+
+25. Altantsetseg Byambasuren
+
+Position: HR DirectorDepartment: Human ResourcesPhone: 99356701Hobby: Meditation and employee wellnessFun Fact: Introduced "Mindful Monday" meetings conducted entirely in whispers
+
+26. Battsetseg Munkhjargal
+
+Position: Talent Acquisition SpecialistDepartment: Human ResourcesPhone: 99367812Hobby: Psychology and people watchingFun Fact: Can predict a candidate's coding ability by observing how they pet the office dog
+
+27. Ganbold Tserendash
+
+Position: Training CoordinatorDepartment: Human ResourcesPhone: 99378923Hobby: Teaching and traditional gamesFun Fact: Conducts all training sessions while everyone sits on traditional Mongolian carpets
+
+28. Narangerel Battogos
+
+Position: HR GeneralistDepartment: Human ResourcesPhone: 99389034Hobby: Conflict resolution and puzzle solvingFun Fact: Resolves office conflicts using ancient Mongolian wisdom and Rubik's cubes
+
+
+
+Finance Department
+
+29. Delgermaa Otgonbaatar
+
+Position: Finance DirectorDepartment: FinancePhone: 99390145Hobby: Investment strategies and traditional cookingFun Fact: Makes all major financial decisions while cooking - says the kitchen is where the best ideas simmer
+
+30. Batbold Erdenebayar
+
+Position: Financial AnalystDepartment: FinancePhone: 99401256Hobby: Excel mastery and mathematical puzzlesFun Fact: Created a financial model so complex it achieved sentience and now helps with quarterly reports
+
+31. Tsogzolmaa Munkhjin
+
+Position: AccountantDepartment: FinancePhone: 99412367Hobby: Precision activities and bead countingFun Fact: Can balance any budget using an abacus faster than others can with calculators
+
+32. Amarsaikhan Ganbayar
+
+Position: Budget AnalystDepartment: FinancePhone: 99423478Hobby: Forecasting and weather predictionFun Fact: Predicts company cash flow by reading traditional Mongolian weather signs
+
+
+
+Operations Department
+
+33. Tugsjargal Batmunkh
+
+Position: Operations ManagerDepartment: OperationsPhone: 99434589Hobby: Process optimization and logistics puzzlesFun Fact: Reorganized the entire office layout based on traditional Mongolian ger (yurt) principles
+
+34. Sainbayar Tsolmon
+
+Position: Office ManagerDepartment: OperationsPhone: 99445690Hobby: Organization systems and plant careFun Fact: Named all office plants after programming languages and they seem to grow better
+
+35. Batjargal Munkhjargal
+
+Position: IT Support SpecialistDepartment: OperationsPhone: 99456701Hobby: Hardware repair and traditional craftsFun Fact: Fixes computers using techniques learned from traditional Mongolian leather working
+
+36. Naranbaatar Gantogos
+
+Position: Facilities CoordinatorDepartment: OperationsPhone: 99467812Hobby: Space planning and astronomyFun Fact: Designed the office layout based on constellation patterns for "cosmic productivity flow"
+
+
+
+Customer Success Department
+
+37. Oyunbat Saikhantsetseg
+
+Position: Customer Success ManagerDepartment: Customer SuccessPhone: 99478923Hobby: Problem solving and customer psychologyFun Fact: Resolves customer issues by sending personalized origami animals - 98% satisfaction rate
+
+38. Gantumur Batbayar
+
+Position: Support EngineerDepartment: Customer SuccessPhone: 99489034Hobby: Technical documentation and poetryFun Fact: Writes error messages in haiku format - customers actually thank them for bugs
+
+39. Tserendulam Munkhjin
+
+Position: Customer Support RepresentativeDepartment: Customer SuccessPhone: 99490145Hobby: Active listening and traditional musicFun Fact: Calms angry customers by humming traditional Mongolian lullabies during calls
+
+
+
+Executive Team
+
+40. Batkhuyag Tserendorj
+
+Position: Chief Executive OfficerDepartment: ExecutivePhone: 99501256Hobby: Strategic planning and eagle huntingFun Fact: Makes all major company decisions while consulting with his trained golden eagle, Tengri
+
+41. Munkhtuya Ganbold
+
+Position: Chief Technology OfficerDepartment: ExecutivePhone: 99512367Hobby: Innovation and horseback codingFun Fact: Invented a programming language called "Mongol++" that uses traditional Mongolian script
+
+42. Erdenesaikhan Battulga
+
+Position: Chief Financial OfficerDepartment: ExecutivePhone: 99523478Hobby: Financial modeling and traditional wrestlingFun Fact: Negotiates all major contracts using traditional Mongolian wrestling challenges
+
+43. Narandalai Otgonbayar
+
+Position: Chief Marketing OfficerDepartment: ExecutivePhone: 99534589Hobby: Brand storytelling and horseback archeryFun Fact: Launched the company's most successful campaign while competing in a traditional archery tournament
+
+
+
+Quality Assurance Department
+
+44. Batbaatar Gantulga
+
+Position: QA DirectorDepartment: Quality AssurancePhone: 99545690Hobby: Perfectionism and detailed craftsmanshipFun Fact: Tests software with the same precision used to craft traditional Mongolian jewelry
+
+45. Sainnemekh Munkhjargal
+
+Position: Test Automation EngineerDepartment: Quality AssurancePhone: 99556701Hobby: Automation and efficiency optimizationFun Fact: Automated their home so thoroughly that their yurt opens, makes tea, and plays traditional music when they arrive
+
+
+
+Research & Development
+
+46. Ganchimeg Baterdene
+
+Position: R&D DirectorDepartment: Research & DevelopmentPhone: 99567812Hobby: Innovation and experimental cookingFun Fact: Discovers new technologies the same way they create new fermented milk recipes - through bold experimentation
+
+47. Tumurbaatar Saikhanbileg
+
+Position: Research ScientistDepartment: Research & DevelopmentPhone: 99578923Hobby: Scientific method and stargazingFun Fact: Built a telescope that can predict software bugs by analyzing cosmic radiation patterns
+
+
+
+Legal & Compliance
+
+48. Oyunchimeg Batjargal
+
+Position: Legal CounselDepartment: Legal & CompliancePhone: 99589034Hobby: Contract law and traditional debateFun Fact: Settles legal disputes using traditional Mongolian debate techniques that date back 800 years
+
+49. Ganbayar Tserendulam
+
+Position: Compliance OfficerDepartment: Legal & CompliancePhone: 99590145Hobby: Regulatory frameworks and puzzle solvingFun Fact: Memorized all GDPR regulations by turning them into traditional Mongolian epic poems
+
+
+
+Internship Program
+
+50. Munkhjin Batbayar
+
+Position: Software Development InternDepartment: TechnologyPhone: 99601256Hobby: Learning new technologies and competitive gamingFun Fact: Learned three programming languages in one month by coding during commercial breaks while watching Mongolian wrestling matches
+
+
+
+Total Employees: 50Database Generated: July 2025TechUB Mongolia - Where Tradition Meets Innovation
+
+
+

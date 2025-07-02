@@ -1,18 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Plus, Trash2, File as FileIcon } from "lucide-react";
-import AddFileModal from "./AddFileModal";
 
 import { toast } from "sonner";
 import { CalendarDate } from "./_components/DatePicker";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { EllipsisVertical, Folder, Tag } from "lucide-react";
+import { Folder, Tag, Trash } from "lucide-react";
 import { ChooseFile } from "./_components/ChooseFile";
 import SearchFile from "./_components/SearchFileByName";
 import { Badge } from "@/components/ui/badge";
 import UploadFile from "./_components/UploadFile";
 import { getAllFile } from "@/lib/getAllFile";
+import axios from "axios";
+import { File } from "@/types/types";
+import { da } from "date-fns/locale";
 
 export type mockFileDataType = {
   id: string;
@@ -22,9 +23,12 @@ export type mockFileDataType = {
 };
 
 const Page = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteLoader, setDeleteLoader] = useState(Boolean);
+  const [allFiles, setAllFiles] = useState<File[]>([]);
+  const [filteredData, setFilteredData] = useState<File[]>([]);
 
   const mockFileData: mockFileDataType[] = [
     {
@@ -149,10 +153,6 @@ const Page = () => {
     },
   ];
 
-  const filteredData = selectedType
-    ? mockFileData.filter((file) => file.type === selectedType)
-    : mockFileData;
-
   const getBackgroundColor = (type: string) => {
     switch (type) {
       case "EMPLOYEE":
@@ -167,8 +167,48 @@ const Page = () => {
         return "#58AF54";
     }
   };
+  const fetchFilesByName = async (name: string) => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/file/searchName?name=${name}`
+      );
+      setFilteredData(res.data.files);
+    } catch (error) {
+      toast("Файл хайхад алдаа гарлаа.");
+    }
+  };
+  useEffect(() => {
+    fetchFilesByName(searchTerm);
+    setFilteredData(
+      selectedType
+        ? allFiles.filter((file) => file.type === selectedType)
+        : allFiles
+    );
+  }, [searchTerm, selectedType]);
 
-  const handleDeleteFile = async (id: string) => {};
+  const handleDeleteFile = async (id: string) => {
+    try {
+      setDeleteLoader(true);
+      const data = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/file`,
+        {
+          data: {
+            id,
+          },
+        }
+      );
+      await fetchData();
+      if (data.data.success) {
+        toast("Амжилттай файлыг устгалаа.");
+      } else {
+        toast("Файл устгахад алдаа гарлаа.");
+      }
+    } catch (error) {
+      toast("Файл устгахад алдаа гарлаа.");
+    } finally {
+      setDeleteLoader(false);
+    }
+  };
   const getColorsByType = (type: string) => {
     switch (type) {
       case "EMPLOYEE":
@@ -200,6 +240,7 @@ const Page = () => {
   };
   const fetchData = async () => {
     const files = await getAllFile();
+    setAllFiles(files);
     console.log(files);
   };
   useEffect(() => {
@@ -212,7 +253,7 @@ const Page = () => {
         <p className="text-white text-xl mb-12">Манай файлууд</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <CalendarDate />
+            <CalendarDate date={date} setDate={setDate} />
             <ChooseFile
               selectedType={selectedType}
               onChange={(val) => setSelectedType(val)}
@@ -242,9 +283,9 @@ const Page = () => {
                 stroke={getBackgroundColor(file.type)}
               />
             </CardContent>
-            <CardFooter className="flex justify-between items-start w-full">
+            <CardFooter className="flex justify-between items-start  w-full ">
               <div className="w-2/3 flex flex-col justify-start gap-2 mb-10">
-                <p className="font-semibold text-white">{file.fileName}</p>
+                <p className="font-semibold text-white">{file.name}</p>
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <Badge
                     style={{
@@ -259,7 +300,19 @@ const Page = () => {
                   </Badge>
                 </a>
               </div>
-              <EllipsisVertical className="w-6 h-6 cursor-pointer" />
+              {deleteLoader ? (
+                <span
+                  className={`loading loading-spinner text-[${
+                    getColorsByType(file.type).textColor
+                  }] loading-sm`}
+                ></span>
+              ) : (
+                <Trash
+                  className="w-6 h-6 cursor-pointer"
+                  color={getColorsByType(file.type).textColor}
+                  onClick={() => handleDeleteFile(file.id.toString())}
+                />
+              )}
             </CardFooter>
           </Card>
         ))}
