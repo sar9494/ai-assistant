@@ -1,19 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 
 import { toast } from "sonner";
-import { CalendarDate } from "./_components/DatePicker";
+// import { CalendarDate } from "./_components/DatePicker";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Folder, Tag, Trash } from "lucide-react";
 import { ChooseFile } from "./_components/ChooseFile";
 import SearchFile from "./_components/SearchFileByName";
 import { Badge } from "@/components/ui/badge";
-import UploadFile from "./_components/UploadFile";
+import {UploadFile} from "./_components/UploadFile";
 import { getAllFile } from "@/lib/getAllFile";
 import axios from "axios";
 import { File } from "@/types/types";
-import { da } from "date-fns/locale";
 
 export type mockFileDataType = {
   id: string;
@@ -25,7 +24,7 @@ export type mockFileDataType = {
 
 const Page = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteLoader, setDeleteLoader] = useState(Boolean);
   const [allFiles, setAllFiles] = useState<File[]>([]);
@@ -104,13 +103,13 @@ const Page = () => {
     },
     // ... repeat for ids 11–20 with incremented timestamps or random values
   ];
-  const filteredByDate = selectedDate
+  const filteredByDate = date
     ? mockFileData.filter((file) => {
         const fileDate = new Date(file.createdAt);
         return (
-          fileDate.getFullYear() === selectedDate.getFullYear() &&
-          fileDate.getMonth() === selectedDate.getMonth() &&
-          fileDate.getDate() === selectedDate.getDate()
+          fileDate.getFullYear() === date.getFullYear() &&
+          fileDate.getMonth() === date.getMonth() &&
+          fileDate.getDate() === date.getDate()
         );
       })
     : mockFileData;
@@ -214,7 +213,7 @@ const Page = () => {
         <p className="text-white text-xl mb-12">Манай файлууд</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <CalendarDate date={date} setDate={setDate} />
+            {/* <CalendarDate date={date} setDate={setDate} /> */}
             <ChooseFile
               selectedType={selectedType}
               onChange={(val) => setSelectedType(val)}

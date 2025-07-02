@@ -19,7 +19,7 @@ export function ChooseFile({ selectedType, onChange }: {
 
   return (
     <Select onValueChange={onChange} value={selectedType ?? ""}>
-      <SelectTrigger className="bg-[#1E2530] text-[#818994]">
+      <SelectTrigger className="bg-[#1E2530] border-[#2C2F36] text-[#818994]">
         <SelectValue placeholder="Төрөл сонгох" />
       </SelectTrigger>
       <SelectContent className="bg-[#1E2530] text-secondary">
