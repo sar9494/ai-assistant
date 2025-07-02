@@ -15,7 +15,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   groupedChats,
 }) => {
   const { user } = useUser();
-  console.log(user);
 
   if (!isSidebarOpen) return null;
   return (
