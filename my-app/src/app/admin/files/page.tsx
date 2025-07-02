@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import { toast } from "sonner";
-import { CalendarDate } from "./_components/DatePicker";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Folder, Tag, Trash } from "lucide-react";
 import { ChooseFile } from "./_components/ChooseFile";
@@ -20,6 +19,7 @@ export type mockFileDataType = {
   fileName: string;
   url: string;
   type: string;
+  createdAt: string;
 };
 
 const Page = () => {
@@ -36,121 +36,72 @@ const Page = () => {
       fileName: "project_plan.pdf",
       url: "https://mockserver.com/files/project_plan.pdf",
       type: "COMPANY",
+      createdAt: "2025-07-01T10:00:00Z",
     },
     {
       id: "2",
       fileName: "team_photo.jpg",
       url: "https://mockserver.com/images/team_photo.jpg",
       type: "EMPLOYEE",
+      createdAt: "2025-07-01T10:01:00Z",
     },
     {
       id: "3",
       fileName: "budget_2025.xlsx",
       url: "https://mockserver.com/files/budget_2025.xlsx",
       type: "HR",
+      createdAt: "2025-07-01T10:02:00Z",
     },
     {
       id: "4",
       fileName: "client_contract.docx",
       url: "https://mockserver.com/files/client_contract.docx",
       type: "COMPANY",
+      createdAt: "2025-07-01T10:03:00Z",
     },
     {
       id: "5",
       fileName: "presentation_slides.pptx",
       url: "https://mockserver.com/files/presentation_slides.pptx",
       type: "TOOL",
+      createdAt: "2025-07-01T10:04:00Z",
     },
     {
       id: "6",
       fileName: "product_demo.mp4",
       url: "https://mockserver.com/videos/product_demo.mp4",
       type: "TOOL",
+      createdAt: "2025-07-01T10:05:00Z",
     },
     {
       id: "7",
       fileName: "design_mockup.png",
       url: "https://mockserver.com/images/design_mockup.png",
       type: "TOOL",
+      createdAt: "2025-07-01T10:06:00Z",
     },
     {
       id: "8",
       fileName: "user_guide.pdf",
       url: "https://mockserver.com/docs/user_guide.pdf",
       type: "EMPLOYEE",
+      createdAt: "2025-07-01T10:07:00Z",
     },
     {
       id: "9",
       fileName: "error_log.txt",
       url: "https://mockserver.com/logs/error_log.txt",
       type: "TOOL",
+      createdAt: "2025-07-01T10:08:00Z",
     },
     {
       id: "10",
       fileName: "company_logo.svg",
       url: "https://mockserver.com/assets/company_logo.svg",
       type: "COMPANY",
+      createdAt: "2025-07-01T10:09:00Z",
     },
-    {
-      id: "11",
-      fileName: "project_plan.pdf",
-      url: "https://mockserver.com/files/project_plan.pdf",
-      type: "COMPANY",
-    },
-    {
-      id: "12",
-      fileName: "team_photo.jpg",
-      url: "https://mockserver.com/images/team_photo.jpg",
-      type: "EMPLOYEE",
-    },
-    {
-      id: "13",
-      fileName: "budget_2025.xlsx",
-      url: "https://mockserver.com/files/budget_2025.xlsx",
-      type: "HR",
-    },
-    {
-      id: "14",
-      fileName: "client_contract.docx",
-      url: "https://mockserver.com/files/client_contract.docx",
-      type: "COMPANY",
-    },
-    {
-      id: "15",
-      fileName: "presentation_slides.pptx",
-      url: "https://mockserver.com/files/presentation_slides.pptx",
-      type: "TOOL",
-    },
-    {
-      id: "16",
-      fileName: "product_demo.mp4",
-      url: "https://mockserver.com/videos/product_demo.mp4",
-      type: "TOOL",
-    },
-    {
-      id: "17",
-      fileName: "design_mockup.png",
-      url: "https://mockserver.com/images/design_mockup.png",
-      type: "TOOL",
-    },
-    {
-      id: "18",
-      fileName: "user_guide.pdf",
-      url: "https://mockserver.com/docs/user_guide.pdf",
-      type: "EMPLOYEE",
-    },
-    {
-      id: "19",
-      fileName: "error_log.txt",
-      url: "https://mockserver.com/logs/error_log.txt",
-      type: "TOOL",
-    },
-    {
-      id: "20",
-      fileName: "company_logo.svg",
-      url: "https://mockserver.com/assets/company_logo.svg",
-      type: "COMPANY",
-    },
+    // ... repeat for ids 11–20 with incremented timestamps or random values
   ];
 
   const getBackgroundColor = (type: string) => {
@@ -253,7 +204,6 @@ const Page = () => {
         <p className="text-white text-xl mb-12">Манай файлууд</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <CalendarDate date={date} setDate={setDate} />
             <ChooseFile
               selectedType={selectedType}
               onChange={(val) => setSelectedType(val)}
@@ -263,7 +213,7 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 gap-6 overflow-x-auto scrollbar-hide">
         <UploadFile />
         {filteredData.map((file) => (
           <Card

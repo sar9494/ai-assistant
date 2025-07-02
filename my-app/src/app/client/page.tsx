@@ -7,7 +7,7 @@ import Assistant from "./components/AI-Assistant/Assistant";
 import { useUser } from "../provider/userProvider";
 
 export default function ClientPage() {
-  const [tab, setTab] = useState("dashboard");
+  const [tab, setTab] = useState("assistant");
   const { user } = useUser();
   console.log(user);
 

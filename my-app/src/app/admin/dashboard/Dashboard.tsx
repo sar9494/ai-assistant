@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import { MoreVertical, User, Calendar, File, Plus } from "lucide-react";
 import {
@@ -21,6 +22,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Message } from "@/types/types";
 import axios from "axios";
 import { AddFile } from "../files/AddFileModal";
+
 
 dayjs.extend(relativeTime);
 
@@ -43,6 +45,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     fetchData();
   }, []);
+
   const mockMessages = [
     {
       id: "1",
@@ -102,6 +105,7 @@ export default function AdminDashboardPage() {
     } finally {
       setloading(false);
     }
+
   };
 
   return (
@@ -114,6 +118,7 @@ export default function AdminDashboardPage() {
         </div> */}
       </div>
 
+
       <div className="overflow-x-auto rounded-xl border border-[#232733] mt-10">
         <Table className="min-w-[920px] w-full text-left">
           <TableHeader className="w=-full bg-[#1E2530] text-[13px] font-semibold text-md">
@@ -123,11 +128,13 @@ export default function AdminDashboardPage() {
               <TableHead className="w-[220px] p-4">
                 <div className="flex items-center gap-2 text-white">
                   <User className="w-4 h-4 text-gray-400" /> Ажилтан
+
                 </div>
               </TableHead>
               <TableHead className="w-[150px] p-4">
                 <div className="flex items-center gap-2 text-white">
                   <Calendar className="w-4 h-4 text-gray-400" /> Огноо
+
                 </div>
               </TableHead>
               <TableHead className="w-[180px] p-4">
@@ -141,6 +148,7 @@ export default function AdminDashboardPage() {
           </TableHeader>
           <TableBody>
             {messages.map((item, index) => (
+
               <TableRow
                 key={item.id}
                 className="transition-colors hover:bg-[#20232B] border-t border-[#232733]"
@@ -157,6 +165,7 @@ export default function AdminDashboardPage() {
                         height={32}
                         src={userImage}
                         alt={"user"}
+
                         className="rounded-full object-cover"
                       />
                     ) : (
@@ -170,6 +179,7 @@ export default function AdminDashboardPage() {
                       </p>
                       <p className="mt-[2px] text-xs text-gray-400">
                         {item.user?.role}
+
                       </p>
                     </div>
                   </div>
@@ -179,12 +189,14 @@ export default function AdminDashboardPage() {
                 </TableCell>
                 <TableCell className="p-4">
                   <AddFile />
+
                 </TableCell>
                 <TableCell className="p-4">
                   <div className="flex items-center gap-1">
                     <Delete
                       handleDeleteFile={handleDeleteFile}
                       id={item.id?.toString() || ""}
+
                       loading={loading}
                     />
                   </div>

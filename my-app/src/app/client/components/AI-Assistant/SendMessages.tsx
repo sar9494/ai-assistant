@@ -17,7 +17,6 @@ type SendMessageProps = {
 export default function SendMessages(props: SendMessageProps) {
   const { input, setInput, isLoading, sendMessage } = props;
   useEffect(() => {
-    console.log(input);
   }, [input]);
 
   const handleKeyDown = useCallback(
