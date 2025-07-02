@@ -184,7 +184,7 @@ const Page = () => {
         ? allFiles.filter((file) => file.type === selectedType)
         : allFiles
     );
-  }, [searchTerm, selectedType, date]);
+  }, [searchTerm, selectedType]);
 
   const handleDeleteFile = async (id: string) => {
     try {
