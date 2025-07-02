@@ -24,17 +24,17 @@ export function CalendarDate(props: {
           <Button
             variant="outline"
             id="date"
-            className="justify-between font-normal bg-[#1E2530] text-[#818994]"
+            className="justify-between font-normal bg-[#1E2530] text-[#818994] hover:bg-[#1E2530] hover:text-white"
           >
             <Calendar1 />
-            {date ? date.toLocaleDateString() : "Он сар сонгох"}
+            {selectedDate ? selectedDate.toLocaleDateString() : "Он сар сонгох"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
-            selected={date}
+            selected={selectedDate}
             captionLayout="dropdown"
             onSelect={(date) => {
               setDate(date);
@@ -47,3 +47,4 @@ export function CalendarDate(props: {
     </div>
   );
 }
+
